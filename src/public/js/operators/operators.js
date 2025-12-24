@@ -60,7 +60,29 @@ async function start_camera() {
         click_button.style.display = 'block';
         $("#start-camera").hide();
     } catch(error) {
-        console.log(error);
+        // Enhanced error logging for camera access
+        console.error('=== Camera Access Error ===');
+        console.error('Error Name:', error.name);
+        console.error('Error Message:', error.message);
+        console.error('Full Error Object:', error);
+        if (error.stack) {
+            console.error('Error Stack:', error.stack);
+        }
+        // Log specific error types
+        if (error.name === 'NotAllowedError') {
+            console.error('Camera permission denied by user');
+        } else if (error.name === 'NotFoundError') {
+            console.error('No camera device found');
+        } else if (error.name === 'NotReadableError') {
+            console.error('Camera is already in use by another application');
+        } else if (error.name === 'OverconstrainedError') {
+            console.error('Camera constraints cannot be satisfied');
+        } else if (error.name === 'SecurityError') {
+            console.error('Camera access blocked due to security restrictions (HTTPS required)');
+        } else if (error.name === 'TypeError') {
+            console.error('getUserMedia is not supported in this browser');
+        }
+        console.error('=== End Camera Error ===');
         Notify("<i class='fa fa-warning'></i>", "No camera Found! You may use a mobile phone instead", "danger");
         video.style.display = 'none';
         // camera_button.style.display = 'none';

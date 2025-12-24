@@ -1,0 +1,128 @@
+#ticket {
+    width: 650px;
+    /* border: 1px solid #858796; */
+    padding: 5px;
+    font-size: 14px;
+    color:black;
+}
+
+#ticket .ticket-header {
+    width: 100%;
+    float:left;
+}
+
+.ticket-header img{
+    width: 38px;
+    height: 36px;
+    float:left;
+    margin-right: 10px;
+}
+
+.ticket-header p {
+    /* padding: 10px 10px 0px 10px;
+    float:left; */
+    /* margin-left: 12px; */
+    font-size: 22px;
+    /* margin-top: -6px; */
+    margin-bottom: 0;
+}
+
+.ticket-body {
+    width: 100%;
+    float:left;
+    margin-top: 10px;
+}
+
+.ticket-body .ticket-col {
+    width: 192px;
+    float: left;
+    margin-right: 12px;
+}
+
+.ticket-body .middle-col {
+    width: 195px;
+    border-right: 1px dashed #858796;
+}
+
+.ticket-body .ticket-col .title-data {
+    float:left;
+    padding-bottom: 2px;
+}
+
+.ticket-body .ticket-col .title {
+    float:left;
+    width: 90px;
+    font-weight: bold;
+}
+
+.ticket-body .ticket-col .data {
+    float:left;
+    width: 102px;
+    /* font-weight: bold; */
+}
+
+.ticket-footer {
+    width: 100%;
+    float:left;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.ticket-footer .ticket-col {
+    padding-top: 5px;
+    float:left;
+    width: 160px;
+}
+
+.ticket-footer .left-col {
+    padding-right: 15px;
+}
+.ticket-footer .middle-col {
+    padding-right: 15px;
+}
+
+.ticket-footer .right-col {
+    padding-left: 0px;
+    /* padding-right: 110px; */
+    float: right;
+}
+
+.ticket-footer .middle-col div p, .ticket-footer .right-col div p {
+    /* border: 1px solid #858796; */
+    padding: -1px;
+    border-radius: 5px;
+    font-size: 11px;
+
+}
+.ticket-body .right-col, .ticket-footer .right-col {
+    font-size: 11px;
+    /* border-left: 1px dashed #858796; */
+}
+
+
+@media print {
+    .ticket-header .company-name {
+        margin-bottom: 15px;
+    }
+
+    .ticket-footer .ticket-col {
+      /* display:none; */
+    }
+    
+    .ticket-footer .middle-col {
+        width: 150px;
+    }
+    
+}
+
+@media screen, print {
+    /* p.bodyText {font-size:10pt} */
+}
+
+#pos-ticket {
+    width: 268px;
+    /* border: 1px solid #858796; */
+    padding: 5px;
+    font-size: 14px;
+    color:black;
+}

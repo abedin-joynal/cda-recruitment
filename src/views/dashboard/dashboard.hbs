@@ -1,0 +1,161 @@
+<div class="row voter-card-container justify-content-center">
+  
+</div>
+
+<div id="markup-voter-card" class="col-xl-3 col-md-6 mb-4 display-none">
+  <div class="card border-left-primary shadow h-100 py-2 ">
+    <div class="card-body">
+      <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+          <div class="text-md font-weight-bold text-primary text-uppercase mb-1 post_name">Chairman</div>
+          <div class="h5 mb-0 font-weight-bold text-gray-800 candidates">
+            <div>Mr. X : </div>
+            <div>Mr. Y :</div>
+            <div>Mr. Z :</div>
+          </div>
+        </div>
+        <div class="col-auto">
+          <i class="fas fa-man fa-2x text-gray-300"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+<script>
+  let VOTES;
+  let CANDIDATES;
+
+  var MATRIX = {};
+  $(document).ready(async function () {
+
+    await getCandidateList();
+    getAllVotes();
+    
+    async function votePolling() {
+      let res = await axios.get('/votes/get-vote-data', {
+        params: {
+          pc_id: null
+        }
+      }).then(function (res) {
+        console.log(res.data.emitted_data);
+        genMatrix(res.data.emitted_data);
+        genVoteCountUI();
+        votePolling();
+      });
+    }
+
+    async function getAllVotes() {
+      let res = await axios.get('/votes/get-all-votes', {
+        params: {
+          data: null
+        }
+      }).then(function (res) {
+        if (res.data.status) {
+          VOTES = res.data.votes;
+          genMatrix(VOTES)
+          votePolling();
+        }
+        genVoteCountUI();
+      });
+    }
+
+    async function genVoteCountUI() {
+      $(".voter-card-container").empty();
+      if(VOTES.length >= 1 ) {
+        _.each(MATRIX, function (post, post_id) {
+          let $mvc = $("#markup-voter-card").clone();
+          $mvc.removeClass("display-none");
+          $mvc.find(".post_name").html(post[0][_.keys(post[0])[0]][0].post_name);
+          let ch = ``;
+          let order = [];
+          let i = 0;
+          _.each(post[0], function (candidate, candidate_id) {
+           
+            order[i] = candidate;
+            i++;
+          });
+
+
+          missing_can = candidateMissing(post[0]);
+          console.log(missing_can);
+
+          let z = bblSort(order);
+          _.each(order, function (candidate, post_id) {
+              ch += `<div>${candidate[0].candidate_name} : ${candidate.length}</div>`;
+          });
+
+          $mvc.find(".candidates").html(ch);
+          $(".voter-card-container").append($mvc);
+        });
+      } else {
+        $(".voter-card-container").html(`<div class="col-md-5 alert alert-primary text-center mt-5">Vote counting will start soon....</div>`);
+      }
+    }
+
+    function candidateMissing(post) {
+      let missing_can = [];
+      console.log(post)
+      _.each(CANDIDATES[post[_.keys(post)[0][0]]], function(can, index) {
+          let m = false;
+          
+          _.each(post, function (candidate, candidate_id) {
+            if(candidate.c_id == c.c_id) {
+              m = true;
+            }
+          });
+          if(m == false) {
+            missing_can.push(can)
+          }
+      });
+      return missing_can;
+    }
+    
+    async function getCandidateList() {
+      let res = await axios.get('/candidates/all', {timeout: 10000, params: {
+              data: null
+          }}).then(function(res) {
+              if(res.data.status) {
+                  CANDIDATES = _.groupBy(res.data.data, "post_id");
+                  {{!-- console.log(CANDIDATES) --}}
+              } else {
+                  mobiscroll.snackbar({message: `Could not get candidates`, display: 'top', color: `danger`, duration:1500});
+              }
+          });    
+    }
+
+    function genMatrix(votes) {
+      MATRIX = {};
+      let VOTES_POST_GROUPED = _.groupBy(votes, "post_id");
+      _.each(VOTES_POST_GROUPED, function (vpg, post_id) {
+        let VOTES_CANDIDATE_GROUPED = _.groupBy(vpg, "candidate_id");
+        MATRIX[post_id] = [];
+        let y = [];
+        let x = {};
+        _.each(VOTES_CANDIDATE_GROUPED, function (vcg, candidate_id) {
+          x[candidate_id] = vcg;
+        });
+        y.push(x);
+        
+        MATRIX[post_id] = y;
+      });
+    }
+
+    function bblSort(arr) {
+      for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < (arr.length - i - 1); j++) {
+          if (arr[j].length < arr[j + 1].length) {
+            let temp = arr[j]
+            arr[j] = arr[j + 1]
+            arr[j + 1] = temp
+          }
+        }
+      }
+      {{!-- console.log(arr); --}}
+      return arr;
+    }
+
+  });
+
+
+</script>

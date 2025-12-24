@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>404 Error Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">-->
+<!--    <link rel="stylesheet" href="style.css">-->
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+        body{
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            min-height:100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .wrapper{
+            text-align: center;
+        }
+        .wrapper h2{
+            margin:40px 0;
+            font-size:2.5rem;
+        }
+        .wrapper img{
+            width:600px;
+            max-width:75%;
+        }
+        .wrapper h4{
+            margin:40px 0 20px;
+            font-size:1.2rem;
+        }
+        .main-btn{
+            padding:15px;
+            background-color: #ff6363;
+            color:#fff;
+            border:
+            none;
+            font-weight:700;
+            letter-spacing: 1px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        @media (max-width:767px){
+            .wrapper h2{ 
+                font-size:2rem;
+            }
+            .wrapper h4{ 
+                font-size:1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <h2>Could not connect to server</h2>
+    <h4>Please check your internet connection!</h4>
+    <button type="button" class="main-btn" onclick="checkconnection(this)">Retry</button>
+</div>
+</body>
+
+<script type="text/javascript">
+    function checkconnection(btn) {
+        location.href="https://192.168.0.107:4001"
+        btn.text = "Retrying..."
+        const myTimeout = setTimeout(function() {
+            btn.text = "Retry";
+        }, 5000);
+    }
+</script>
+</html>

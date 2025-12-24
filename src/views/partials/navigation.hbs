@@ -1,0 +1,70 @@
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion pl-2" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dash/">
+        <div class="sidebar-brand-icon">
+           {{!-- <img src="/img/logo-trivuj.png" class="" width="50px"> --}}
+           {{!-- <span>HV</span> --}}
+        </div>
+        <div class="sidebar-brand-text text-site-1" style="margin-top: 10px;">HVS</div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="/dash">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a>
+      </li>
+      
+      {{#if loggedinuser.permissions.user-list }}
+        <li class="nav-item">
+          <a class="nav-link" href="/users/">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Users</span></a>
+        </li>
+      {{/if}}
+
+      {{#if loggedinuser.permissions.candidate-list }}
+        <li class="nav-item">
+          <a class="nav-link" href="/candidates/">
+            <i class="fas fa-fw fa-user-tie"></i>
+            <span>Candidates</span></a>
+        </li>
+      {{/if}}
+
+      {{#if loggedinuser.permissions.vote-list }}
+        <li class="nav-item">
+          <a class="nav-link" href="/votes/make-vote">
+            <i class="fas fa-fw fa-user-tie"></i>
+            <span>Vote</span></a>
+        </li>
+      {{/if}}
+
+      {{#if loggedinuser.permissions.role-list}}
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>ACL</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded mt-1">
+            <h6 class="collapse-header">Access Control</h6>
+            {{#if loggedinuser.permissions.role-list }}
+              <a class="collapse-item" href="/roles">Roles</a>
+            {{/if}}
+            {{#if loggedinuser.permissions.permission-list }}
+              <a class="collapse-item" href="/permissions">Permissions</a>
+            {{/if}}
+          </div>
+        </div>
+      </li>
+      {{/if}}
+      
+      
+      
+    </ul>
+    <!-- End of Sidebar -->

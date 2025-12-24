@@ -1,0 +1,65 @@
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 pt-2 font-weight-bold text-primary float-left"> <i class="fas fa-list"></i> Users</h6>
+        <a class="btn btn-outline-site btn-sm float-right" href="/users/add" data-toggle="tooltip" data-placement="left" title="Add User">
+            <i class="fas fa-plus"></i> Add User
+        </a>
+    </div>
+    
+    <div class="card-body">
+        {{#if msg }}
+            <div class="alert alert-primary">
+               {{{ msg }}}
+            </div>    
+        {{/if}}
+        <div class="table-responsive">
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                    <tr class="table-dark">
+                      <tr>
+                        <th>User Name</th>
+                        <th>Full Name</th>
+                        <th>Role</th>
+                        <th>Delete</th>
+                        <th>Edit</th>
+                    </tr>
+                    </tr>
+                </thead>
+               
+                <tbody>
+                    {{#each users}}
+                    <tr>
+                        <td> {{ username }} </td>
+                        <td> {{ fullname }} </td>
+                        <td> {{ role_name }} </td>
+                        <td>
+                            <a class="btn btn-outline-danger btn-sm btn_delete" data-user-id="{{id}}" href="javascript:void(0)" data-toggle="tooltip" data-placement="left" title="Delete">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-site btn-sm" href="/users/edit/{{id}}" data-toggle="tooltip" data-placement="left" title="Edit">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {{else}}
+                    <tr>
+                        <td colspan="4">No Data</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $(document).on("click", ".btn_delete", function() {
+            let user_id = $(this).attr("data-user-id")
+            $("#deleteModal").modal('show');
+            $("#deleteModal").find("#btn_delete").attr("href", "/users/delete/" + user_id)
+        })
+    })
+</script>

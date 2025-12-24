@@ -1,0 +1,75 @@
+.seats-container {
+    display: none;
+}
+
+.seats-map {
+    border: 1px solid black;
+    width: 283px;
+}
+
+.seat {
+    height: 50px;
+    width: 50px;
+    border: 1px solid black;
+    padding: 11px;
+    cursor: pointer;
+    margin: 3px;
+}
+
+// .s-changing-status {
+//     .blink-bg;
+// }
+
+.s-processing {
+    background: rgb(117, 209, 63);
+    // color: white;
+}
+
+.s-blocked {
+    pointer-events: none;
+    background: #a9a9a9;
+}
+
+.s-available {
+    background: white;
+}
+
+.s-booked-male {
+    pointer-events: none;
+    background: #c7a6e6;
+}
+
+.s-booked-female {
+    pointer-events: none;
+    background: #f04df0;
+}
+
+.s-sold-male {
+    pointer-events: none;
+    background: #ff9090;
+}
+
+.s-sold-female {
+    pointer-events: none;
+    background: #f9c;
+}
+
+.blink-bg {
+    // width: 50px;
+    // height: 50px;
+    -webkit-animation: blink-bg 1s infinite;  /* Safari 4+ */
+    -moz-animation: blink-bg 1s infinite;  /* Fx 5+ */
+    -o-animation: blink-bg 1s infinite;  /* Opera 12+ */
+    animation: blink-bg 1s infinite;  /* IE 10+, Fx 29+ */
+  }
+  
+  @-webkit-keyframes blink-bg {
+    0%, 49% {
+      background-color: rgb(117, 209, 63);
+    //   border: 1px solid #e50000;
+    }
+    50%, 100% {
+      background-color: #e50000;
+    //   border: 31px solid rgb(117, 209, 63);
+    }
+  }

@@ -1,0 +1,91 @@
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            <a href="/staffs" class="btn btn-outline-site btn-sm" data-toggle="tooltip" data-placement="right" title="Go back to staffs">
+            <i class="fas fa-arrow-circle-left"></i></a> <span class="ml-2">Edit Staff</span>
+        </h6>
+    </div>
+    <div class="card-body">
+        <form action="/staffs/edit/{{data.id}}" method="POST">
+            <div class="row">
+                {{#if msg }}
+                    <div class="col-12 alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i> {{ msg }}
+                    </div>
+                {{/if}}
+                {{#if errors }}
+                    {{decorateErrors "err" errors}}
+                    <div class="col-12 alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i> There were something wrong with your inputs.
+                    </div>
+                {{/if}}
+                
+                <div class="col-md-6 col-sm-12 col-xs-12"> 
+                    <fieldset class="form-group">
+                        <label for="staff">Staff Type <span class="text-danger">*</span></label>
+                        <select name="staff_type_id" class="form-control {{form_data.staff_type_id.validity}}" autofocus>
+                            <option value="">Select A Staff Type</option>
+                            {{#each staff_types}}
+                                <option value="{{id}}" {{checkSelected id ../form_data.staff_type_id.value}}>{{name}}</option>
+                            {{else}}
+                                <option disabled> No Staff Type Was Found</option>   
+                            {{/each}}
+                        </select>
+                        <div class="invalid-feedback"> {{form_data.staff_type_id.msg}} </div>
+                    </fieldset>
+                    
+                    <fieldset class="form-group">
+                        <label for="name">Staff Name<span class="text-danger">*</span></label>
+                        <input type="text" name="name" class="form-control {{form_data.name.validity}}" placeholder="Staff Name"
+                            value="{{form_data.name.value}}" > 
+                        <div class="invalid-feedback"> {{form_data.name.msg}} </div>
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        <label for="mobile">Mobile<span class="text-danger">*</span></label>
+                        <input type="text" name="mobile" class="form-control {{form_data.mobile.validity}}" placeholder="Mobile Number"
+                            value="{{form_data.mobile.value}}"> 
+                        <div class="invalid-feedback"> {{form_data.mobile.msg}} </div>
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        <label for="emergency_mobile">Emergency Mobile </label>
+                        <input type="text" name="emergency_mobile" class="form-control {{form_data.emergency_mobile.validity}}" placeholder="Emergency Mobile Number"
+                            value="{{form_data.emergency_mobile.value}}"> 
+                        <div class="invalid-feedback"> {{form_data.emergency_mobile.msg}} </div>
+                    </fieldset>
+                    
+                    <fieldset class="form-group">
+                        <label for="last_name">Password <span class="text-danger">*</span></label>
+                        <input type="password" name="password" class="form-control {{form_data.password.validity}}" placeholder="Password"
+                            value="">
+                        <div class="invalid-feedback"> {{form_data.password.msg}} </div>
+                    </fieldset>
+                    
+                    <fieldset class="form-group">
+                        <label for="last_name">Confirm Password <span class="text-danger">*</span></label>
+                        <input type="password" name="con_password" class="form-control {{form_data.con_password.validity}}" placeholder="Retype Password"
+                            value="">
+                        <div class="invalid-feedback"> {{form_data.con_password.msg}} </div>
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" name="address" class="form-control {{form_data.address.validity}}" placeholder="Address"
+                            value="{{form_data.address.value}}"> 
+                        <div class="invalid-feedback"> {{form_data.address.msg}} </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr />
+                    <fieldset class="form-group text-left">
+                        <a href="/staffs" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="left" title="Cancel Editing">Cancel</a>
+                        <button type="submit" class="btn btn-outline-site btn-sm" data-toggle="tooltip" data-placement="right" title="Submit">Save</button>
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+{
+    "short_name": "Offline-App",
+    "name": "Offline-App",
+    "description": "This is an offline and installable web application that use worker to cache data.",
+    "display": "standalone",
+    "icons": [
+      {
+        "src": "assets/image/icon-144.png",
+        "sizes": "144x144",
+        "type": "image/png"
+      }
+    ],
+    "start_url": ".",
+    "theme_color": "#3F51B5"
+  }
+  

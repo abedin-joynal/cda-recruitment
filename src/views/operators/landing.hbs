@@ -1,0 +1,87 @@
+<div id = "elem-signin" class="row align-items-center" style="min-height: 78vh;">
+    <div class="col-md-3 col-10 col-xs-10 mx-auto my-md-auto">
+        <div class="card text-center">
+            <div class="card-header">
+                <h3>CDA</h3>
+            </div>
+            <img src="/img/cda-logo.png" alt="Logo" class="card-img-top mx-auto m-2 rounded-circle w-50">
+            <div class="card-body">
+                
+                <div id="alert-signin" class="alert alert-danger text-left d-none"><i class="fas fa-exclamation"></i> Wrong credentials!! Please Try Again !! </div>
+            
+                <form id="form-signin" action="javascript:void(0)" method="POST">
+                    <div class="form-group">
+                        <input type="number" name="mobile" placeholder="Mobile No" class="form-control mobile" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" placeholder="Password" class="form-control password">
+                    </div>
+                    <button id="btn-signin" class="btn btn-outline-site btn-block">
+                        Log In
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="elem-dash" class=" mb-4 d-none">
+    <div class="row dash-data">
+    </div>
+</div>
+
+<div id="elem-edit-applicants" class="card shadow mb-4 d-none">
+    <div class="card-header py-3">
+        <h6 class="m-0 pt-2 font-weight-bold text-site-1 float-left"> <i class="fas fa-list"></i> আবেদনকারীদের তালিকা </h6>
+    </div>
+    
+    <div class="card-body pt-3">
+        <div class="col-md-12 pl-0">
+            <div class="form-group">
+                <label for="exampleInputEmail1">পদ নির্বাচন করুন <span class="text-danger">*</span></label>
+                <select  class="form-control col-12 col-md-4" id="post-list"></select>
+                <small id="emailHelp" class="form-text text-muted display-none">We'll never share your email with anyone else.</small>
+            </div>
+        </div>
+
+        <div class="col-md-12 my-3 text-right" >
+            <a class="btn btn-outline-primary" id="page-print-button" href="/applicants/print/getApplicantsByPostID?post_id=" target="_new">Print</a>
+            <a class="btn btn-outline-primary" id="page-excel-button" href="/applicants/print/getApplicantsByPostID?post_id=" target="_new">Excel</a>
+        </div>
+
+        <div id="districtwise-count" class="mb-2">
+
+        </div>
+        <hr>
+
+        <div id="table-applicant-data" class="table-responsive display-none">
+            <table class="table table-bordered" id="table-datatable" cellspacing="0" style="font-size: 13px;">
+                <thead>
+                    <tr>
+                        <th>বিস্তারিত</th>
+                        <th style="width:50px;">#</th>
+                        <th>ছবি</th>
+                        <th>নাম</th>
+                        <th>রোল নং</th>
+                        <th>বাবা ও মায়ের নাম</th>
+                        <th>মায়ের নাম</th>
+                        <th>স্থায়ী ঠিকানা</th>
+                        <th>বর্তমান ঠিকানা</th>
+                        <th>শিক্ষাগত যোগ্যতা</th>
+                        <th>জন্মতারিখ</th>
+                        <th style="width: 70px;!important">পেঅর্ডার ডিটেইলস</th>
+                        <th>অভিজ্ঞতা</th>
+                        <th>কোটা</th>
+                        <th>জেলা</th>
+                        <th>মন্তব্য</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript"></script>

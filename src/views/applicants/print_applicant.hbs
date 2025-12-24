@@ -1,0 +1,159 @@
+<h4 class="mt-2">পদের নামঃ <span id="post_name"></span></h4>
+
+<div id="districtwise-count" class="my-2 mt-2"></div>
+<hr>
+
+<div id="table-applicant-data" class="table-responsive ">
+    <table class="table table-bordered" id="table-datatable" cellspacing="0" style="font-size: 13px;">
+        <thead>
+            <tr>
+                <th style="width:50px;">#</th>
+                <th>ছবি</th>
+                <th>নাম</th>
+                <th>রোল নং</th>
+                <th>বাবা ও মায়ের নাম</th>
+                <th>মায়ের নাম</th>
+                <th>স্থায়ী ঠিকানা</th>
+                <th>বর্তমান ঠিকানা</th>
+                <th>শিক্ষাগত যোগ্যতা</th>
+                <th>জন্মতারিখ</th>
+                <th style="width: 70px;!important">পেঅর্ডার ডিটেইলস</th>
+                <th>অভিজ্ঞতা</th>
+                <th>কোটা</th>
+                <th>জেলা</th>
+                <th>মন্তব্য</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+
+<input type="hidden" id="applicants" value="{{ toJson applicants}}">
+<input type="text" id="district_count" value="{{ toJson district_count}}">
+<input type="hidden" id="format" value="{{ format }}">
+
+<style>
+  @page { size: landscape; }
+  @media print {
+      body, html, #wrapper {
+          width: 100%;
+      }
+}
+</style>
+
+<script src="/js/operators/operators.js"></script>
+<script type="text/javascript" src="/js/bijoy2Unicode/bijoy.js"></script>
+<script type="text/javascript" src="/js/bijoy2Unicode/converter.js"></script>
+<script type="text/javascript" src="/js/bijoy2Unicode/base.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
+
+<script>
+$(document).ready(function() {
+    let applicants = JSON.parse($("#applicants").val());
+    console.log(applicants[0].post_name);
+    let district_count = JSON.parse($("#district_count").val());
+
+    let format = $("#format").val().trim();
+    $("#post_name").html(applicants[0].post_name);
+    let tr = ``;
+    if(applicants.length >= 1 ) {
+
+        if(district_count.length >=1) {
+            let dh = ``;
+            _.each(district_count, function(dc) {
+                dh += `${dc.dis}  : ${dc.count}, &nbsp`;
+            });
+            $("#districtwise-count").html(dh);
+        }
+
+      let i = 1;
+      _.each(applicants, function(c, counter_name) {
+          let img = c.img !== null ? `/img/applicants/${c.img}` : `/img/no-image.jpg`;
+          let roll_no = c.roll_no == null ? "" : c.roll_no;
+
+          let remarks = c.remarks !== null ? c.remarks : "";
+          let exp = c.exp == null ? "" : c.exp ;
+          let quota = c.quota == null ? "" :c.quota ;
+          let dis = c.quota !== null ? "" : c.dis;
+          let eq = c.eq !== null ? "" : c.eq;
+
+          let name, father_name, mother_name = "";
+          
+          if(AvroPost.indexOf(c.post_id) !== -1) {  
+              name = c.name;
+              father_name = c.father_name;
+              mother_name = c.mother_name;
+              dis = dis;
+              quota = quota;
+              remarks = remarks;
+              exp = exp;
+
+              eq = c.eq;
+              dob = c.dob;
+              exp = c.exp;
+              perm_addr = c.perm_addr;
+              temp_addr = c.present_addr;
+              porder_details = c.porder_details;
+
+          } else {
+              name = ConvertToUnicode('bijoy', c.name);
+              father_name = ConvertToUnicode('bijoy', c.father_name);
+              mother_name = ConvertToUnicode('bijoy', c.mother_name);
+              dis = ConvertToUnicode('bijoy', dis);
+              quota = ConvertToUnicode('bijoy', quota);
+              remarks = ConvertToUnicode('bijoy', remarks);
+              exp = ConvertToUnicode('bijoy', exp);
+
+              eq = ConvertToUnicode('bijoy', c.eq);
+              dob = ConvertToUnicode('bijoy', c.dob);
+              exp = ConvertToUnicode('bijoy', c.exp);
+              perm_addr = ConvertToUnicode('bijoy', c.perm_addr);
+              temp_addr = ConvertToUnicode('bijoy', c.present_addr);
+              porder_details = ConvertToUnicode('bijoy', c.porder_details);
+              
+          }
+
+          tr += `<tr>
+                     
+                      <td style="width: 50px;">${i}</td>
+                      <td style="width: 50px;"><img src="${img}" width="50px" height="50px"/ ></td>
+                      <!-- <td>${name}</td> -->
+                      <td>${name}</td>
+                      <td>${roll_no}</td> 
+                      <td>${father_name} </td>
+                      <td>${mother_name}</td>
+                      <td>${perm_addr}</td>
+                      <td>${temp_addr}</td>
+                      <td>${eq}</td>
+                      <td>${dob}</td>
+                      <td>${porder_details}</td>
+                      <td>${exp}</td>
+                      <td>${quota}</td>
+                      <td>${dis}</td>
+                      <td>${remarks}</td>
+                  </tr>`;
+          i++;
+      });
+
+      let table = `${tr}`;
+      console.log(table);
+
+      $("#table-datatable tbody").html(table);
+      setTimeout(function() {
+        if(format == "print") {
+            window.print();
+        } else {
+         TableToExcel.convert(document.getElementById("table-datatable"), {
+            name: "Traceability.xlsx",
+            sheet: {
+            name: "Sheet1"
+            }
+          });
+        }
+      }, 3000);
+    }
+});
+
+</script>

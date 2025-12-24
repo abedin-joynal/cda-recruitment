@@ -1,0 +1,36 @@
+
+  <div class="row align-items-center" style="min-height: 91vh">
+    <div class="col-md-3 mx-auto my-auto">
+      <div class="card text-center">
+        <div class="card-header">
+          <h3>Login</h3>
+        </div>
+        <img src="/img/hillview-logo.png" alt="Logo" class="card-img-top mx-auto m-2 rounded-circle w-50">
+        <h4 class="my-4">Hillview Housing Society</h3>
+        <div class="card-body">
+          {{#if errors }}
+            <div class="alert alert-danger text-left">
+              <i class="fas fa-exclamation"></i> There were something wrong.
+              <ul>
+                {{#each errors }}
+                  <li>{{ this.msg }}</li>
+                {{/each}}
+              </ul>
+            </div>
+          {{/if}}
+
+          <form action="/signin" method="POST">
+            <div class="form-group">
+              <input type="text" name="username" placeholder="Username" class="form-control" autofocus>
+            </div>
+            <div class="form-group">
+              <input type="password" name="password" placeholder="Password" class="form-control">
+            </div>
+            <button class="btn btn-sm btn-outline-site btn-block">
+              LogIn
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

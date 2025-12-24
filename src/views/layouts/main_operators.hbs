@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>--CDA--</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/img/favicon/site.webmanifest">
+
+  <!-- Custom fonts for this template-->
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/css/font-awesome-google-api.css" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template-->
+  <link href="/css/sb-admin-2.css" rel="stylesheet">
+  <link href="/css/custom.css" rel="stylesheet">
+  <link href="/css/jquery.auto-complete.css" rel="stylesheet">
+
+  {{!-- <link href="/css/seat-orientation.css" rel="stylesheet"> --}}
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+
+  <script type="text/javascript" src="/js/moment.min.js"></script>
+  <script type="text/javascript" src="/js/underscore.min.js"></script>
+  {{!-- <link type="text/css" rel="stylesheet" href="/css/bootstrap-select.min.css"> --}}
+  {{!-- <script type="text/javascript" src="/js/bootstrap-select.min.js"></script> --}}
+  <link type="text/css" rel="stylesheet" href="/css/bootstrap-4.min.css">
+  <script type="text/javascript" src="/js/bootstrap-4.min.js"></script>
+  <script type="text/javascript" src="/js/axios.min.js"></script>
+
+  <script src="/js/main.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" />
+
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+  {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script> --}}
+  {{!-- <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script> --}}
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+  {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script> --}}
+
+
+  {{!-- https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css
+
+  https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js --}}
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.3/cropper.css" rel="stylesheet" />
+  {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> --}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.3/cropper.js"></script>
+  <script src="/js/operators/glfx.js"></script>
+
+  {{!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+  <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script> --}}
+
+  {{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+
+  <script type="text/javascript" src="/js/bijoy2Unicode/bijoy.js"></script>
+  <script type="text/javascript" src="/js/bijoy2Unicode/converter.js"></script>
+  <script type="text/javascript" src="/js/bijoy2Unicode/base.js"></script>
+  <script type="text/javascript" src="/js/print.js"></script>
+
+  {{!-- <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+      const qrcode = new QRCode(document.getElementById('qrcode'), {
+        text: 'http://jindo.dev.naver.com/collie',
+        width: 128,
+        height: 128,
+        colorDark : '#000',
+        colorLight : '#fff',
+        correctLevel : QRCode.CorrectLevel.H
+      });
+  <div id="qrcode"></div> --}}
+
+  {{!-- <script src="/js/operators/click-photo.js"></script> --}}
+
+  {{!-- https://www.npmjs.com/package/html5-qrcode --}}
+  
+  <style>
+    /*
+    table tbody {
+        display: block;
+        max-height: 500px;
+        overflow-y: scroll;
+        overflow-x: scroll;
+    }
+
+    table thead, table tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        font-size: normal;
+    }
+
+    table thead th {
+        font-size: small;
+    }
+
+    table tbody td {
+        font-size: small;
+    }
+  
+  */
+    {{!-- @font-face {
+      font-family: 'Siyam Rupali';
+      src: url('fonts/SiyamRupali.eot?version=1.070');
+      src: local('Siyam Rupali'), url('fonts/SiyamRupali.woff?version=1.070') format('woff'),       url('fonts/SiyamRupali.ttf?version=1.070') format('truetype');
+      font-style: normal;
+      unicode-range: U+0980-09FF; //Bangla Range (source: http://www.unicode.org/charts/PDF/U0980.pdf‎‎)
+    } --}}
+
+    @font-face {
+    font-family: 'SutonnyMJ';
+    src: url('../fonts/SutonnyMJ-webfont.woff') format('woff'),
+        url('/fonts/SutonnyMJ-Regular.ttf') format('truetype');
+    }
+
+    #table-applicant-data {
+        {{!-- font-family: 'Siyam Rupali'; --}}
+        {{!-- font-family: 'SutonnyMJ', sans-serif; --}}
+    }
+
+    #admit-card-container {
+        {{!-- font-family: 'SutonnyMJ', sans-serif; --}}
+    }
+
+    .custom-file-upload {
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+
+
+    .main_content{
+        width: 1000px;
+        height: auto;
+        margin: 0px auto;
+        padding: 2px;;
+    }
+    .header_content {
+        text-align: center;
+        padding-top: 5px;;
+    }
+    .header_content img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .main_content h3 {
+        text-align: center;
+    }
+    .leftform {
+        width: 75%;
+        float: left;
+        margin-left: 30px;
+    }
+    .imgitem {
+        width: 20%;
+        height: auto;
+        float: left;
+        {{!-- border: 1px solid; --}}
+        
+    }
+    .instructions_set {
+        width: 100%;
+        {{!-- float: right; --}}
+    }
+    .bottom_content p {
+        text-align: center;
+        padding-top: 10px;
+    }
+  </style>
+
+</head>
+
+<body id="page-top">
+  
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+    <!-- Sidebar -->
+
+    {{>operators/navigation}}
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+          {{>operators/topbar}}
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid pl-lg-3 pr-lg-5 pl-sm-2 pr-sm-2 px-2">
+          {{{ body }}}
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright & Courtesy &copy; Chattogram Metropalitan Masterplan Project(2020-2041)</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Pic Upload Modal-->
+  <div class="modal fade" id="picUploadModal" tabindex="-1" role="dialog" data-show-admit-modal="0" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="exampleModalLabel">Applicant Details</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <!--   -->
+            <div class="row">
+              <div class="col-md-12" >
+                <div id="admit-card-container" style="overflow-x: scroll;">
+                  <div class="row border p-2 text-dark mx-auto" id="cur-applicant-details" style="width:600px;">
+                    <div class="col-12">
+                      <div class="row mb-2" style="display: none;">
+                        <div class="col-md-12">
+                          <div class="row">
+                            <div class="col-12" style="max-width:60%; margin-left: 150px; ">
+                                <img class="float-left" id="cda-logo" src="/img/cda-logo.png" style="width: 50px;height: 50px"/>
+                                <h4 class="float-left mt-2" style="margin-left: 20px">চট্টগ্রাম উন্নয়ন কর্তৃপক্ষ</h4>
+                            </div>
+                          </div>
+                          <div class="row ">
+                            <div class="col-md-12 text-center">
+                              <div>প্রবেশ পত্র - <span class="cur_post_name"></span></div>
+                              <hr>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row justify-content-center">
+                        <div class="col-4">
+                          <img id="cur-applicant-img" style="width: 150px;height: 150px"/>
+                        </div>
+                        <div class="col-8" style="font-size: 12px;">
+                          <div>
+                            {{!-- পদের নামঃ <span class="cur_post_name"></span><br/> --}}
+                            <b>রোল নংঃ </b> <span class="cur_app_roll"></span><br/>
+                            <b>আবেদনকারীর নামঃ </b> <span class="cur_app_name"></span><br/>
+                            <b>বাবা ও মায়ের নামঃ </b> <span class="cur_app_f_name"></span><br/>
+                            <b>পরীক্ষার তারিখ ও সময়ঃ </b> <span class=""></span><br/>
+                            <b>পরীক্ষার স্থানঃ </b> <span class=""></span><br/> 
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row justify-content-center">
+              <span id="wizard-spinner"></span>
+            </div>
+
+            <div id="camera-wizard">
+              <div class="row justify-content-center" id="start-camera-container">
+                <div class="col-md-12  my-2 text-center">
+                  <button id="start-camera" class="btn btn-sm btn-outline-primary" >
+                      <i class="fa fa-camera" aria-hidden="true"></i>
+                      Take Picture
+                  </button>
+                  <!--<button id="btn-print-admit-card" class="btn btn-sm btn-outline-primary">
+                      <i class="fa fa-print" aria-hidden="true"></i>
+                      Print Admit Card
+                  </button> -->
+                  
+                  <label class="btn btn-sm  btn-outline-primary mt-2" style="display: none;">
+                        <input type="file" name="" id="input-pic-upload">
+                        <i class="fa fa-upload" aria-hidden="true"></i>
+                        File Upload
+                  </label>
+                </div>
+              </div>
+
+              <div class="row mt-2" id="camera-preview-container" style="display:none">
+                <div class="col-md-12">
+                  <div class="row justify-content-center">
+                    <video id="video" width="400" height="450" style = 'width:200px; height:200px;' autoplay></video>
+                  </div>
+                  <div class="row justify-content-center my-4">
+                    <button id="click-photo" class="btn btn-sm btn-outline-primary">
+                      <i class="fa fa-camera" aria-hidden="true"></i>  Click Photo
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="canvas-editor" class="display-none">
+              <div class="row justify-content-center">
+                <div id="canvas_container" class="col-md-12">
+                    <canvas id="canvas" class="img-container" width="350" height="400" style = 'width:200px; height:200px;' style="">
+                        Your browser does not support the HTML5 canvas element.
+                    </canvas>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row justify-content-center">
+                    <button type="button" id="btnCrop" class="btn btn-sm btn-outline-primary mx-2">
+                      <i class="fa fa-crop" aria-hidden="true"></i>
+                      CROP
+                    </button>
+                    <button type="button" id="btnUpload" class="btn btn-sm btn-outline-primary">
+                      <i class="fa fa-file" aria-hidden="true"></i>
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="dataurl-container" class="" style="display:none">
+                  <!-- <canvas id="canvas" width="200" height="240"></canvas> -->
+                  <div id="dataurl-header">Image Data URL</div>
+                  <textarea id="dataurl" readonly></textarea>
+              </div>
+
+              <div id="result"></div>
+            </div>
+
+            <div class="row my-2 " id="EditApplicantContainer" style="border: 1px solid black">
+              <div class="col-md-12  my-2 text-center">
+                <label class="text-danger">Change Applicant Information</label>
+                <hr>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group row d-flex justify-content-center">
+                  <label for="inputEmail3" class="col-sm-2 col-form-label">নাম</label>
+                  <div class="col-sm-6">
+                    <input type="email" class="form-control input-sm input-name" placeholder="নাম">
+                  </div>
+                </div>
+
+                <div class="form-group row d-flex justify-content-center">
+                  <label for="inputEmail3" class="col-sm-2 col-form-label">বাবার নাম</label>
+                  <div class="col-sm-6">
+                    <input type="email" class="form-control input-sm input-fname" placeholder="বাবার নাম">
+                  </div>
+                </div>
+
+                <div class="form-group row d-flex justify-content-center">
+                  <label for="inputEmail3" class="col-sm-2 col-form-label">মায়ের নাম</label>
+                  <div class="col-sm-6">
+                    <input type="email" class="form-control input-sm input-mname" placeholder="মায়ের নাম">
+                  </div>
+                </div>
+
+                <div class="form-group row d-flex justify-content-center">
+                  <label for="inputEmail3" class="col-sm-2 col-form-label">স্থায়ী ঠিকানা</label>
+                  <div class="col-sm-6">
+                    <input type="email" class="form-control input-sm input-perm-addr" placeholder="স্থায়ী ঠিকানা">
+                  </div>
+                </div>
+
+                <div class="form-group row d-flex justify-content-center">
+                  <label for="inputEmail3" class="col-sm-2 col-form-label">বর্তমান ঠিকানা</label>
+                  <div class="col-sm-6">
+                    <input type="email" class="form-control input-sm input-temp-addr" placeholder="বর্তমান ঠিকানা">
+                  </div>
+                </div>
+
+                <div class="form-group row d-flex justify-content-center">
+                  <label for="inputEmail3" class="col-sm-2 col-form-label">শিক্ষাগত যোগ্যতা</label>
+                  <div class="col-sm-6">
+                    <input type="email" class="form-control input-sm input-eq" placeholder="শিক্ষাগত যোগ্যতা">
+                  </div>
+                </div>
+
+                <div class="form-group row d-flex justify-content-center">
+                  <label for="inputEmail3" class="col-sm-2 col-form-label">অভিজ্ঞতা</label>
+                  <div class="col-sm-6">
+                    <input type="email" class="form-control input-sm input-exp" placeholder="অভিজ্ঞতা">
+                  </div>
+                </div>
+
+                <div class="form-group row d-flex justify-content-center">
+                  <label for="inputEmail3" class="col-sm-2 col-form-label">জন্মতারিখ</label>
+                  <div class="col-sm-6">
+                    <input type="email" class="form-control input-sm input-dob" placeholder="জন্মতারিখ">
+                  </div>
+                </div>
+
+                <div class="form-group row d-flex justify-content-center">
+                  <label for="inputEmail3" class="col-sm-2 col-form-label">পেঅর্ডার ডিটেইলস</label>
+                  <div class="col-sm-6">
+                    <input type="email" class="form-control input-sm input-porder_details" placeholder="পেঅর্ডার ডিটেইলস">
+                  </div>
+                </div>
+
+                <div class="form-group row d-flex justify-content-center">
+                  <label for="inputEmail3" class="col-sm-2 col-form-label">জেলা</label>
+                  <div class="col-sm-6">
+                    <input type="email" class="form-control input-sm input-dis" placeholder="জেলা">
+                  </div>
+                </div>
+                <div class="form-group row d-flex justify-content-center">
+                  <label for="inputEmail3" class="col-sm-2 col-form-label ">কোটা</label>
+                  <div class="col-sm-6">
+                    <input type="email" class="form-control input-sm input-quota" placeholder="কোটা">
+                  </div>
+                </div>
+                <div class="form-group row d-flex justify-content-center">
+                  <label for="inputEmail3" class="col-sm-2 col-form-label ">মন্তব্য</label>
+                  <div class="col-sm-6">
+                    <input type="email" class="form-control input-sm input-remarks" placeholder="মন্তব্য">
+                  </div>
+                </div>
+                <div class="form-group row d-flex justify-content-center">
+                  <div class="col-md-12 d-flex justify-content-center">
+                    <button type="button" id="btn-save-app-info" class="btn btn-sm btn-outline-primary">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--   -->
+        </div>
+        <div class="modal-footer center justify-content-around">
+          <a id="btn-prev-applicant" class="btn btn-sm btn-outline-primary text-left" href="javascript:void(0)">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            Prev Applicant
+          </a>
+          <a id="btn-next-applicant" class="btn btn-sm btn-outline-primary text-right" href="javascript:void(0)">
+            Next Applicant 
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admit Card Upload Modal-->
+  <div class="modal fade" id="AdmitCardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal-dialog" role="document" style="max-width:100% !important;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="exampleModalLabel">Admit Card of : <span id="admit-popup-app-name"></h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body" style="overflow-x: scroll; color:black">
+            <div class="main_content" id="Admit-card-container" style="font-size: 14px;">
+                <div class="header_content">
+                    <img src="/img/cda-logo.png" class="rounded-circle" alt="Cinque Terre" style="width: 60px; height: 60px">
+                    <p>চট্টগ্রাম উন্নয়ন কর্তৃপক্ষ <br>
+                        চউক ভবন, চট্টগ্রাম <br>
+                    www.cda.gov.bd <br>
+                    নিয়োগ পরীক্ষা ২০২৩
+                    </p>
+                    <h6><u> প্রবেশপত্র</u></h6>
+                </div>
+                <div class="row" style="<!--page-break-after: always;-->">
+                  <div class="leftform">
+                      <form> 
+                          <div class="form-group row">
+                            <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">পদের নামঃ : </label>
+                              <div class="col-sm-9" style="padding-bottom: 5px;">
+                                  <div class="border-bottom appli_post"> - </div>
+                              </div>
+                            <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">রোল নম্বর              : </label>
+                            <div class="col-sm-9" style="padding-bottom: 5px;">
+                              <div class="border-bottom appli_rollno">  -</div>
+                            </div>
+                            <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">নাম                    : </label>
+                            <div class="col-sm-9" style="padding-bottom: 5px;">
+                              <div class="border-bottom appli_name"> -</div>
+                            </div>
+                            <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">পিতা / মাতার নাম              : </label>
+                            <div class="col-sm-9" style="padding-bottom: 5px;">
+                              <div class="border-bottom appli_fa_name">  -</div>
+                            </div>
+                            {{!-- <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">মাতার নাম              : </label>
+                            <div class="col-sm-9" style="padding-bottom: 5px;">
+                              <div class="border-bottom appli_ma_name">  - </div>
+                            </div> --}}
+                            <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">নিজ জেলা               : </label>
+                            <div class="col-sm-9" style="padding-bottom: 5px;">
+                              <div class="border-bottom appli_dist">  - </div>
+                            </div>
+                            <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">পরীক্ষার তারিখ ও সময়     : </label>
+                            <div class="col-sm-9" style="padding-bottom: 5px;">
+                              <div class="border-bottom exam_dt_tm">  - </div>
+                            </div>
+                            <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">পরীক্ষা কেন্দ্র            : </label>
+                            <div class="col-sm-9" style="padding-bottom: 5px;">
+                              <div class="border-bottom exam_cntr"> - </div>
+                            </div>
+                          </div>
+                    </form>
+                  </div>
+                  <div class="imgitem">
+                      <img class="applicant-img mt-4 ml-2" style="width: 170px;height: 190px" src="/img/no-image.jpg"/>
+                      {{!-- <img src="/img/no-image.jpg" alt="bangladesh_map.jpg" style="width: 200px; height: 260px;" alt="..."> --}}
+                  </div>
+                </div>
+                <div class="row">
+                  
+                </div>
+                <br>
+                <div class="row mt-0">
+                  <div class="col-md-12 instructions_set">
+                      <h6 class="text-center" ><u>প্রাথীদের জন্য নির্দেশাবলী</u></h6>
+                      <li class="list-inline-item">১. লিখিত, ব্যবহারিক ও মৌখিক পরীক্ষার জন্য এই প্রবেশপত্র প্রযোজ্য হবে এবং অবশ্যই সঙ্গে আনতে হবে। </li>
+                      <li class="list-inline-item">২. প্রার্থীদের লিখিত পরীক্ষার কমপক্ষে ৩০ মিনিট পূর্বে পরীক্ষার হলে বসতে হবে। পরীক্ষা শুরুর পর কেউ হলে প্রবেশ করতে পারবেন না এবং পরীক্ষা শেষ হওয়ার পূর্বে কেউ হল ত্যাগ করতে পারবেন না।</li>
+                      <li class="list-inline-item">৩. পরীক্ষার্থীদের পরীক্ষার হলে বই, ব্যাগ, ক্যালকুলেটর, মোবাইল ফোন, ডিজিটাল ঘড়ি বা অন্য কোন ইলেকট্রনিক ডিভাইস নিয়ে আসা কঠোরভাবে নিষিদ্ধ। যদি কোন পরীক্ষার্থী উল্লিখিত দ্রব্যাদি সঙ্গে নিয়ে পরীক্ষা কেন্দ্রে প্রবেশ করেন তবে তাকে তাৎক্ষণিক বহিষ্কারসহ তার বিরুদ্ধে আইনানুগ ব্যবস্থা গ্রহণ করা হবে।</li>
+                      <li class="list-inline-item">৪. প্রার্থীদের অবশ্যই কালো কালির বলপয়েন্ট কলম ব্যবহার করতে হবে।</li>
+                      <li class="list-inline-item">৫. এই প্রবেশপত্রে থাকা ছবি মূল আবেদনের সঙ্গে জমা দেওয়া একই ছবির কাউন্টার কপি দিয়ে যাচাই করা হবে।</li>
+                      <li class="list-inline-item">৬. আবেদনপত্র, হাজিরাপত্র ও উত্তরপত্রের ক্ষেত্রে প্রার্থীদের অবশ্যই একই স্বাক্ষর ব্যবহার করতে হবে।</li>
+                      <li class="list-inline-item">৭. মৌখিক পরীক্ষা বোর্ডে পরীক্ষার্থীকে সকল শিক্ষাগত যোগ্যতা, অভিজ্ঞতা, কোটা সংক্রান্ত সনদ ও জাতীয় পরিচয়পত্র/ জন্ম নিবন্ধন সনদ নিয়ে উপস্থিত হতে হবে এবং সংশ্লিষ্ট কাগজপত্রের মূলকপি প্রদর্শন করতে হবে।</li>
+                      <li class="list-inline-item">৮. আবেদনপত্রে প্রার্থীর দেয়া স্বাক্ষরের সাথে পরীক্ষার হাজিরা শিটে প্রদত্ত স্বাক্ষরসহ সকল তথ্যে মিল থাকতে হবে। </li>
+                      <li class="list-inline-item">৯. ব্যবহারিক পরীক্ষা/মৌখিক পরীক্ষার তারিখ, সময় ও স্থান চট্টগ্রাম উন্নয়ন কর্তৃপক্ষের ওয়েবসাইট (www.cda.gov.bd) এবং নোটিশ বোর্ড থেকে জানতে পারবেন।</li>
+                      <li class="list-inline-item">১০. পরীক্ষায় অংশগ্রহণের জন্য কর্তৃপক্ষ কর্তৃক কোন প্রকার টিএ/ডিএ প্রদান করা হবে না। </li>
+                      <li class="list-inline-item">১১. পরীক্ষার হলে যেকোন প্রকার অসদুপায় অবলম্বন করলে প্রার্থীর বিরুদ্ধে প্রয়োজনীয় আইনানুগত ব্যবস্থা গ্রহণ করা হবে।</li>
+                  </div>
+                </div>
+                <div class="row bottom_content mt-3">
+                  <div class="col-md-12">
+                  <hr>
+
+                    <p>    মুহাম্মদ সোহেল হাসান <br>
+                        যুগ্মসচিব, গৃহায়ন ও গণপূর্ত মন্ত্রণালয়<br>
+                        ও<br>
+                        আহ্বায়ক, চট্টগ্রাম উন্নয়ন কর্তৃপক্ষের ৭ম থেকে ২০তম গ্রেড পর্যন্ত <br>
+                        জনবল নিয়োগ কমিটি<br>  
+                                                                        
+                    </p> 
+                  </div>
+                </div>
+            </div>  
+        </div>
+        <div class="modal-footer center justify-content-around">
+          <a id="btn-prev-applicant" class="btn btn-sm btn-outline-primary text-left" href="javascript:void(0)">Prev Applicant</a>
+          <button id="btn-print-admit-card" class="btn btn-sm btn-outline-primary">
+              <i class="fa fa-print" aria-hidden="true"></i>
+              Print Admit Card
+          </button>
+          <button id="btn-admit-edit" class="btn btn-sm btn-outline-primary">
+              <i class="fa fa-edit" aria-hidden="true"></i>
+              Edit
+          </button>
+          <a id="btn-next-applicant" class="btn btn-sm btn-outline-primary text-right" href="javascript:void(0)">Next Applicant</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancel</button>
+          <a id="btn-logout" class="btn btn-primary btn-sm" href="javascript:void(0)">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Modal-->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Are you sure to delete</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Delete" below if you are sure to delete</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-danger" id="btn_delete" href="">Delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="/js/operators/operators.js"></script>
+  <script src="/js/sb-admin-2.js"></script>
+  <script src="/js/notify.min.js"></script>
+  <script src="/js/jquery.auto-complete.js"></script>
+
+</body>
+
+</html>

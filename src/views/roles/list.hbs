@@ -1,0 +1,94 @@
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 pt-2 font-weight-bold text-primary float-left"> <i class="fas fa-list"></i> Roles</h6>
+        <a class="btn btn-outline-primary float-right" href="/roles/add" data-toggle="tooltip" data-placement="left" title="Create New Role">
+            <i class="fas fa-plus"></i>
+        </a>
+    </div>
+    
+    <div class="card-body">
+        {{#if msg }}
+            <div class="alert alert-primary">
+               {{{ msg }}}
+            </div>    
+        {{/if}}
+        <div class="table-responsive">
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                    <tr class="table-dark">
+                      <tr>
+                        <th>#</th>
+                        <th>Role Name</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    </tr>
+                </thead>
+               
+                <tbody>
+                    {{#each roles}}
+                    <tr>
+                        <td> {{ inc @index ../start_index }} </td>
+                        <td> {{ name }} </td>
+                        <td>
+                            {{#if ../loggedinuser.permissions.role-delete }}
+                            <a class="btn btn-outline-danger btn_delete" data-id="{{id}}" data-route="roles" href="javascript:void(0)" data-toggle="tooltip" data-placement="left" title="Delete">
+                                <i class="fas fa-times"></i>
+                            </a>
+                            {{/if}}
+                        </td>
+                        <td>
+                            {{#if ../loggedinuser.permissions.role-edit }}
+                                <a class="btn btn-outline-primary" href="/roles/edit/{{id}}" data-toggle="tooltip" data-placement="left" title="Edit">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                            {{/if}}
+                        </td>
+                    </tr>
+                    {{else}}
+                    <tr>
+                        <td class="text-center" colspan="4"><div class="alert alert-warning">No Data</div></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <!-- Pagination -->
+        <div class="row mt-2">
+            <div class="col-md-6 col-sm-12">
+                <nav aria-label="Page navigation example ml-1">
+                    <ul class="pagination justify-content-end flex-wrap ">
+                        {{{pagination_item paginate.total_page paginate.page paginate.offset search "roles"}}}
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <div class="col-md-12 col-sm-10 float-right p-0 mb-2">
+                    <div class="input-group table-search">
+                        <input type="text" value="{{search}}" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <a class="btn btn-primary" data-href="/roles/1/{{paginate.offset}}/">
+                                <i class="fas fa-search fa-sm"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12">             
+                <div class="dropdown float-right float-md-left">
+                    <button style="white-space: normal" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Per Page ({{ paginate.offset }})
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="/roles/{{paginate.page}}/5/{{search}}">5</a>
+                        <a class="dropdown-item" href="/roles/{{paginate.page}}/10/{{search}}">10</a>
+                        <a class="dropdown-item" href="/roles/{{paginate.page}}/15/{{search}}">15</a>
+                        <a class="dropdown-item" href="/roles/{{paginate.page}}/20/{{search}}">20</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Pagination -->
+    </div>
+</div>

@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>404 Error Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+        body{
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            min-height:100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        } 
+        .wrapper{
+            text-align: center;
+        }
+        .wrapper h2{
+            margin:40px 0;
+            font-size:2.5rem;
+        }
+        .wrapper img{
+            width:600px;
+            max-width:75%;
+        }
+        .wrapper h4{
+            margin:40px 0 20px;
+            font-size:1.2rem;
+        }
+        .main-btn{
+            padding:15px;
+            background-color: #ff6363;
+            color:#fff;
+            border:
+            none;
+            font-weight:700;
+            letter-spacing: 1px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        @media (max-width:767px){
+            .wrapper h2{ 
+                font-size:2rem;
+            }
+            .wrapper h4{ 
+                font-size:1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h2>Oops! Page not found.</h2>
+       
+        <h4>We can't fint the page you're looking for.</h4>
+        <button type="button" class="main-btn" onclick="checkconnection()">GO BACK HOME</button>
+    </div>
+</body>
+
+<script type="text/javascript">
+    function checkconnection() {
+        location.href="http://119.18.147.183:3000/staffs/landing"
+    }
+</script>
+</html>

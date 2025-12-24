@@ -1,0 +1,106 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="/users/">User</a></li>
+    <li class="breadcrumb-item active" aria-current="Edit">Create</li>
+  </ol>
+</nav>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            <a href="/users" class="btn btn-outline-site btn-sm" data-toggle="tooltip" data-placement="right" title="Go back to users">
+            <i class="fas fa-arrow-circle-left"></i></a> <span class="ml-2">Add User</span>
+        </h6>
+    </div>
+    <div class="card-body">
+        <h4>{{ message }}</h4>
+        <div class="col-md-5 col-sm-12 col-xs-12"> {{!-- mx-auto --}}
+            {{#if errors }}
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i> There were something wrong with your inputs.
+                    {{!-- <ul>
+                        {{#each errors }}
+                            <li>{{ this.msg }}</li>
+                        {{/each}}
+                    </ul> --}}
+                </div>
+            {{/if}}
+
+             <form action="/users/add" method="POST">
+                <fieldset class="form-group">
+                    <label for="first_name">User Name<span class="text-danger">*</span></label>
+                     <input type="text" name="username" class="form-control {{form_data.username.validity}}" placeholder="User Name"
+                        value="{{form_data.username.value}}" autofocus> 
+                    <div class="invalid-feedback"> {{form_data.username.msg}} </div>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="last_name">Full Name <span class="text-danger">*</span></label>
+                    <input type="text" name="fullname" class="form-control {{form_data.fullname.validity}}" placeholder="Full Name"
+                        value="{{form_data.fullname.value}}">
+                    <div class="invalid-feedback"> {{form_data.fullname.msg}} </div>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="last_name">Password <span class="text-danger">*</span></label>
+                    <input type="text" name="password" class="form-control {{form_data.password.validity}}" placeholder="Password"
+                        value="">
+                    <div class="invalid-feedback"> {{form_data.password.msg}} </div>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="last_name">Confirm Password <span class="text-danger">*</span></label>
+                    <input type="text" name="con_password" class="form-control {{form_data.con_password.validity}}" placeholder="Retype Password"
+                        value="">
+                    <div class="invalid-feedback"> {{form_data.con_password.msg}} </div>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="role">Role <span class="text-danger">*</span></label>
+                    <select id="role_id" name="role_id" class="form-control {{form_data.role_id.validity}}">
+                        <option value="">Select A Role</option>
+                        {{#each roles}}
+                            <option value="{{id}}" {{checkSelected id ../form_data.role_id.value}} >{{name}}</option>
+                        {{else}}
+                            <option disabled> No Role Was Found</option>   
+                        {{/each}}
+                    </select>
+                    <div class="invalid-feedback">  {{form_data.role_id.msg}}</div>
+                </fieldset>
+                {{#if loggedinuser.permissions.is-superadmin}} 
+                <fieldset class="form-group">
+                    <label for="role">Company</label>
+                    <select id="company_id" name="company_id" class="form-control {{form_data.company_id.validity}}">
+                        <option value="">Select A Company</option>
+                        {{#each companies}}
+                            <option value="{{id}}"  {{checkSelected id ../form_data.company_id.value}}>{{name}}</option>
+                        {{else}}
+                            <option disabled> No Company Was Found</option>   
+                        {{/each}}
+                    </select>
+                    <div class="invalid-feedback"> {{form_data.company_id.msg}}</div>
+                </fieldset>
+                {{/if}}
+
+                <fieldset class="form-group d-none">
+                    <label for="role">Counter <span class="text-danger">*</span></label>
+                    <select id="counter_id" name="counter_id" class="form-control {{form_data.counter_id.validity}}">
+                        <option value="">Select A Counter</option>
+                        {{#each counters}}
+                            <option value="{{id}}" {{checkSelected id ../form_data.counter_id.value}}>{{name}}</option>
+                        {{else}}
+                            <option disabled> No Company Was Found</option>   
+                        {{/each}}
+                    </select>
+                    <div class="invalid-feedback"> {{form_data.counter_id.msg}}</div>
+                </fieldset>
+                <hr />
+                <fieldset class="form-group text-center">
+                    <a href="/users" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="left" title="Cancel Editing">Cancel</a>
+                    <button type="submit" class="btn btn-outline-site btn-sm" data-toggle="tooltip" data-placement="right" title="Submit">Save</button>
+                </fieldset>
+                <input type="hidden" id="cur_user_company_id" value="{{cur_user_company_id}}" />
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="../../js/users/users.js"></script>

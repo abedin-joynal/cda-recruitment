@@ -1,0 +1,269 @@
+.seats-container {
+  display: none;
+}
+
+.seats-map {
+  border: 1px solid #1a2238;
+  /* width: 272px; */
+}
+
+
+.left-side, .right-side {
+  width: 40%;
+  padding-left: 4px;
+}
+
+.middle-seat {
+  width: 20%;
+}
+
+.seat {
+  height: 2.5em;
+  width: 50%;
+  /* margin: 2px;
+  cursor: pointer;
+  font-weight: bold;
+  padding-top: 11px;
+  border: 1px solid #3f65d4; */
+}
+
+.middle-seat .seat {
+  width: 90%;
+}
+
+.seat-symbol .upper {
+  width:20px; 
+  height:20px;
+  border: 1px solid black;
+  font-size: 10px;
+  position: absolute;
+  margin-left: 3px;
+  background: gray;
+  color: white;
+  border-radius: 3px;
+  /* padding: 3px; */
+  z-index: 100;
+}
+
+.seat-symbol .lower {
+  width: 26px;
+  height:18px;
+  border: 1px solid black;
+  top: 6px;
+  position: absolute;
+  background: white;
+  border-radius: 2px;
+  /* left: 18px; */
+}
+
+.s-available .seat-symbol div{
+  pointer-events: auto;
+  border: 1px solid #1a2238;
+  color: #e74a3b;
+  background: white;
+  cursor: pointer;
+}
+
+.s-processing .seat-symbol div{
+  background: #1a2238;
+  color: #ff6a3d;
+  border: 1px solid white;
+}
+
+.s-blocked .seat-symbol div{
+  pointer-events: none;
+  border: 1px solid #e6513b;
+  background: #a9a9a9;
+  color: #e6513b;
+  cursor: pointer;
+}
+
+.s-booked-male .seat-symbol div{
+  pointer-events: none;
+  background: #9e41f1;
+  border: 1px solid white;
+  color: white;
+}
+
+.s-booked-female .seat-symbol div{
+  pointer-events: none;
+  background: #f284ff;
+  border: 1px solid white;
+  color: white;
+}
+
+.s-sold-male .seat-symbol div{
+  pointer-events: none;
+  background: #f7d8cf;
+  color: #e84a3b;
+  border: 1px solid #e84a3b;
+}
+
+.s-sold-female .seat-symbol div{
+  pointer-events: none;
+  border: 1px solid #e84a3b;
+  color: #e84a3b;
+  background: #b2d8ba;
+}
+
+/* .s-available .seat-symbol .lower{
+  pointer-events: auto;
+  border: 1px solid #1a2238;
+  background: white;
+  cursor: pointer;
+} */
+
+/* .seats-map {
+  border: 1px solid #3f65d4;
+  width: 272px;
+}
+
+.seat {
+  height: 3em;
+  width: 3em;
+  /* height: 50px;
+  width: 10%; *-/
+  border: 1px solid #3f65d4;
+  color : #3f65d4;
+  background: white;
+  /* padding: 11px; *-/
+  padding-top: 11px;
+  padding-left: 13px;
+  cursor: pointer;
+  margin: 3px;
+  font-weight: bold;
+} */
+/* 
+.s-processing {
+  background: #1a2238;
+  color: #ff6a3d;
+  border: 1px solid #1a2238;
+}
+
+.s-blocked {
+  pointer-events: none;
+  border: 1px solid #1a2238;
+  background: #a9a9a9;
+  color: #e6513b;
+  cursor: pointer;
+}
+
+.s-available {
+  pointer-events: auto;
+  border: 1px solid #1a2238;
+  color: #e74a3b;
+  background: white;
+  cursor: pointer;
+}
+
+.s-booked-male {
+  pointer-events: none;
+  background: #9e41f1;
+  border: 1px solid #9e41f1;
+  color: white;
+}
+
+.s-booked-female {
+  pointer-events: none;
+  background: #f284ff;
+  border: 1px solid #f284ff;
+  color: white;
+}
+
+.s-sold-male {
+  pointer-events: none;
+  background: #f7d8cf;
+  color: #e84a3b;
+  border: 1px solid #1a2238;
+}
+
+.s-sold-female {
+  pointer-events: none;
+  border: 1px solid #1a2238;
+  color: #e84a3b;
+  background: #b2d8ba;
+} */
+
+.blink-bg {
+  -webkit-animation: blink-bg 1s infinite;
+  /* Safari 4+ */
+  -moz-animation: blink-bg 1s infinite;
+  /* Fx 5+ */
+  -o-animation: blink-bg 1s infinite;
+  /* Opera 12+ */
+  animation: blink-bg 1s infinite;
+  /* IE 10+, Fx 29+ */
+}
+
+@-webkit-keyframes blink-bg {
+  0%,
+  49% {
+    background-color: #1a2238;
+    color: e84a3b;
+  }
+  50%,
+  100% {
+    background-color: white;
+    color: #e84a3b;
+  }
+}
+
+.seat-preloader {
+  position: absolute;
+  height: 100%;
+  z-index: 999;
+  width: 95%;
+  overflow: hidden;
+  padding-top: 150px;
+  padding-left: 68px;
+  opacity: 1;
+  color: #e84a3b;
+}
+
+.seat-preloader div {
+  /* border: 1px solid #3f65d4; */
+  /* color: #3f65d4; */
+  background: #ffff;
+  width: 100px;
+  padding: 6px;
+  border-radius: 5px;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  
+  .seat {
+    height: 2.5em;
+    width: 50%;
+  }
+
+  .middle-seat .seat {
+    width: 90%;
+  }
+
+  .seat-symbol .upper {
+    width:30px; 
+    height:25px;
+    font-size: 14px;
+    padding: 2px;
+  }
+
+  .seat-symbol .lower {
+    width: 36px;
+    height: 24px;
+    /* left: 18px; */
+  }
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {}

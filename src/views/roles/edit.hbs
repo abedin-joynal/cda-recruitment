@@ -1,0 +1,55 @@
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            <a href="/roles" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="right" title="Go back to users">
+            <i class="fas fa-arrow-circle-left"></i></a> <span class="ml-2">Edit Role</span>
+        </h6>
+    </div>
+    <div class="card-body">
+        <h4>{{ message }}</h4>
+        <form action="/roles/edit/{{data.id}}" method="POST">
+            <div class="row">
+                 {{#if errors }}
+                    {{decorateErrors "err" errors}}
+                    <div class="col-12 alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i> There were something wrong with your inputs.
+                        <ul>
+                            {{#each errors }}
+                                <li>{{ this.msg }}</li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                {{/if}}
+                
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                   <fieldset class="form-group">
+                        <label for="first_name">Role Name<span class="text-danger">*</span></label>
+                        <input type="text" name="name" class="form-control {{isInValid 'name' @root.err}}" placeholder="Role Name"
+                            value="{{populateValue 'name' data.name form_data @root.err}}" autofocus> 
+                        <div class="invalid-feedback"> {{errMsg 'name' @root.err}} </div>
+                    </fieldset>
+                </div>
+
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    {{#each permissions}}
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="permissions" class="custom-control-input" id="role-permission-{{id}}" value="{{id}}" {{checked}}>
+                            <label class="custom-control-label" for="role-permission-{{id}}"> {{ name }} </label>
+                        </div>
+                    {{else}}
+                        <div> No permissions were found. </div>    
+                    {{/each}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr />
+                    <fieldset class="form-group text-center">
+                        <a href="/roles" class="btn btn-danger" data-toggle="tooltip" data-placement="left" title="Cancel Editing">Cancel</a>
+                        <button type="submit" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="right" title="Submit">Save</button>
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+  
+  <title>--CDA--</title>
+
+  <!-- <link rel="manifest" href="manifest.json"> -->
+
+  <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png">
+  <link rel="manifest" href="img/favicon/site.webmanifest">
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="css/font-awesome-google-api.css" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.css" rel="stylesheet">
+  <link href="css/custom.css" rel="stylesheet">
+  <link href="css/jquery.auto-complete.css" rel="stylesheet">
+
+  <!-- <link href="/css/seat-orientation.css" rel="stylesheet"> -->
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+
+  <script type="text/javascript" src="js/moment.min.js"></script>
+  <script type="text/javascript" src="js/underscore.min.js"></script>
+  <!-- <link type="text/css" rel="stylesheet" href="/css/bootstrap-select.min.css"> -->
+  <!-- <script type="text/javascript" src="/js/bootstrap-select.min.js"></script> -->
+  <link type="text/css" rel="stylesheet" href="css/bootstrap-4.min.css">
+  <script type="text/javascript" src="js/bootstrap-4.min.js"></script>
+  <script type="text/javascript" src="js/axios.min.js"></script>
+
+  <script src="js/main.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.3/cropper.css" rel="stylesheet" />
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.3/cropper.js"></script>
+  <script src="js/operators/glfx.js"></script>
+
+  <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+  <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script> -->
+
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+  <script type="text/javascript" src="js/print.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+      const qrcode = new QRCode(document.getElementById('qrcode'), {
+        text: 'http://jindo.dev.naver.com/collie',
+        width: 128,
+        height: 128,
+        colorDark : '#000',
+        colorLight : '#fff',
+        correctLevel : QRCode.CorrectLevel.H
+      });
+  <div id="qrcode"></div> -->
+
+  <!-- <script src="/js/operators/click-photo.js"></script> -->
+
+  <!-- https://www.npmjs.com/package/html5-qrcode -->
+  
+  <style>
+    
+  </style>
+
+</head>
+
+<body id="page-top">
+  
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+    <!-- Sidebar -->
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion d-none  pl-0" id="sidebar-navigation-panel">
+          <!-- Sidebar - Brand -->
+          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="javascript:void(0)">
+            <div class="sidebar-brand-icon">
+               <img src="/img/cda-logo.png" class="" width="50px">
+            </div>
+            <div class="sidebar-brand-text text-site-1" style="margin-top: 14px;">Trivuj</div>
+          </a>
+    
+          <!-- Divider -->
+          <hr class="sidebar-divider my-0">
+    
+          <!-- Nav Item - Dashboard -->
+          <li class="nav-item">
+            <a id="nav-dash" class="nav-link" href="javascript:void(0)">
+              <i class="fas fa-fw fa-home"></i>
+              <span>হোম</span></a>
+          </li>
+          
+          <li class="nav-item">
+            <a id="nav-edit-applicants" class="nav-link" href="javascript:void(0)">
+              <i class="fa fa-id-card" aria-hidden="true"></i>
+              <span>আবেদনের তালিকা</span></a>
+          </li>
+       
+    
+        </ul>
+        <!-- End of Sidebar -->
+
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+          <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+            <!-- Sidebar Toggle (Topbar) -->
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3 mb-4">
+                <i class="fa fa-bars"></i>
+            </button>
+        
+            
+            <!-- Topbar Search -->
+            <!-- <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <div class="input-group">
+                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                    <i class="fas fa-search fa-sm"></i>
+                </button>
+                </div>
+            </div>
+            </form> -->
+        
+            <!-- Topbar Navbar -->
+            <ul class="navbar-nav ml-auto">
+        
+            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+            <li class="nav-item dropdown no-arrow d-sm-none d-none">
+                <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search fa-fw"></i>
+                </a>
+                <!-- Dropdown - Messages -->
+                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                <form class="form-inline mr-auto w-100 navbar-search">
+                    <div class="input-group">
+                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                        </button>
+                    </div>
+                    </div>
+                </form>
+                </div>
+            </li>
+        
+            <!-- Nav Item - Alerts -->
+            <li class="nav-item dropdown no-arrow mx-1  d-none">
+                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-bell fa-fw"></i>
+                <!-- Counter - Alerts -->
+                <span class="badge badge-danger badge-counter">3+</span>
+                </a>
+                <!-- Dropdown - Alerts -->
+                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                <h6 class="dropdown-header">
+                    Alerts Center
+                </h6>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="mr-3">
+                    <div class="icon-circle bg-primary">
+                        <i class="fas fa-file-alt text-white"></i>
+                    </div>
+                    </div>
+                    <div>
+                    <div class="small text-gray-500">December 12, 2019</div>
+                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                    </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="mr-3">
+                    <div class="icon-circle bg-success">
+                        <i class="fas fa-donate text-white"></i>
+                    </div>
+                    </div>
+                    <div>
+                    <div class="small text-gray-500">December 7, 2019</div>
+                    $290.29 has been deposited into your account!
+                    </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="mr-3">
+                    <div class="icon-circle bg-warning">
+                        <i class="fas fa-exclamation-triangle text-white"></i>
+                    </div>
+                    </div>
+                    <div>
+                    <div class="small text-gray-500">December 2, 2019</div>
+                    Spending Alert: We've noticed unusually high spending for your account.
+                    </div>
+                </a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                </div>
+            </li>
+        
+            <!-- Nav Item - Messages -->
+            <li class="nav-item dropdown no-arrow mx-1  d-none">
+                <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-envelope fa-fw"></i>
+                <!-- Counter - Messages -->
+                <span class="badge badge-danger badge-counter">7</span>
+                </a>
+                <!-- Dropdown - Messages -->
+                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+                <h6 class="dropdown-header">
+                    Message Center
+                </h6>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
+                    <div class="status-indicator bg-success"></div>
+                    </div>
+                    <div class="font-weight-bold">
+                    <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been having.</div>
+                    <div class="small text-gray-500">Emily Fowler · 58m</div>
+                    </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="">
+                    <div class="status-indicator"></div>
+                    </div>
+                    <div>
+                    <div class="text-truncate">I have the photos that you ordered last month, how would you like them sent to you?</div>
+                    <div class="small text-gray-500">Jae Chun · 1d</div>
+                    </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="">
+                    <div class="status-indicator bg-warning"></div>
+                    </div>
+                    <div>
+                    <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div>
+                    <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                    </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                    <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
+                    <div class="status-indicator bg-success"></div>
+                    </div>
+                    <div>
+                    <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div>
+                    <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                    </div>
+                </a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                </div>
+            </li>
+        
+            <!-- <div class="topbar-divider d-none d-sm-block "></div> -->
+            <!-- Nav Item - User Information -->
+            <li id = "nav-item-avatar-panel" class="nav-item dropdown no-arrow d-none">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    style="margin-top: -7px;">
+                    <span class="mr-2 d-lg-inline text-gray-600 small" id="loggedin-user-name">Name</span>
+                    <!-- <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60"> -->
+                    <div class=""><i class="fa fa-user-circle"></i></div>
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <!-- <a class="dropdown-item" href="#">
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Profile
+                </a>
+                <a class="dropdown-item" href="#">
+                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Settings
+                </a>
+                <a class="dropdown-item" href="#">
+                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Activity Log
+                </a> -->
+                <!-- <div class="dropdown-divider"></div> -->
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Logout
+                </a>
+                </div>
+            </li>
+        
+            </ul>
+        
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid pl-lg-3 pr-lg-5 pl-sm-2 pr-sm-2 px-2">
+          <div id = "elem-signin" class="row align-items-center" style="min-height: 78vh;">
+            <div class="col-md-3 col-10 col-xs-10 mx-auto my-md-auto">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h3>CDA</h3>
+                    </div>
+                    <img src="/img/cda-logo.png" alt="Logo" class="card-img-top mx-auto m-2 rounded-circle w-50">
+                    <div class="card-body">
+                        
+                        <div id="alert-signin" class="alert alert-danger text-left d-none"><i class="fas fa-exclamation"></i> Wrong credentials!! Please Try Again !! </div>
+                    
+                        <form id="form-signin" action="javascript:void(0)" method="POST">
+                            <div class="form-group">
+                                <input type="number" name="mobile" placeholder="Mobile No" class="form-control mobile" autofocus>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" placeholder="Password" class="form-control password">
+                            </div>
+                            <button id="btn-signin" class="btn btn-outline-site btn-block">
+                                Log In
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="elem-dash" class=" mb-4 d-none">
+            <div class="row dash-data">
+            </div>
+        </div>
+        
+        <div id="elem-edit-applicants" class="card shadow mb-4 d-none">
+            <div class="card-header py-3">
+                <h6 class="m-0 pt-2 font-weight-bold text-site-1 float-left"> <i class="fas fa-list"></i> Applicants Details </h6>
+            </div>
+            
+            <div class="card-body pt-3">
+                <div class="col-md-12 pl-0">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">পদ নির্বাচন করুন <span class="text-danger">*</span></label>
+                        <select  class="form-control col-12 col-md-4" id="post-list"></select>
+                        <small id="emailHelp" class="form-text text-muted display-none">We'll never share your email with anyone else.</small>
+                    </div>
+                </div>
+        
+                <div class="col-md-12" >
+                    
+                </div>
+        
+                <div id="table-applicant-data" class="table-responsive display-none">
+                    <table class="table table-bordered" id="table-datatable" cellspacing="0" style="font-size: 13px;">
+                        <thead>
+                            <tr>
+                                <th style="width:50px;">#</th>
+                                <th>নাম</th>
+                                <th>বাবার নাম</th>
+                                <th>মায়ের নাম</th>
+                                <th>স্থায়ী ঠিকানা</th>
+                                <th>বর্তমান ঠিকানা</th>
+                                <th>শিক্ষাগত যোগ্যতা</th>
+                                <th>জন্মতারিখ</th>
+                                <th>পেঅর্ডার ডিটেইলস</th>
+                                <th>মন্তব্য</th>
+                                <th>কার্যক্রম</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright & Courtesy &copy; Masterplan Project</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Pic Upload Modal-->
+  <div class="modal fade" id="picUploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="exampleModalLabel">Upload The Picture Here</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <!--   -->
+            <div class="row">
+              <div class="col-md-12" >
+                <div id="admit-card-container" style="overflow-x: scroll;">
+                  <div class="row border p-2 text-dark mx-auto" id="cur-applicant-details" style="width:600px;">
+                    <div class="col-12">
+                      <div class="row mb-2">
+                        <div class="col-md-12">
+                         
+                          <div class="row">
+                            <div class="col-12" style="max-width:60%; margin-left: 150px; ">
+                                <img class="float-left" id="cda-logo" src="img/cda-logo.png" style="width: 50px;height: 50px"/>
+                                <h4 class="float-left mt-2" style="margin-left: 20px">চট্টগ্রাম উন্নয়ন কর্তৃপক্ষ</h4>
+                            </div>
+                          </div>
+                          <div class="row ">
+                            <div class="col-md-12 text-center">
+                              <div>প্রবেশ পত্র - <span class="cur_post_name"></span></div>
+                              <hr>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row justify-content-center">
+                        <div class="col-4">
+                          <img id="cur-applicant-img" style="width: 150px;height: 150px"/>
+                        </div>
+                        <div class="col-8" style="font-size: 12px;">
+                          <div>
+                            <!-- পদের নামঃ <span class="cur_post_name"></span><br/> -->
+                            <b>রোল নংঃ </b> <span class="cur_app_roll"></span><br/>
+                            <b>আবেদনকারীর নামঃ </b> <span class="cur_app_name"></span><br/>
+                            <b>বাবার নামঃ </b> <span class="cur_app_f_name"></span><br/>
+                            <b>পরীক্ষার তারিখ ও সময়ঃ </b> <span class=""></span><br/>
+                            <b>পরীক্ষার স্থানঃ </b> <span class=""></span><br/> 
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 mt-3" style="font-size: 12px;">
+                      <p class="text-center">সাধারণ নির্দেশাবলী</p>
+                      <hr>
+                      <p> ০১। প্রবেশ পত্রটি সাথে বহন করা বাধ্যতামুলক। </p>
+                      <p> ০২। .................................. </p>
+                      <p> ০৩। .................................. </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row justify-content-center">
+              <span id="wizard-spinner"></span>
+            </div>
+
+            <div id="camera-wizard">
+              <div class="row justify-content-center" id="start-camera-container">
+                <div class="col-md-12  my-2 text-center">
+                  <button id="start-camera" class="btn btn-sm btn-outline-primary">
+                      <i class="fa fa-camera" aria-hidden="true"></i>
+                      Take Picture
+                  </button>
+                  <button id="btn-print-admit-card" class="btn btn-sm btn-outline-primary">
+                      <i class="fa fa-print" aria-hidden="true"></i>
+                      Print Admit Card
+                    </button>
+                </div>
+              </div>
+              <div class="row mt-2" id="camera-preview-container" style="display:none">
+                <div class="col-md-12">
+                  <div class="row justify-content-center">
+                    <video id="video" width="400" height="450" style = 'width:200px; height:200px;' autoplay></video>
+                  </div>
+                  <div class="row justify-content-center my-4">
+                    <button id="click-photo" class="btn btn-sm btn-outline-info">Click Photo</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="canvas-editor" class="display-none">
+              <div class="row justify-content-center">
+                <div id="canvas_container" class="col-md-12">
+                    <canvas id="canvas" class="img-container" width=350 height=400 style = 'width:200px; height:200px;' style="">
+                        Your browser does not support the HTML5 canvas element.
+                    </canvas>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row justify-content-center">
+                    <button type="button" id="btnCrop" class="btn btn-sm btn-outline-primary mx-2">
+                      <i class="fa fa-crop" aria-hidden="true"></i>
+                      CROP
+                    </button>
+                    <button type="button" id="btnUpload" class="btn btn-sm btn-outline-primary">
+                      <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="dataurl-container" class="" style="display:none">
+                  <!-- <canvas id="canvas" width="200" height="240"></canvas> -->
+                  <div id="dataurl-header">Image Data URL</div>
+                  <textarea id="dataurl" readonly></textarea>
+              </div>
+
+              <div id="result"></div>
+            </div>
+            <!--   -->
+        </div>
+        <div class="modal-footer center justify-content-around">
+          <a id="btn-prev-applicant" class="btn btn-sm btn-outline-primary text-left" href="javascript:void(0)">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            Prev Applicant
+          </a>
+          <a id="btn-next-applicant" class="btn btn-sm btn-outline-primary text-right" href="javascript:void(0)">
+            Next Applicant 
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admit Card Upload Modal-->
+  <div class="modal fade" id="AdmitCardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-dark" id="exampleModalLabel">Admit Card of : </h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <!--   -->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row" id="cur-applicant-details">
+                  <div class="col-12">
+                    <div class="row justify-content-center">
+                      <div class="col-2 col-md-4">
+                        <img id="cda-logo" src="img/cda-logo.png" style="width: 50px;height: 50px"/>
+                      </div>
+                      <div class="col-7 col-md-8" style="font-size: 12px;">
+                        <h3>চট্টগ্রাম উন্নয়ন কর্তৃপক্ষ</h3>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div>
+                          <!-- পদের নামঃ <span class="cur_post_name"></span><br/> -->
+                          <b>আবেদনকারীর নামঃ </b> <span class="cur_app_name"></span><br/>
+                          <b>বাবার নামঃ </b> <span class="cur_app_f_name"></span><br/>
+                          <!-- শিক্ষাগত যোগ্যতাঃ <span class="cur_app_eq"></span> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row justify-content-center">
+              <span id="wizard-spinner"></span>
+            </div>
+
+            <div id="camera-wizard">
+              <div class="row justify-content-center" id="start-camera-container">
+                <div class="col-md-12  my-2 text-center">
+                  <button id="start-camera" class="btn btn-sm btn-outline-primary">Upload Picture</button>
+                </div>
+              </div>
+              <div class="row mt-2" id="camera-preview-container" style="display:none">
+                <div class="col-md-12">
+                  <div class="row justify-content-center">
+                    <video id="video" width="400" height="450" style = 'width:200px; height:200px;' autoplay></video>
+                  </div>
+                  <div class="row justify-content-center my-4">
+                    <button id="click-photo" class="btn btn-sm btn-outline-info">Click Photo</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="canvas-editor" class="display-none">
+              <div class="row justify-content-center">
+                <div id="canvas_container" class="col-md-12">
+                    <canvas id="canvas" class="img-container" width=350 height=400 style = 'width:200px; height:200px;' style="">
+                        Your browser does not support the HTML5 canvas element.
+                    </canvas>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row justify-content-center">
+                    <button type="button" id="btnCrop" class="btn btn-sm btn-outline-primary mx-2">CROP</button>
+                    <button type="button" id="btnUpload" class="btn btn-sm btn-outline-primary">Save</button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="dataurl-container" class="" style="display:none">
+                  <!-- <canvas id="canvas" width="200" height="240"></canvas> -->
+                  <div id="dataurl-header">Image Data URL</div>
+                  <textarea id="dataurl" readonly></textarea>
+              </div>
+
+              <div id="result"></div>
+            </div>
+            <!--   -->
+        </div>
+        <div class="modal-footer center justify-content-around">
+          <a id="btn-prev-applicant" class="btn btn-sm btn-outline-primary text-left" href="javascript:void(0)">Prev</a>
+          <a id="btn-next-applicant" class="btn btn-sm btn-outline-primary text-right" href="javascript:void(0)">Next</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancel</button>
+          <a id="btn-logout" class="btn btn-primary btn-sm" href="javascript:void(0)">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Modal-->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Are you sure to delete</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Delete" below if you are sure to delete</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-danger" id="btn_delete" href="">Delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="js/operators/operators.js"></script>
+  <script src="js/sb-admin-2.js"></script>
+  <script src="js/notify.min.js"></script>
+  <script src="js/jquery.auto-complete.js"></script>
+
+</body>
+
+</html>

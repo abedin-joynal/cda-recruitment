@@ -1,0 +1,38 @@
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            <a href="/permissions" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="right" title="Go back to users">
+            <i class="fas fa-arrow-circle-left"></i></a> <span class="ml-2">Edit Permission</span>
+        </h6>
+    </div>
+    <div class="card-body">
+        <h4>{{ message }}</h4>
+        <div class="col-md-5 col-sm-12 col-xs-12">
+            {{#if errors }}
+                {{decorateErrors "err" errors}}
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i> There were something wrong with your inputs.
+                    <ul>
+                        {{#each errors }}
+                            <li>{{ this.msg }}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+            {{/if}}
+
+             <form action="/permissions/edit/{{data.id}}" method="POST">
+                <fieldset class="form-group">
+                    <label for="first_name">Permission Name<span class="text-danger">*</span></label>
+                     <input type="text" name="name" class="form-control {{isInValid 'name' @root.err}}" placeholder="Permission Name"
+                        value="{{populateValue 'name' data.name form_data @root.err}}" autofocus> 
+                    <div class="invalid-feedback"> {{errMsg 'name' @root.err}} </div>
+                </fieldset>
+                <hr />
+                <fieldset class="form-group text-center">
+                    <a href="/permissions" class="btn btn-danger" data-toggle="tooltip" data-placement="left" title="Cancel Editing">Cancel</a>
+                    <button type="submit" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="right" title="Submit">Save</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

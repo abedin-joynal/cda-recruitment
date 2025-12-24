@@ -1,0 +1,174 @@
+<div class="modal fade" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop = "static" data-keyboard = "false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-site ml-3" id="exampleModalLabel">Signup</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="c_signup_data_form" class="">
+                    <form id="c_signup_form" class="col-md-12">
+                        <div id="c_signup_msg" class="alert alert-danger display-none"></div> 
+                        
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Name <span class="text-danger">*</span></label>
+                            <input type="name" class="form-control c_name"  aria-describedby="emailHelp" placeholder="Enter Name">
+                            <small id="err_msg_c_signup_name" class="form-text mt-2 text-danger display-none"></small>
+                        </div>
+                        {{!-- <div class="form-group">
+                            <label for="exampleInputEmail1">Email address<span class="text-danger">*</span></label>
+                            <input type="email" class="form-control c_email" aria-describedby="emailHelp" placeholder="Enter Email">
+                            <small id="err_msg_c_signup_email" class="form-text mt-2 text-muted">We'll never share your email with anyone else.</small>
+                        </div> --}}
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Mobile<span class="text-danger">*</span></label>
+                            <input type="email" class="form-control c_mobile" aria-describedby="emailHelp" placeholder="Enter Mobile">
+                            <small id="err_msg_c_signup_mobile" class="form-text mt-2 text-muted">E.g: +8801814266295</small>
+                        </div>
+                        {{!-- <div class="form-group">
+                            <label for="exampleInputPassword1">Age<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control c_age" placeholder="Enter Age">
+                            <small id="err_msg_c_signup_age" class="form-text mt-2 text-muted"></small>
+                        </div> --}}
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password<span class="text-danger">*</span></label>
+                            <input type="password" class="form-control c_pwd" placeholder="Password" placeholder="Enter Password">
+                            <small id="err_msg_c_signup_pwd" class="form-text mt-2 text-muted">Minimun 5 character in length</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Confirm Password<span class="text-danger">*</span></label>
+                            <input type="password" class="form-control c_con_pwd" placeholder="Confirm Password" placeholder="Retype Password">
+                            <small id="err_msg_c_signup_con_pwd" class="form-text mt-2 text-muted"></small>
+                        </div>
+
+                        {{!-- <div class="form-group">
+                            <label for="exampleInputPassword1">Gender<span class="text-danger">*</span></label><br />
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="c_gender" id="inlineRadio1" value="M" checked>
+                                <label class="form-check-label" for="inlineRadio1">Male</label>
+                            </div>
+                            
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="c_gender" id="inlineRadio2" value="F">
+                                <label class="form-check-label" for="inlineRadio2">Female</label>
+                            </div>
+                        </div> --}}
+                    </form>
+                    <hr />
+                    <div class="row mt-2">
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <button type="submit" id="btn_customer_signup" class="btn btn-outline-site">Submit</button>
+                        </div>
+                    </div>
+                </span>
+
+                <span id="c_signup_otp_form" class="otp-form  display-none">
+                    <div id="c_signup_otp_msg" class="alert alert-info">We have sent a code to your phone.</div> 
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">OTP<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control c_otp"  aria-describedby="emailHelp" placeholder="Enter OTP">
+                        <small id="" class="err_msg_c_otp form-text mt-2 text-danger display-none"></small>
+                    </div>
+                    <span id="resend_reg_otp_container"><a href="javasrcipt:void(0)" id="btn_reg_resend_otp">Resend OTP</a></span>
+                    <div class="row mt-2">
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <button type="submit" id="btn_customer_verify_otp_signup" class="btn btn-outline-site">Submit</button>
+                        </div>
+                    </div>
+                </span>
+
+                <div class="text-center mt-3"> Have an account? <a href="#" id="btn_customer_login_link" href="javascript:void(0)">Login</a> </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop = "static" data-keyboard = "false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-site ml-3" id="exampleModalLabel">Login</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="c_signin_form">
+                    <form class="col-md-12">
+                        <div id="c_login_msg" class="alert alert-danger text-danger display-none"></div>
+                        <div class="form-group">
+                            <label for="">Mobile</label>
+                            <input type="email" class="form-control" id="c_mobile" aria-describedby="emailHelp" placeholder="Enter Mobile No." value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Password</label>
+                            <input type="password" class="form-control" id="c_pwd" placeholder="Password">
+                        </div>
+                    </form>
+                    <div class="row mt-2">
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <button type="button" id="btn_customer_login" class="btn btn-sm btn-outline-site">Login</button>
+                        </div>
+                    </div>
+                    {{!-- <hr class="hr-text " data-content="OR">
+                    <div class="row mt-2">
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <span id="btn_forgot_pwd"><a class="btn btn-sm btn-outline-site " href="javasrcipt:void(0)">Login with phone number</a></span>
+                        </div>
+                    </div> --}}
+                </span>
+                <span id="c_signin_forgot_pwd" class="otp-form display-none">
+                    <div id="" class="alert c_msg"></div> 
+                    <div class="form-group">
+                        <label for="">Phone number<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control c_forgot_pwd_mobile"  aria-describedby="" placeholder="Enter Your Mobile">
+                        <small id="" class="form-text mt-2 text-danger display-none"></small>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <button type="submit" id="btn_forgot_pwd_send" class="btn btn-sm btn-outline-site">Send OTP</button>
+                        </div>
+                    </div>
+                </span>
+
+                <span id="c_signin_otp_form" class="otp-form display-none">
+                    <div class="c_msg alert alert-info">We have sent a code to your phone.</div> 
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">OTP<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control c_otp"  aria-describedby="emailHelp" placeholder="Enter OTP">
+                        <small id="" class="err_msg_c_otp form-text mt-2 text-danger display-none"></small>
+                    </div>
+                    <span id="resend_reg_otp_container"><a href="javasrcipt:void(0)" id="btn_reg_resend_otp">Resend OTP</a></span>
+                    <div class="row mt-2">
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <button type="submit" data-fg-action="1" class="btn btn-sm btn-outline-site btn_fg_customer_verify_otp mr-2">Login</button>
+                            <button type="submit" data-fg-action="2" class="btn btn-sm btn-outline-site btn_fg_customer_verify_otp">Reset Password</button>
+                        </div>
+                    </div>
+                </span>
+
+                <span id="c_signin_reset_password" class="otp-form display-none">
+                    <div id="c_signin_reset_pwd_msg" class="alert alert-info">Enter the new password below</div> 
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Password<span class="text-danger">*</span></label>
+                        <input type="password" class="form-control c_reset_pwd"  aria-describedby="emailHelp" placeholder="Enter a Password">
+                        <small id="" class="err_msg_c_otp form-text mt-2 text-danger display-none"></small>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <button type="submit" id="btn_customer_set_new_pwd" class="btn btn-outline-site">Submit</button>
+                        </div>
+                    </div>
+                </span>
+
+                <hr class="hr-text " data-content="OR">
+                <div class="text-center mt-3"> Need an account? &nbsp<a href="#" id="btn_customer_registration_link" href="javascript:void(0)">Register</a> </div>
+            </div>
+        </div>
+    </div>
+</div>

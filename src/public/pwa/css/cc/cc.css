@@ -1,0 +1,47 @@
+.hall-name {
+    position: absolute;
+    width: 100%;
+    bottom: -5px;
+    background: #dbdbdb;
+    left: 0px;
+    padding: 9px;
+    color: #ff6a3d;
+    text-align: center;
+}
+
+.hall-thumb {
+    width: 100%;
+    height: 180px;
+}
+.cross-icon {
+    color: red;
+    background: #f8f9fc;
+    border-radius: 50px;
+    width: 20px;
+    height: 20px;
+    /* position: absolute; */
+    /* border: 1px solid gray; */
+    /* left: 155px; */
+    /* top: 42px; */
+    padding: 0px;
+}
+
+.item-hall {
+    border: 1px dashed;
+    padding: 10px;
+    border-radius: 5px;
+}
+.item-images img {
+    margin: 6px;
+    border: 1px solid gray;
+    /* height: 60px; */
+    /* border-radius: 6px; */
+}
+
+.item-thumbs img {
+    height: 60px;
+    width: 60px;
+    border-radius: 6px;
+    border: 1px solid gray;
+    padding: 2px;
+}

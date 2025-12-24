@@ -1,0 +1,291 @@
+<style>
+    table tbody {
+        display: block;
+        max-height: 500px;
+        overflow-y: scroll;
+    }
+
+    table thead, table tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        font-size: normal;
+    }
+
+    table thead th {
+        font-size: small;
+    }
+
+    table tbody td {
+        font-size: small;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 pt-2 font-weight-bold text-primary float-left"> <i class="fas fa-list"></i> Candidate Entry Form</h6>
+                <a href="javascript:void(0)" class="btn btn-sm btn-outline-site btn-add float-right">Add New</a>
+            </div>
+
+            <div class="card-body">
+                <div class="">
+                    <form id="Form" action="javascript:void(0)" method="POST" data-action="new" data-candidate-id="-1" data-pc-id="-1">
+                        <fieldset class="form-group">
+                            <label for="first_name">Post<span class="text-danger">*</span></label>
+                            <select name="post_id" class="form-control">
+                                <option value="null">Select a post</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label for="last_name">Name <span class="text-danger">*</span></label>
+                            <input type="text" name="c-name" class="form-control"
+                                placeholder="Candidate Name" value="">
+                            <div class="invalid-feedback"></div>
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label for="last_name">Age <span class="text-danger">*</span></label>
+                            <input type="text" name="c-age" class="form-control"
+                                placeholder="Age" value="">
+                            <div class="invalid-feedback"></div>
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label for="last_name">Gender <span class="text-danger">*</span></label>
+                            <select name="c-gender" class="form-control">
+                                <option value="null">Select Gender</option>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </fieldset>
+
+                        <hr />
+                        <fieldset class="form-group text-center">
+                            <a href="javascript:void(0)" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="left"
+                                title="Cancel">Cancel</a>
+                            <a href="javascript:void(0)" id="btn-save" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="left"
+                                title="Save">Save</a>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <h6 class="m-0 pt-2 font-weight-bold text-primary float-left"> <i class="fas fa-list"></i> Candidate list
+                                </h6>
+                            </div>
+                            <div class="col-md-7 text-right">
+                                <form method="GET" action="/candidates/download-csv">
+                                    {{!-- <button type="button" id="btn-vote-list" class="btn btn-outline-site btn-sm  m-2"><i class="fa fa-print"></i></button>
+                                    <button type="button" id="btn-download-pdf" class="btn btn-outline-site  btn-sm m-2"><i class="fa fa-file-pdf"></i></button> --}}
+                                    <button type="submit" class="btn btn-outline-site btn-sm" data-toggle="tooltip" data-placement="left" title="" data-original-title="Download CSV">
+                                        <i class="fa fa-download"></i> Download CSV
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="">
+                            <table id="table-data-list" class="table table-bordered" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th style="width:50px;">#</th>
+                                        <th>Candidate</th>
+                                        <th>Post</th>
+                                        <th style="width:50px;">Age</th>
+                                        <th>Gender</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="input-posts" value="{{toJson posts}}">
+<input type="hidden" id="input-candidates" value="{{toJson candidates}}">
+
+<script>
+    let POSTS, CANDIDATES = null;
+    POSTS = JSON.parse($("#input-posts").val());
+    CANDIDATES = JSON.parse($("#input-candidates").val());
+
+    genPostDD();
+    genCandidateList();
+
+    function genPostDD() {
+        let h = ``;
+        _.each(POSTS, function(item, index) {
+            h += `<option value="${item.id}">${item.name}</option>`
+        });
+        $("select[name=post_id]").append(h);
+    }
+
+    function genCandidateList() {
+        let h = ``;
+        let length = CANDIDATES.length;
+        let i = length;
+       _.each(CANDIDATES, function(item, index) {
+            h += `<tr>
+                    <td style="width: 50px;">${i}</td>
+                    <td>${item.c_name}</td>
+                    <td>${item.p_name}</td>
+                    <td style="width:50px;">${item.age}</td>
+                    <td>${item.gender == "M" ? "Male" : "Female"}</td>
+                    <td>
+                        <button type='button' class='btn btn-edit' data-json='${JSON.stringify(item)}' data-candidate-id="${item.c_id}"><i class='fas fa-pencil-alt'></i></button>
+                        <button type='button' class='btn btn-delete-proxy'><i class='fas fa-times'></i></button>
+                        <button type='button' class='btn btn-delete display-none' data-json='${JSON.stringify(item)}' data-candidate-id="${item.c_id}"><i class='fas fa-times'></i></button>
+                    </td>
+                  </tr>`;
+            i--;
+        }); 
+        $("#table-data-list tbody").html(h);
+    }
+
+    async function getCandidateList() {
+        let res = await axios.get('/candidates/all', {timeout: 10000, params: {
+                data: null
+            }}).then(function(res) {
+                if(res.data.status) {
+                    CANDIDATES = res.data.data;
+                    genCandidateList();
+                } else {
+                    mobiscroll.snackbar({message: `Something went wrong`, display: 'top', color: `danger`, duration:1500});
+                }
+            });    
+    }
+
+    $(document).on("change", "select[name=post_id]1", function () {
+        let post_id = $(this).val();
+        let p_candidates = PCGROUPED[post_id];
+        let h = ``;
+        if(p_candidates.length >= 1) {
+            h = `<option value="null">Select a candidate</option>`;
+            _.each(p_candidates, function(item, index) {
+                let c = CANDIDATEGROUPED[item.candidate_id];
+                h += `<option value="${c[0].id}">${c[0].name}</option>`
+            });
+        } else {
+            h = `<option value="null">No candidate</option>`;
+        }
+        $("select[name=candidate_id]").html(h); 
+    });
+
+    $(document).on("click", "#btn-save", async function () {
+       saveCandidate($("#Form").attr("data-action"));
+    });
+
+    $(document).on("click", ".btn-add", async function () {
+       resetEntryForm();
+    });
+
+    $(document).on("click", ".btn-edit", function () {
+        $("#Form").attr("data-action", "edit");
+        let c_id = $(this).attr("data-candidate-id");
+        let json = JSON.parse($(this).attr("data-json"));
+
+        $("#Form").attr("data-candidate-id", json.c_id);
+        $("#Form").attr("data-pc-id", json.pc_id);
+
+        $("select[name=post_id]").val(json.post_id);
+        $("input[name=c-name]").val(json.c_name);
+        $("input[name=c-age]").val(json.age); 
+        $("select[name=c-gender]").val(json.gender); 
+    });
+
+    $(document).on("click", ".btn-delete-proxy", function () {
+        $("#POPUP").show();
+        CONFIRMATION_INS = $(this).closest("td").find(".btn-delete");
+    });
+
+    $(document).on("click", ".btn-delete", async function () {
+        let c_id = $(this).attr("data-candidate-id");
+        let json = JSON.parse($(this).attr("data-json"));
+        let res = await axios.get('/candidates/delete', {timeout: 10000, params: {
+            c_id: json.c_id, pc_id: json.pc_id
+        }}).then(function(res) {
+            if(res.data.status) {
+                CANDIDATES = res.data.data;
+                mobiscroll.snackbar({message: `Candidate Deleted`, display: 'top', color: `success`, duration:1500});
+                getCandidateList();
+            } else {
+                mobiscroll.snackbar({message: `Something went wrong`, display: 'top', color: `danger`, duration:1500});
+            }
+        }); 
+        $("#POPUP").hide();
+        CONFIRMATION_INS = null;
+    });
+
+    $(document).on("click", "#btn-vote-list", function () {
+        printDiv("table-data-list");
+    });
+
+    function resetEntryForm() {
+        $("select[name=post_id]").val("null");
+        $("input[name=c-name]").val("");
+        $("input[name=c-age]").val(""); 
+        $("select[name=c-gender]").val("null"); 
+    }
+
+    async function saveCandidate(action) {
+        let p_id = $("select[name=post_id]").val();
+        let c_name = $("input[name=c-name]").val();
+        let c_age = $("input[name=c-age]").val(); 
+        let c_gender = $("select[name=c-gender]").val(); 
+        let candidate_id = $("#Form").attr("data-candidate-id");
+        let pc_id = $("#Form").attr("data-pc-id");
+
+        let error = false;
+        if(p_id == 'null') {
+            error = `Select A Post`;
+        } else if (p_id.trim() == "") {
+            error = `Invalid Candidate Name`;
+        } else if(c_name.trim() == "") {
+            error = `Invalid Candidate Age`;
+        } else if(c_age.trim() < 20) {
+            error = `Invalid Candidate Age`;
+        } else if(c_gender  == 'null') {
+            error = `Invalid Candidate Gender`;
+        }
+
+        if(!error) {
+            let res = await axios.get('/candidates/save', {timeout: 10000, params: {
+                p_id: p_id, c_name: c_name, c_age: c_age, c_gender: c_gender, action: action, c_id: candidate_id, pc_id: pc_id
+            }}).then(function(res) {
+                if(res.data.status) {
+                    mobiscroll.snackbar({message: `Candidate Saved Successfully`, display: 'top', color: `success`, duration:1500});
+                    resetEntryForm();
+                    getCandidateList();
+                } else {
+                    // Notify
+                }
+            });    
+        } else {
+            mobiscroll.snackbar({message: error, display: 'top', color: `danger`});
+        }
+    }
+
+</script>

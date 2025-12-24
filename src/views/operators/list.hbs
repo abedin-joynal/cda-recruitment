@@ -1,0 +1,137 @@
+{{#if msg }}
+    <div class="alert alert-primary">
+        {{{ msg }}}
+    </div>    
+{{/if}}
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 pt-2 font-weight-bold text-primary float-left"> <i class="fas fa-list"></i> Staffs</h6>
+        {{#if loggedinuser.permissions.staff-create }}
+        <a class="btn btn-outline-site btn-sm float-right" href="/staffs/add" data-toggle="tooltip" data-placement="left" title="Add staff">
+            <i class="fas fa-plus"></i> Add Staff
+        </a>
+        {{/if}}
+        <button type="button" id="filter-download-csv-btn" class="btn btn-outline-site btn-sm float-right mr-1" data-toggle="tooltip" data-placement="left" title="Download CSV">
+            <i class="fa fa-download"></i> Download CSV
+        </button>
+    </div>
+    
+    <div class="card-body pt-0">
+        <form action="/staffs/search" id="form_filter" method="POST">
+            <div class="row mb-md-2 pl-0 mt-4">
+                <div class="col-md-4 col-sm-12 m-2">
+                    <label for="is_ac">Staff Type</label>
+                    <select name="staff_type_id" class="form-control">
+                        <option value="all" {{checkSelected "all" staff_type_id}}>All</option>
+                        {{#each staff_types}}
+                            <option value="{{id}}" {{checkSelected id ../staff_type_id}}>{{name}}</option>
+                        {{else}}
+                            <option disabled> No Staff Type Was Found</option>   
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="col-md-4 col-sm-12 m-2">
+                    <label for="is_ac">Mobile</label>
+                    <input type="text" name="mobile" value="{{mobile}}" class="form-control bg-light small" placeholder="Mobile">
+                </div>
+                <div class="col-md-4 col-sm-12 m-2">
+                    <label for="is_ac">Name</label>
+                    <input type="text" name="name" value="{{name}}" class="form-control bg-light small" placeholder="Name">
+                </div>
+                <input type="hidden" name="page" id="filter-page-no" value="{{paginate.page}}" />
+                <input type="hidden" name="offset" id="filter-offset" value="{{paginate.offset}}" />
+                <input type="hidden" name="download_csv" id="filter-download-csv" value="0" />
+            </div>
+            <div class="row  mb-3 mt-1">
+                <div class="col-md-12 text-left">
+                    <hr>
+                    <button id="filter-submit-btn" class="btn btn-outline-site btn-sm ml-2">Search</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                    <tr class="table-dark">
+                      <tr>
+                        <th>#</th>
+                        <th>staff Name</th>
+                        <th>Mobile</th>
+                        <th>Address</th>
+                        <th>Emergency contact</th>
+                        <th>Profession</th>
+                        {{#if loggedinuser.permissions.staff-delete }}
+                            <th>Delete</th>
+                        {{/if}}
+                        {{#if loggedinuser.permissions.staff-edit }}
+                            <th>Edit</th>
+                        {{/if}}
+                    </tr>
+                </thead>
+               
+                <tbody>
+                    {{#each staffs}}
+                    <tr>
+                        <td> {{ inc @index ../start_index }} </td>
+                        <td> <a href="/coach-report/single-staff-due/{{id}}" target="_new">{{ name }}</a> </td>
+                        <td> <a href="tel:{{mobile}}">{{ mobile }}</a> </td>
+                        <td> {{ address }} </td>
+                        <td> <a href="tel:{{emergency_mobile}}">{{ emergency_mobile }}</a> </td>
+                        <td> {{ staff_type }} </td>
+                        <td>
+                            {{#if ../loggedinuser.permissions.staff-delete }}
+                            <a class="btn btn-outline-danger btn_delete btn-sm" data-id="{{id}}" data-route="staffs" href="javascript:void(0)" data-toggle="tooltip" data-placement="left" title="Delete">
+                                <i class="fas fa-times"></i>
+                            </a>
+                            {{/if}}
+                        </td>
+                        <td>
+                            {{#if ../loggedinuser.permissions.staff-edit }}
+                                <a class="btn btn-outline-site btn-sm" href="/staffs/edit/{{id}}" data-toggle="tooltip" data-placement="left" title="Edit">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                            {{/if}}
+                        </td>
+                    </tr>
+                    {{else}}
+                    <tr>
+                        <td class="text-center" colspan="8"><div class="alert alert-warning">No Data</div></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <!-- Pagination -->
+            <div class="row mt-3">
+                <div class="col-md-6 col-sm-12">
+                    <nav aria-label="Page navigation example ml-1 float-left float-md-left">
+                        <ul class="pagination justify-content-end flex-wrap float-left float-md-none">
+                            {{{paginate.pagination}}}
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div id="record-per-page" class="dropdown float-left float-md-right">
+                        <button style="white-space: normal" class="btn btn-outline-site btn-sm dropdown-toggle" type="button"
+                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Per Page ({{ paginate.offset }})
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" data-offset="5" href="javascript:void(0)">5</a>
+                            <a class="dropdown-item" data-offset="10" href="javascript:void(0)">10</a>
+                            <a class="dropdown-item" data-offset="15" href="javascript:void(0)">15</a>
+                            <a class="dropdown-item" data-offset="20" href="javascript:void(0)">20</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- Pagination -->
+    </div>
+</div>
+
+<script type="text/javascript">
+   
+</script>

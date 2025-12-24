@@ -15,7 +15,8 @@ const passport = require('passport');
 const flash = require('connect-flash');
 
 const expressValidator = require('express-validator');
-const bodyParser = require('body-parser');
+// Using Express built-in body parser (compatible with Node 10)
+// const bodyParser = require('body-parser'); // Removed - using Express built-in instead
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
@@ -48,8 +49,9 @@ app.engine('.hbs', exphbs({
 app.set('view engine', '.hbs');
 // Middlewares
 // app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }));
-app.use(bodyParser.json({ limit: "50mb" }));
+// Using Express built-in body parser (compatible with Node 10)
+app.use(express.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }));
+app.use(express.json({ limit: "50mb" }));
 
 app.use(expressValidator());
 app.use(cookieParser());

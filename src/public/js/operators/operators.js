@@ -467,8 +467,8 @@ function updateAdmitCardDetails(cur_app) {
     $("#AdmitCardModal").find(".appli_name").text(name);
     $("#AdmitCardModal").find(".appli_fa_name").text(father_name );
     $("#AdmitCardModal").find(".appli_dist").text(dis);
-    $("#AdmitCardModal").find(".exam_dt_tm").text(cur_app.exam_center);
-    $("#AdmitCardModal").find(".exam_cntr").text(cur_app.exam_date);
+    $("#AdmitCardModal").find(".exam_dt_tm").text(cur_app.exam_date);
+    $("#AdmitCardModal").find(".exam_cntr").text(cur_app.exam_center);
     let img = cur_app.img == null || cur_app.img == 'null' ? `/img/no-image.jpg` : "/img/applicants/" + cur_app.img;
     $("#AdmitCardModal").find(".applicant-img").attr("src", img);
     $("#admit-popup-app-name").text(name);

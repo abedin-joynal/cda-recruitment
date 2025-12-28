@@ -16,10 +16,10 @@ router.post('/login', async (req, res) => {
     let r = {};
     try {
         let q = await pool.query(`SELECT id, password, name, mobile, picture FROM c_operators s WHERE s.mobile = ? AND s.status = 1`, [mobile]);
-        // console.log(q)
+        console.log(q)
         if(q.length == 1) {
             let validPassword = await helper.matchPassword(pwd, q[0].password);
-            // console.log(validPassword)
+            console.log(validPassword)
             if(validPassword) {
                 let new_token = helpers.generateTrnxId();
                 // AND token_created = '${moment().format('YYYY-MM-DD hh:mm:ss')}'

@@ -569,10 +569,10 @@ $(document).on("change", "#post-list", async function() {
                                             <i class="fa fa-id-badge" aria-hidden="true"></i>
                                             Details
                                         </button>
-                                        <!-- <button type='button' class='btn btn-outline-primary btn-admit-modal mt-1' data-json='${JSON.stringify(c)}' data-applicant-id="${c.id}">
+                                        <button type='button' class='btn btn-outline-primary btn-admit-modal mt-1' data-json='${JSON.stringify(c)}' data-applicant-id="${c.id}">
                                             <i class="fa fa-id-badge" aria-hidden="true"></i>
                                             Admit Card
-                                        </button> -->
+                                        </button>
                                     </td>
                                     <td style="width: 50px;">${i}</td>
                                     <td style="width: 50px;"><img src="${img}" loading="lazy" width="50px" height="50px"/ ></td>

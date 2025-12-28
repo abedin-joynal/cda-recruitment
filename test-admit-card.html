@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>প্রবেশপত্র</title>
+
+  <!-- Bangla font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --ink:#111;
+      --thin:#222;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      background:#f4f4f4;
+      font-family:"Noto Sans Bengali", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--ink);
+    }
+
+    /* A4 page */
+    .page{
+      width:210mm;
+      min-height:297mm;
+      margin:16px auto;
+      background:#fff;
+      padding:14mm 14mm 16mm;
+      border:1px solid #ddd;
+    }
+
+    /* Print */
+    @media print{
+      body{ background:#fff; }
+      .page{ margin:0; border:none; width:210mm; min-height:297mm; }
+    }
+
+    /* Header box */
+    .header-box{
+      border:2px solid var(--ink);
+      padding:14px 12px;
+      text-align:center;
+      position:relative;
+      margin-bottom:14px;
+    }
+    .seal{
+      width:52px;
+      height:52px;
+      border:2px solid var(--ink);
+      border-radius:50%;
+      margin:0 auto 6px;
+      display:grid;
+      place-items:center;
+      font-weight:700;
+      font-size:12px;
+    }
+    .org{
+      font-weight:700;
+      font-size:18px;
+      line-height:1.25;
+    }
+    .addr, .web, .exam{
+      font-size:13px;
+      line-height:1.35;
+    }
+    .title{
+      margin-top:8px;
+      font-weight:800;
+      font-size:18px;
+      display:inline-block;
+      padding:3px 10px;
+      border:2px solid var(--ink);
+    }
+
+    /* Main row (left info + right photo) */
+    .main{
+      display:grid;
+      grid-template-columns: 1fr 42mm;
+      gap:12px;
+      align-items:start;
+      margin-top:10px;
+      margin-bottom:12px;
+    }
+
+    .field{
+      display:grid;
+      grid-template-columns: 42mm 1fr;
+      gap:8px;
+      align-items:end;
+      padding:6px 0;
+    }
+    .label{
+      font-size:13px;
+      white-space:nowrap;
+    }
+    .value{
+      border-bottom:1px solid var(--thin);
+      min-height:22px;
+      font-size:14px;
+      padding:0 6px 2px;
+    }
+
+    /* A couple of fields in one bordered block (like the scanned wide box) */
+    .boxed{
+      border:2px solid var(--ink);
+      padding:8px 10px;
+      margin-top:10px;
+    }
+
+    .photo{
+      border:2px solid var(--ink);
+      height:55mm;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding-top:6px;
+      font-weight:600;
+      font-size:14px;
+    }
+
+    /* Instructions */
+    .section-title{
+      font-weight:800;
+      font-size:15px;
+      margin:10px 0 6px;
+      border-bottom:2px solid var(--ink);
+      display:inline-block;
+      padding-bottom:2px;
+    }
+    ol{
+      margin:6px 0 0 18px;
+      padding:0;
+      font-size:13px;
+      line-height:1.55;
+    }
+    li{ margin:6px 0; }
+
+    /* Footer signature block */
+    .footer{
+      margin-top:22px;
+      display:flex;
+      justify-content:flex-end;
+    }
+    .sign{
+      text-align:center;
+      width:60mm;
+      font-size:13px;
+      line-height:1.45;
+    }
+    .sign .line{
+      border-top:1px solid var(--thin);
+      margin-top:26px;
+      padding-top:6px;
+      font-weight:600;
+    }
+
+    /* Small helpers */
+    .muted{ opacity:.9; }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <div class="header-box">
+      <div class="seal">সিল</div>
+      <div class="org">চট্টগ্রাম উন্নয়ন কর্তৃপক্ষ</div>
+      <div class="addr">চউক ভবন, চট্টগ্রাম</div>
+      <div class="web">www.cda.gov.bd</div>
+      <div class="exam">নিয়োগ পরীক্ষা—২০২৫</div>
+      <div class="title">প্রবেশপত্র</div>
+    </div>
+
+    <!-- Post name -->
+    <div class="field" style="grid-template-columns: 30mm 1fr;">
+      <div class="label">পদের নাম :</div>
+      <div class="value">সহকারী প্রোগ্রামার</div>
+    </div>
+
+    <!-- Main content -->
+    <div class="main">
+      <!-- Left -->
+      <div>
+        <div class="field">
+          <div class="label">রোল নম্বর :</div>
+          <div class="value">............................</div>
+        </div>
+
+        <div class="field">
+          <div class="label">প্রার্থীর নাম :</div>
+          <div class="value">জনাব/জনাবা ........................................</div>
+        </div>
+
+        <div class="field">
+          <div class="label">পিতা/স্বামীর নাম :</div>
+          <div class="value">............................................................</div>
+        </div>
+
+        <div class="field">
+          <div class="label">মাতার নাম :</div>
+          <div class="value">............................................................</div>
+        </div>
+
+        <!-- Wide boxed block like scan -->
+        <div class="boxed">
+          <div class="field" style="padding-top:0;">
+            <div class="label">পরীক্ষার তারিখ ও সময় :</div>
+            <div class="value">............................................................</div>
+          </div>
+          <div class="field" style="padding-bottom:0;">
+            <div class="label">পরীক্ষাকেন্দ্র :</div>
+            <div class="value">............................................................</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right photo -->
+      <div class="photo">ছবি</div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="section-title">বিশেষ নির্দেশঃ</div>
+    <ol>
+      <li>পরীক্ষাকক্ষে প্রবেশপত্র সঙ্গে আনতে হবে এবং তা কর্তব্যরত পরিদর্শককে দেখাতে হবে।</li>
+      <li>পরীক্ষা শুরুর নির্ধারিত সময়ের আগে কেন্দ্রে উপস্থিত হতে হবে।</li>
+      <li>প্রবেশপত্রে প্রদত্ত তথ্য সঠিক কি না যাচাই করুন; প্রয়োজন হলে সংশ্লিষ্ট কর্তৃপক্ষকে অবহিত করুন।</li>
+      <li>কোনো ধরনের ইলেকট্রনিক ডিভাইস/মোবাইল/স্মার্টওয়াচ/ক্যালকুলেটর (নির্দেশনা অনুযায়ী) বহন করা যাবে না।</li>
+      <li>পরীক্ষা চলাকালে শৃঙ্খলা বজায় রাখতে হবে এবং পরিদর্শকের নির্দেশনা মানতে হবে।</li>
+      <li>অন্যান্য নির্দেশাবলি পরীক্ষা কেন্দ্র/কর্তৃপক্ষের নোটিশ অনুযায়ী প্রযোজ্য হবে।</li>
+      <!-- প্রয়োজন অনুযায়ী আপনার অফিসিয়াল নির্দেশনা অনুযায়ী লাইনগুলো আপডেট করবেন -->
+    </ol>
+
+    <!-- Signature -->
+    <div class="footer">
+      <div class="sign">
+        <div class="line">স্বাক্ষর</div>
+        <div class="muted">সচিব/সদস্য-সচিব</div>
+        <div class="muted">নিয়োগ ও পদোন্নতি কমিটি</div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

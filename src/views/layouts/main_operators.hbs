@@ -90,6 +90,11 @@
 
   {{!-- https://www.npmjs.com/package/html5-qrcode --}}
   
+  <!-- Bangla font for Admit Card -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+
   <style>
     /*
     table tbody {
@@ -150,43 +155,235 @@
     }
 
 
-    .main_content{
-        width: 1000px;
-        height: auto;
-        margin: 0px auto;
-        padding: 2px;;
+    /* Admit Card Styles */
+    .admit-card {
+        --ink: #111;
+        --thin: #333;
+        width: 210mm;
+        max-height: 297mm;
+        margin: 0 auto;
+        background: #fff;
+        padding: 8mm 12mm 10mm;
+        font-family: "Noto Sans Bengali", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        color: var(--ink);
+        font-size: 12px;
+        box-sizing: border-box;
     }
-    .header_content {
+    .admit-header-box {
+        border: 2px solid var(--ink);
+        padding: 8px 10px;
         text-align: center;
-        padding-top: 5px;;
+        position: relative;
+        margin-bottom: 8px;
     }
-    .header_content img {
-        width: 100px;
-        height: 100px;
+    .admit-header-box .seal {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        margin: 0 auto 4px;
+        object-fit: contain;
+        display: block;
+    }
+    .admit-header-box .org {
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 1.2;
+        margin: 0;
+    }
+    .admit-header-box .addr,
+    .admit-header-box .web,
+    .admit-header-box .exam {
+        font-size: 11px;
+        line-height: 1.3;
+        margin: 1px 0;
+    }
+    .admit-header-box .title {
+        margin-top: 6px;
+        font-weight: 800;
+        font-size: 15px;
+        display: inline-block;
+        padding: 3px 12px;
+        border: 2px solid var(--ink);
+    }
+    .admit-main {
+        display: grid;
+        grid-template-columns: 1fr 38mm;
+        gap: 10px;
+        align-items: start;
+        margin-top: 6px;
+        margin-bottom: 8px;
+    }
+    .admit-field {
+        display: grid;
+        grid-template-columns: 40mm 1fr;
+        gap: 6px;
+        align-items: end;
+        padding: 4px 0;
+    }
+    .admit-field .label {
+        font-size: 11px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+    .admit-field .value {
+        border-bottom: 1px solid var(--thin);
+        min-height: 18px;
+        font-size: 12px;
+        padding: 0 4px 2px;
+    }
+    .admit-boxed {
+        border: 2px solid var(--ink);
+        padding: 6px 10px;
+        margin-top: 8px;
+    }
+    .admit-boxed .admit-field:first-child { padding-top: 0; }
+    .admit-boxed .admit-field:last-child { padding-bottom: 0; }
+    .admit-photo {
+        border: 2px solid var(--ink);
+        height: 45mm;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fafafa;
+        overflow: hidden;
+    }
+    .admit-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .admit-section-title {
+        font-weight: 800;
+        font-size: 13px;
+        margin: 8px 0 4px;
+        border-bottom: 2px solid var(--ink);
+        display: inline-block;
+        padding-bottom: 2px;
+    }
+    .admit-instructions {
+        margin: 4px 0 0 18px;
+        padding: 0;
+        font-size: 11px;
+        line-height: 1.45;
+    }
+    .admit-instructions li {
+        margin: 3px 0;
+    }
+    .admit-footer {
+        margin-top: 12px;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .admit-sign {
+        text-align: center;
+        width: 55mm;
+        font-size: 11px;
+        line-height: 1.4;
+    }
+    .admit-sign .line {
+        border-top: 1px solid var(--thin);
+        margin-top: 18px;
+        padding-top: 5px;
+        font-weight: 600;
+    }
+    .admit-sign .muted {
+        opacity: 0.85;
     }
 
-    .main_content h3 {
-        text-align: center;
+    /* Print Styles - Fit on single A4 page */
+    @media print {
+        /* Hide everything except the admit card */
+        body * {
+            visibility: hidden;
+        }
+        .admit-card, .admit-card * {
+            visibility: visible;
+        }
+        .admit-card {
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin: 0;
+            padding: 8mm 10mm 8mm;
+            width: 210mm;
+            max-height: 297mm;
+            box-shadow: none;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        /* Ensure no page breaks inside */
+        .admit-card,
+        .admit-header-box,
+        .admit-main,
+        .admit-instructions,
+        .admit-footer {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        /* Compact styles for print */
+        .admit-header-box {
+            padding: 6px 8px;
+            margin-bottom: 6px;
+        }
+        .admit-header-box .seal {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 3px;
+        }
+        .admit-header-box .org {
+            font-size: 14px;
+        }
+        .admit-header-box .title {
+            font-size: 13px;
+            padding: 2px 10px;
+            margin-top: 4px;
+        }
+        .admit-main {
+            margin-top: 4px;
+            margin-bottom: 6px;
+            gap: 8px;
+        }
+        .admit-photo {
+            height: 40mm;
+        }
+        .admit-field {
+            padding: 3px 0;
+        }
+        .admit-field .label,
+        .admit-field .value {
+            font-size: 10px;
+        }
+        .admit-boxed {
+            padding: 5px 8px;
+            margin-top: 6px;
+        }
+        .admit-section-title {
+            font-size: 11px;
+            margin: 6px 0 3px;
+        }
+        .admit-instructions {
+            font-size: 10px;
+            line-height: 1.35;
+            margin: 3px 0 0 15px;
+        }
+        .admit-instructions li {
+            margin: 2px 0;
+        }
+        .admit-footer {
+            margin-top: 8px;
+        }
+        .admit-sign {
+            font-size: 10px;
+        }
+        .admit-sign .line {
+            margin-top: 12px;
+            padding-top: 4px;
+        }
     }
-    .leftform {
-        width: 75%;
-        float: left;
-        margin-left: 30px;
-    }
-    .imgitem {
-        width: 20%;
-        height: auto;
-        float: left;
-        {{!-- border: 1px solid; --}}
-        
-    }
-    .instructions_set {
-        width: 100%;
-        {{!-- float: right; --}}
-    }
-    .bottom_content p {
-        text-align: center;
-        padding-top: 10px;
+
+    @page {
+        size: A4;
+        margin: 0;
     }
   </style>
 
@@ -262,7 +459,7 @@
                           <div class="row">
                             <div class="col-12" style="max-width:60%; margin-left: 150px; ">
                                 <img class="float-left" id="cda-logo" src="/img/cda-logo.png" style="width: 50px;height: 50px"/>
-                                <h4 class="float-left mt-2" style="margin-left: 20px">চট্টগ্রাম উন্নয়ন কর্তৃপক্ষ</h4>
+                                <h4 class="float-left mt-2" style="margin-left: 20px">চট্টগ্রাম উন্নয়ন কর্তৃপক্ষ</h4>
                             </div>
                           </div>
                           <div class="row ">
@@ -282,8 +479,8 @@
                             {{!-- পদের নামঃ <span class="cur_post_name"></span><br/> --}}
                             <b>রোল নংঃ </b> <span class="cur_app_roll"></span><br/>
                             <b>আবেদনকারীর নামঃ </b> <span class="cur_app_name"></span><br/>
-                            <b>বাবা ও মায়ের নামঃ </b> <span class="cur_app_f_name"></span><br/>
-                            <b>পরীক্ষার তারিখ ও সময়ঃ </b> <span class=""></span><br/>
+                            <b>বাবা ও মায়ের নামঃ </b> <span class="cur_app_f_name"></span><br/>
+                            <b>পরীক্ষার তারিখ ও সময়ঃ </b> <span class=""></span><br/>
                             <b>পরীক্ষার স্থানঃ </b> <span class=""></span><br/> 
                           </div>
                         </div>
@@ -385,16 +582,16 @@
                 </div>
 
                 <div class="form-group row d-flex justify-content-center">
-                  <label for="inputEmail3" class="col-sm-2 col-form-label">মায়ের নাম</label>
+                  <label for="inputEmail3" class="col-sm-2 col-form-label">মায়ের নাম</label>
                   <div class="col-sm-6">
-                    <input type="email" class="form-control input-sm input-mname" placeholder="মায়ের নাম">
+                    <input type="email" class="form-control input-sm input-mname" placeholder="মায়ের নাম">
                   </div>
                 </div>
 
                 <div class="form-group row d-flex justify-content-center">
-                  <label for="inputEmail3" class="col-sm-2 col-form-label">স্থায়ী ঠিকানা</label>
+                  <label for="inputEmail3" class="col-sm-2 col-form-label">স্থায়ী ঠিকানা</label>
                   <div class="col-sm-6">
-                    <input type="email" class="form-control input-sm input-perm-addr" placeholder="স্থায়ী ঠিকানা">
+                    <input type="email" class="form-control input-sm input-perm-addr" placeholder="স্থায়ী ঠিকানা">
                   </div>
                 </div>
 
@@ -485,94 +682,89 @@
           </button>
         </div>
         <div class="modal-body" style="overflow-x: scroll; color:black">
-            <div class="main_content" id="Admit-card-container" style="font-size: 14px;">
-                <div class="header_content">
-                    <img src="/img/cda-logo.png" class="rounded-circle" alt="Cinque Terre" style="width: 60px; height: 60px">
-                    <p>চট্টগ্রাম উন্নয়ন কর্তৃপক্ষ <br>
-                        চউক ভবন, চট্টগ্রাম <br>
-                    www.cda.gov.bd <br>
-                    নিয়োগ পরীক্ষা ২০২৩
-                    </p>
-                    <h6><u> প্রবেশপত্র</u></h6>
+            <div class="admit-card" id="Admit-card-container">
+                <!-- Header -->
+                <div class="admit-header-box">
+                    <img src="/img/cda-logo.png" class="seal" alt="CDA Logo">
+                    <div class="org">চট্টগ্রাম উন্নয়ন কর্তৃপক্ষ</div>
+                    <div class="addr">চউক ভবন, চট্টগ্রাম</div>
+                    <div class="web">www.cda.gov.bd</div>
+                    <div class="exam">নিয়োগ পরীক্ষা—২০২৫</div>
+                    <div class="title">প্রবেশপত্র</div>
                 </div>
-                <div class="row" style="<!--page-break-after: always;-->">
-                  <div class="leftform">
-                      <form> 
-                          <div class="form-group row">
-                            <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">পদের নামঃ : </label>
-                              <div class="col-sm-9" style="padding-bottom: 5px;">
-                                  <div class="border-bottom appli_post"> - </div>
-                              </div>
-                            <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">রোল নম্বর              : </label>
-                            <div class="col-sm-9" style="padding-bottom: 5px;">
-                              <div class="border-bottom appli_rollno">  -</div>
-                            </div>
-                            <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">নাম                    : </label>
-                            <div class="col-sm-9" style="padding-bottom: 5px;">
-                              <div class="border-bottom appli_name"> -</div>
-                            </div>
-                            <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">পিতা / মাতার নাম              : </label>
-                            <div class="col-sm-9" style="padding-bottom: 5px;">
-                              <div class="border-bottom appli_fa_name">  -</div>
-                            </div>
-                            {{!-- <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">মাতার নাম              : </label>
-                            <div class="col-sm-9" style="padding-bottom: 5px;">
-                              <div class="border-bottom appli_ma_name">  - </div>
-                            </div> --}}
-                            <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">নিজ জেলা               : </label>
-                            <div class="col-sm-9" style="padding-bottom: 5px;">
-                              <div class="border-bottom appli_dist">  - </div>
-                            </div>
-                            <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">পরীক্ষার তারিখ ও সময়     : </label>
-                            <div class="col-sm-9" style="padding-bottom: 5px;">
-                              <div class="border-bottom exam_dt_tm">  - </div>
-                            </div>
-                            <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">পরীক্ষা কেন্দ্র            : </label>
-                            <div class="col-sm-9" style="padding-bottom: 5px;">
-                              <div class="border-bottom exam_cntr"> - </div>
-                            </div>
-                          </div>
-                    </form>
-                  </div>
-                  <div class="imgitem">
-                      <img class="applicant-img mt-4 ml-2" style="width: 170px;height: 190px" src="/img/no-image.jpg"/>
-                      {{!-- <img src="/img/no-image.jpg" alt="bangladesh_map.jpg" style="width: 200px; height: 260px;" alt="..."> --}}
-                  </div>
-                </div>
-                <div class="row">
-                  
-                </div>
-                <br>
-                <div class="row mt-0">
-                  <div class="col-md-12 instructions_set">
-                      <h6 class="text-center" ><u>প্রাথীদের জন্য নির্দেশাবলী</u></h6>
-                      <li class="list-inline-item">১. লিখিত, ব্যবহারিক ও মৌখিক পরীক্ষার জন্য এই প্রবেশপত্র প্রযোজ্য হবে এবং অবশ্যই সঙ্গে আনতে হবে। </li>
-                      <li class="list-inline-item">২. প্রার্থীদের লিখিত পরীক্ষার কমপক্ষে ৩০ মিনিট পূর্বে পরীক্ষার হলে বসতে হবে। পরীক্ষা শুরুর পর কেউ হলে প্রবেশ করতে পারবেন না এবং পরীক্ষা শেষ হওয়ার পূর্বে কেউ হল ত্যাগ করতে পারবেন না।</li>
-                      <li class="list-inline-item">৩. পরীক্ষার্থীদের পরীক্ষার হলে বই, ব্যাগ, ক্যালকুলেটর, মোবাইল ফোন, ডিজিটাল ঘড়ি বা অন্য কোন ইলেকট্রনিক ডিভাইস নিয়ে আসা কঠোরভাবে নিষিদ্ধ। যদি কোন পরীক্ষার্থী উল্লিখিত দ্রব্যাদি সঙ্গে নিয়ে পরীক্ষা কেন্দ্রে প্রবেশ করেন তবে তাকে তাৎক্ষণিক বহিষ্কারসহ তার বিরুদ্ধে আইনানুগ ব্যবস্থা গ্রহণ করা হবে।</li>
-                      <li class="list-inline-item">৪. প্রার্থীদের অবশ্যই কালো কালির বলপয়েন্ট কলম ব্যবহার করতে হবে।</li>
-                      <li class="list-inline-item">৫. এই প্রবেশপত্রে থাকা ছবি মূল আবেদনের সঙ্গে জমা দেওয়া একই ছবির কাউন্টার কপি দিয়ে যাচাই করা হবে।</li>
-                      <li class="list-inline-item">৬. আবেদনপত্র, হাজিরাপত্র ও উত্তরপত্রের ক্ষেত্রে প্রার্থীদের অবশ্যই একই স্বাক্ষর ব্যবহার করতে হবে।</li>
-                      <li class="list-inline-item">৭. মৌখিক পরীক্ষা বোর্ডে পরীক্ষার্থীকে সকল শিক্ষাগত যোগ্যতা, অভিজ্ঞতা, কোটা সংক্রান্ত সনদ ও জাতীয় পরিচয়পত্র/ জন্ম নিবন্ধন সনদ নিয়ে উপস্থিত হতে হবে এবং সংশ্লিষ্ট কাগজপত্রের মূলকপি প্রদর্শন করতে হবে।</li>
-                      <li class="list-inline-item">৮. আবেদনপত্রে প্রার্থীর দেয়া স্বাক্ষরের সাথে পরীক্ষার হাজিরা শিটে প্রদত্ত স্বাক্ষরসহ সকল তথ্যে মিল থাকতে হবে। </li>
-                      <li class="list-inline-item">৯. ব্যবহারিক পরীক্ষা/মৌখিক পরীক্ষার তারিখ, সময় ও স্থান চট্টগ্রাম উন্নয়ন কর্তৃপক্ষের ওয়েবসাইট (www.cda.gov.bd) এবং নোটিশ বোর্ড থেকে জানতে পারবেন।</li>
-                      <li class="list-inline-item">১০. পরীক্ষায় অংশগ্রহণের জন্য কর্তৃপক্ষ কর্তৃক কোন প্রকার টিএ/ডিএ প্রদান করা হবে না। </li>
-                      <li class="list-inline-item">১১. পরীক্ষার হলে যেকোন প্রকার অসদুপায় অবলম্বন করলে প্রার্থীর বিরুদ্ধে প্রয়োজনীয় আইনানুগত ব্যবস্থা গ্রহণ করা হবে।</li>
-                  </div>
-                </div>
-                <div class="row bottom_content mt-3">
-                  <div class="col-md-12">
-                  <hr>
 
-                    <p>    মুহাম্মদ সোহেল হাসান <br>
-                        যুগ্মসচিব, গৃহায়ন ও গণপূর্ত মন্ত্রণালয়<br>
-                        ও<br>
-                        আহ্বায়ক, চট্টগ্রাম উন্নয়ন কর্তৃপক্ষের ৭ম থেকে ২০তম গ্রেড পর্যন্ত <br>
-                        জনবল নিয়োগ কমিটি<br>  
-                                                                        
-                    </p> 
-                  </div>
+                <!-- Post name -->
+                <div class="admit-field" style="grid-template-columns: 32mm 1fr;">
+                    <div class="label">পদের নাম :</div>
+                    <div class="value appli_post">-</div>
                 </div>
-            </div>  
+
+                <!-- Main content -->
+                <div class="admit-main">
+                    <!-- Left side fields -->
+                    <div>
+                        <div class="admit-field">
+                            <div class="label">রোল নম্বর :</div>
+                            <div class="value appli_rollno">-</div>
+                        </div>
+                        <div class="admit-field">
+                            <div class="label">প্রার্থীর নাম :</div>
+                            <div class="value appli_name">-</div>
+                        </div>
+                        <div class="admit-field">
+                            <div class="label">পিতা/মাতার নাম :</div>
+                            <div class="value appli_fa_name">-</div>
+                        </div>
+                        <div class="admit-field">
+                            <div class="label">নিজ জেলা :</div>
+                            <div class="value appli_dist">-</div>
+                        </div>
+
+                        <!-- Boxed section for exam details -->
+                        <div class="admit-boxed">
+                            <div class="admit-field">
+                                <div class="label">পরীক্ষার তারিখ ও সময় :</div>
+                                <div class="value exam_dt_tm">-</div>
+                            </div>
+                            <div class="admit-field">
+                                <div class="label">পরীক্ষাকেন্দ্র :</div>
+                                <div class="value exam_cntr">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right photo -->
+                    <div class="admit-photo">
+                        <img class="applicant-img" src="/img/no-image.jpg" alt="প্রার্থীর ছবি"/>
+                    </div>
+                </div>
+
+                <!-- Instructions -->
+                <div class="admit-section-title">প্রার্থীদের জন্য নির্দেশাবলী</div>
+                <ol class="admit-instructions">
+                    <li>লিখিত, ব্যবহারিক ও মৌখিক পরীক্ষার জন্য এই প্রবেশপত্র প্রযোজ্য হবে এবং অবশ্যই সঙ্গে আনতে হবে।</li>
+                    <li>প্রার্থীদের লিখিত পরীক্ষার কমপক্ষে ৩০ মিনিট পূর্বে পরীক্ষার হলে বসতে হবে। পরীক্ষা শুরুর পর কেউ হলে প্রবেশ করতে পারবেন না এবং পরীক্ষা শেষ হওয়ার পূর্বে কেউ হল ত্যাগ করতে পারবেন না।</li>
+                    <li>পরীক্ষার্থীদের পরীক্ষার হলে বই, ব্যাগ, ক্যালকুলেটর, মোবাইল ফোন, ডিজিটাল ঘড়ি বা অন্য কোন ইলেকট্রনিক ডিভাইস নিয়ে আসা কঠোরভাবে নিষিদ্ধ। যদি কোন পরীক্ষার্থী উল্লিখিত দ্রব্যাদি সঙ্গে নিয়ে পরীক্ষা কেন্দ্রে প্রবেশ করেন তবে তাকে তাৎক্ষণিক বহিষ্কারসহ তার বিরুদ্ধে আইনানুগ ব্যবস্থা গ্রহণ করা হবে।</li>
+                    <li>প্রার্থীদের অবশ্যই কালো কালির বলপয়েন্ট কলম ব্যবহার করতে হবে।</li>
+                    <li>এই প্রবেশপত্রে থাকা ছবি মূল আবেদনের সঙ্গে জমা দেওয়া একই ছবির কাউন্টার কপি দিয়ে যাচাই করা হবে।</li>
+                    <li>আবেদনপত্র, হাজিরাপত্র ও উত্তরপত্রের ক্ষেত্রে প্রার্থীদের অবশ্যই একই স্বাক্ষর ব্যবহার করতে হবে।</li>
+                    <li>মৌখিক পরীক্ষা বোর্ডে পরীক্ষার্থীকে সকল শিক্ষাগত যোগ্যতা, অভিজ্ঞতা, কোটা সংক্রান্ত সনদ ও জাতীয় পরিচয়পত্র/ জন্ম নিবন্ধন সনদ নিয়ে উপস্থিত হতে হবে এবং সংশ্লিষ্ট কাগজপত্রের মূলকপি প্রদর্শন করতে হবে।</li>
+                    <li>আবেদনপত্রে প্রার্থীর দেয়া স্বাক্ষরের সাথে পরীক্ষার হাজিরা শিটে প্রদত্ত স্বাক্ষরসহ সকল তথ্যে মিল থাকতে হবে।</li>
+                    <li>ব্যবহারিক পরীক্ষা/মৌখিক পরীক্ষার তারিখ, সময় ও স্থান চট্টগ্রাম উন্নয়ন কর্তৃপক্ষের ওয়েবসাইট (www.cda.gov.bd) এবং নোটিশ বোর্ড থেকে জানতে পারবেন।</li>
+                    <li>পরীক্ষায় অংশগ্রহণের জন্য কর্তৃপক্ষ কর্তৃক কোন প্রকার টিএ/ডিএ প্রদান করা হবে না।</li>
+                    <li>পরীক্ষার হলে যেকোন প্রকার অসদুপায় অবলম্বন করলে প্রার্থীর বিরুদ্ধে প্রয়োজনীয় আইনানুগত ব্যবস্থা গ্রহণ করা হবে।</li>
+                </ol>
+
+                <!-- Signature -->
+                <div class="admit-footer">
+                    <div class="admit-sign">
+                        <div class="line">স্বাক্ষর</div>
+                        <div class="muted">মুহাম্মদ সোহেল হাসান</div>
+                        <div class="muted">যুগ্মসচিব, গৃহায়ন ও গণপূর্ত মন্ত্রণালয়</div>
+                        <div class="muted">ও আহ্বায়ক, নিয়োগ কমিটি</div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="modal-footer center justify-content-around">
           <a id="btn-prev-applicant" class="btn btn-sm btn-outline-primary text-left" href="javascript:void(0)">Prev Applicant</a>

@@ -51,7 +51,7 @@ router.get('/test-convert', async (req, res) => {
 
 router.get('/gen-roll', async (req, res) => {
     // let x = convertUnicode.ConvertToUnicode("bijoy", "Rbve bqb b›`x wcZv-g„Z wgjb b›`x gvZv-AwbZv b›`x")
-    for(i = 1; i <=23; i++) {
+    for(i = 23; i <=23; i++) {
         let post_id = i;
         let post = await pool.query(`SELECT p_order FROM c_posts WHERE id = ?`, [post_id]);
         if(post.length >=1) {
@@ -76,10 +76,12 @@ router.get('/gen-roll', async (req, res) => {
 });
 
 router.get('/import-csv', async (req, res) => {
-    var workbook = XLSX.readFile("./src/data/excel/15.ProcessServer.xlsx");
+    var workbook = XLSX.readFile("./src/data/excels/23.assistant_programmer.xlsx");
     var sheet_name_list = workbook.SheetNames;
 
     let data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
+    // console.log(data);
+    
     _.each(data, async function(d) {
         // console.log(d);
         let save = await pool.query(`SET CHARACTER SET utf8`);
@@ -95,23 +97,31 @@ router.get('/import-csv', async (req, res) => {
         // console.log(toEn("মোট ১২৩৪"));                 //মোট 1234
 
         // let items = d[2].split("পিতা-");
+        console.log(d['name']);
+        
         let items;
-        if(d[2].includes("পিতা-") || d[2].includes("wcZv-")) {
-            items = d[2].includes("পিতা-") ? d[2].split("পিতা-") : d[2].split("wcZv-");
+        if(d['name'].includes("পিতা-") || d['name'].includes("wcZv-")) {
+            items = d['name'].includes("পিতা-") ? d['name'].split("পিতা-") : d['name'].split("wcZv-");
         } else {
-            items = d[2].includes("স্বামী-") ? d[2].split("স্বামী-") : d[2].split("¯^vgx-");
+            items = d['name'].includes("স্বামী-") ? d['name'].split("স্বামী-") : d['name'].split("¯^vgx-");
         }
         let a_name = items[0].trim();
         let f_name = items[1].includes("মাতা-") ? items[1].split("মাতা-")[0].trim() : items[1].split("gvZv-")[0].trim();
         let m_name = items[1].includes("মাতা-") ? items[1].split("মাতা-")[1].trim() : items[1].split("gvZv-")[1].trim();  
         // items[1].split("মাতা-")[1].trim();
-        post_id = 15;
-        console.log(items);
+        console.log(a_name, f_name, m_name);
+
+        post_id = 23;
+        // console.log(items);
+
+
         // console.log(d[2], items, a_name, f_name)
 
         // let save2 = await pool.query(`INSERT INTO applicants SET name = ?, post_id = ?, father_name = ?, mother_name = ?, present_addr = ?, perm_addr = ?, eq = ?, dob = ?, porder_details = ?, remarks = ?`, 
         //                         [a_name, post_id, f_name, m_name,
         //                         d[3], d[4], d[5], d[6], d[7], d[8]]);
+
+        
     });
     let r = {};
     res.send(r);
@@ -130,7 +140,7 @@ router.get('/import-csv-1', async (req, res) => {
                 // {file_name: "18.LiftMechanic", post_id: 18},
                 // {file_name: "20.AsstCashier", post_id: 20},
                 // {file_name: "19.LiftMan", post_id: 19}
-                {file_name: "1.AsstEngineer", post_id: 1}
+                {file_name: "23.assistant_programmer", post_id: 23}
             ];
 
     let result = `<pre>`;
@@ -139,11 +149,11 @@ router.get('/import-csv-1', async (req, res) => {
         console.log(check1[0].count)
         if(check1[0].count < 1) {   
             // console.log(o.file_name, o.post_id);
-            var workbook = XLSX.readFile(`./src/data/new_excel/${o.file_name}.xlsx`);
+            var workbook = XLSX.readFile(`./src/data/excels/${o.file_name}.xlsx`);
             var sheet_name_list = workbook.SheetNames;
 
             let data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
-            console.log(data);
+            // console.log(data);
             // console.log(data.length);
 
             let post_id = o.post_id;
@@ -152,20 +162,27 @@ router.get('/import-csv-1', async (req, res) => {
                 let save = await pool.query(`SET CHARACTER SET utf8`);
                 let save1 = await pool.query(`SET SESSION collation_connection ='utf8_general_ci'`);
 
-                let a_name = d[2];
-                let f_name = d[3];
+                let a_name = d['name'];
+                let f_name = d['father_name'];
+                let m_name = d['mother_name'];
+                let perm_addr = d['perm_addr'];
+                let present_addr = d['present_addr'];
+                let education = d['education'];
+                let dob = d['dob'];
+                let payment_details = d['payment_details'];
+                let remarks = '';
+                let dis = '';
+                let quota = '';
                 // let f_name = d[3].includes("পিতা-") ? items[0].replace("পিতা-", "") : items[0].replace("wcZv-", "")
 
-                let m_name = "";  
                 // items[1].split("মাতা-")[1].trim();
                 // console.log(items);
                 // console.log(d[1]);
                 // console.log(d[2], items, a_name, f_name)
 
-                let save2 = await pool.query(`INSERT INTO applicants SET name = ?, post_id = ?, father_name = ?, mother_name = ?, 
-                                            present_addr = ?, perm_addr = ?, eq = ?, exp = ?, dob = ?, dis = ?, quota = ?, porder_details = ?, remarks = ?`, 
-                                        [a_name, post_id, f_name, m_name,
-                                        d[4], d[5], d[6], d[7], d[8], d[9], d[10], d[11], d[12]]);
+                // let save2 = await pool.query(`INSERT INTO applicants SET name = ?, post_id = ?, father_name = ?, mother_name = ?, 
+                //                             present_addr = ?, perm_addr = ?, eq = ?, exp = ?, dob = ?, dis = ?, quota = ?, porder_details = ?, remarks = ?`, 
+                //                         [a_name, post_id, f_name, m_name, present_addr, perm_addr, education, '', dob, dis, quota, payment_details, remarks]);
             });
             result += "POST ID: " + o.post_id + "<br>" + JSON.stringify(data) + `<br><br><br><br><br>`;
         } else {

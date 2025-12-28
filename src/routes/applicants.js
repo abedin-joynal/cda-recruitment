@@ -51,7 +51,7 @@ router.get('/test-convert', async (req, res) => {
 
 router.get('/gen-roll', async (req, res) => {
     // let x = convertUnicode.ConvertToUnicode("bijoy", "Rbve bqb b›`x wcZv-g„Z wgjb b›`x gvZv-AwbZv b›`x")
-    for(i = 23; i <=23; i++) {
+    for(i = 35; i <=35; i++) {
         let post_id = i;
         let post = await pool.query(`SELECT p_order FROM c_posts WHERE id = ?`, [post_id]);
         if(post.length >=1) {
@@ -64,7 +64,7 @@ router.get('/gen-roll', async (req, res) => {
                 counter = parseInt(counter) + 1;
                 let roll_no = roll_prefix + pad(counter, 4);
                 // let roll_no = roll_prefix + parseInt(counter);
-                roll_no = "C" + replaceNumbers(roll_no);
+                roll_no = replaceNumbers(roll_no);
                 console.log(roll_no);
                 // let update = await pool.query(`UPDATE applicants SET roll_no = ? WHERE id = ?`, [roll_no, applicant_id]);
                 await updateRoll(roll_no, applicant_id);
@@ -140,7 +140,8 @@ router.get('/import-csv-1', async (req, res) => {
                 // {file_name: "18.LiftMechanic", post_id: 18},
                 // {file_name: "20.AsstCashier", post_id: 20},
                 // {file_name: "19.LiftMan", post_id: 19}
-                {file_name: "23.assistant_programmer", post_id: 23}
+                // {file_name: "23.assistant_programmer", post_id: 23}
+                {file_name: "35.public_relation_officer", post_id: 35}
             ];
 
     let result = `<pre>`;
@@ -154,17 +155,33 @@ router.get('/import-csv-1', async (req, res) => {
 
             let data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
             // console.log(data);
-            // console.log(data.length);
 
             let post_id = o.post_id;
             _.each(data, async function(d) {
-                // console.log(d);
+               
                 let save = await pool.query(`SET CHARACTER SET utf8`);
                 let save1 = await pool.query(`SET SESSION collation_connection ='utf8_general_ci'`);
 
-                let a_name = d['name'];
-                let f_name = d['father_name'];
-                let m_name = d['mother_name'];
+                let a_name = '';
+                let f_name = '';
+                let m_name = '';
+                if(d['name'].includes("পিতা-") || d['name'].includes("wcZv-")) {
+                    let items;
+                    if(d['name'].includes("পিতা-") || d['name'].includes("wcZv-")) {
+                        items = d['name'].includes("পিতা-") ? d['name'].split("পিতা-") : d['name'].split("wcZv-");
+                    } else {
+                        items = d['name'].includes("স্বামী-") ? d['name'].split("স্বামী-") : d['name'].split("¯^vgx-");
+                    }
+                    a_name = items[0].trim();
+                    f_name = items[1].includes("মাতা-") ? items[1].split("মাতা-")[0] : items[1].split("gvZv-")[0];
+                    m_name = items[1].includes("মাতা-") ? items[1].split("মাতা-")[1] : items[1].split("gvZv-")[1];    
+                    // console.log(a_name, f_name, m_name);
+                } else {
+                    a_name = d['name'];
+                    f_name = d['father_name'];
+                    m_name = d['mother_name'];
+                }
+
                 let perm_addr = d['perm_addr'];
                 let present_addr = d['present_addr'];
                 let education = d['education'];
@@ -173,12 +190,7 @@ router.get('/import-csv-1', async (req, res) => {
                 let remarks = '';
                 let dis = '';
                 let quota = '';
-                // let f_name = d[3].includes("পিতা-") ? items[0].replace("পিতা-", "") : items[0].replace("wcZv-", "")
-
-                // items[1].split("মাতা-")[1].trim();
-                // console.log(items);
-                // console.log(d[1]);
-                // console.log(d[2], items, a_name, f_name)
+                console.log(d['sl'], a_name, f_name, m_name, perm_addr, present_addr, education, dob, payment_details, remarks, dis, quota);
 
                 // let save2 = await pool.query(`INSERT INTO applicants SET name = ?, post_id = ?, father_name = ?, mother_name = ?, 
                 //                             present_addr = ?, perm_addr = ?, eq = ?, exp = ?, dob = ?, dis = ?, quota = ?, porder_details = ?, remarks = ?`, 
@@ -189,7 +201,6 @@ router.get('/import-csv-1', async (req, res) => {
             result += "POST Already Has Data: " + o.post_id + "<br>";
         }
     });
-
 
     let r = {};
     res.send(result);

@@ -49,30 +49,40 @@ router.get('/test-convert', async (req, res) => {
     console.log(x);
 });
 
-router.get('/gen-roll', async (req, res) => {
-    // let x = convertUnicode.ConvertToUnicode("bijoy", "Rbve bqb b›`x wcZv-g„Z wgjb b›`x gvZv-AwbZv b›`x")
-    for(i = 33; i <=33; i++) {
-        let post_id = i;
+router.get('/gen-roll/:post_id', async (req, res) => {
+    let r = {};
+    try {
+        let post_id = req.params.post_id;
         let post = await pool.query(`SELECT p_order FROM c_posts WHERE id = ?`, [post_id]);
-        if(post.length >=1) {
+        
+        if(post.length >= 1) {
             let p_order = post[0].p_order;
             let roll_prefix = `${pad(p_order, 2)}`;
             let applicants = await pool.query(`SELECT * FROM applicants WHERE post_id = ?`, [post_id]);
-            let counter = 0
-            _.each(applicants, async function(a) {
+            let counter = 0;
+            
+            for (const a of applicants) {
                 let applicant_id = a.id;
                 counter = parseInt(counter) + 1;
                 let roll_no = roll_prefix + pad(counter, 4);
-                // let roll_no = roll_prefix + parseInt(counter);
                 roll_no = replaceNumbers(roll_no);
                 console.log(roll_no);
-                // let update = await pool.query(`UPDATE applicants SET roll_no = ? WHERE id = ?`, [roll_no, applicant_id]);
                 await updateRoll(roll_no, applicant_id);
-            });
+            }
+            
+            r.status = true;
+            r.msg = `Roll numbers generated successfully for post ID: ${post_id}`;
+            r.total = applicants.length;
         } else {
-            console.log(`No Post found. ID: ${post_id}`)
+            r.status = false;
+            r.msg = `No Post found with ID: ${post_id}`;
         }
+    } catch (err) {
+        console.log("Error While Generating Roll Numbers: " + err);
+        r.status = false;
+        r.msg = err.message || 'An error occurred';
     }
+    res.send(r);
 });
 
 router.get('/import-csv', async (req, res) => {

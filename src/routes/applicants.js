@@ -51,7 +51,7 @@ router.get('/test-convert', async (req, res) => {
 
 router.get('/gen-roll', async (req, res) => {
     // let x = convertUnicode.ConvertToUnicode("bijoy", "Rbve bqb b›`x wcZv-g„Z wgjb b›`x gvZv-AwbZv b›`x")
-    for(i = 35; i <=35; i++) {
+    for(i = 33; i <=33; i++) {
         let post_id = i;
         let post = await pool.query(`SELECT p_order FROM c_posts WHERE id = ?`, [post_id]);
         if(post.length >=1) {

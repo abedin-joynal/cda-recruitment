@@ -151,7 +151,7 @@ router.get('/import-csv-1', async (req, res) => {
                 // {file_name: "20.AsstCashier", post_id: 20},
                 // {file_name: "19.LiftMan", post_id: 19}
                 // {file_name: "23.assistant_programmer", post_id: 23}
-                {file_name: "35.public_relation_officer", post_id: 35}
+                {file_name: "31.assistant_engineer", post_id: 1}
             ];
 
     let result = `<pre>`;

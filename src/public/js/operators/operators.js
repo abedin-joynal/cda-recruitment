@@ -656,13 +656,13 @@ $(document).on("click", ".btn-admit-modal", function() {
     CUR_APPLICANT = JSON.parse(datajson);
     console.log(CUR_APPLICANT);
 
-    if(CUR_POST_ID == null || CUR_POST_ID == 36) { // AA & 
-        return;
-    }
     if(CUR_POST_ID == 1 && CUR_APPLICANT.id > 3584) { // AE
         return;
     }
     if(CUR_POST_ID == 33 && CUR_APPLICANT.id > 3812) { // AP
+        return;
+    }
+    if(CUR_POST_ID == 36 && CUR_APPLICANT.id > 4333) { // AA
         return;
     }
 
@@ -775,6 +775,17 @@ $(document).on('click', '.nav-item', async function (e) {
 });
 
 $(document).on("click", "#btn-print-admit-card", async function() {
+
+    if(CUR_POST_ID == 1 && CUR_APPLICANT.id > 3584) { // AE
+        return;
+    }
+    if(CUR_POST_ID == 33 && CUR_APPLICANT.id > 3812) { // AP
+        return;
+    }
+    if(CUR_POST_ID == 36 && CUR_APPLICANT.id > 4333) { // AA
+        return;
+    }
+
     printDiv('Admit-card-container');
     // printDiv('table-datatable');
 

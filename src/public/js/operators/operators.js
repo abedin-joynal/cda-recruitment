@@ -47,7 +47,7 @@ var curX = 0, curY = 0, prevX = 0, prevY = 0;
 var crop_coords = [];
 var cc_count = 0;
 
-let AvroPost = [3,4,5,6,8,9,10,11,12,13,14,15,16,17,18,19,21, 22];
+let AvroPost = [3,4,5,6,8,9,10,11,12,13,14,15,16,17,18,19,21,22];
 
 $.fn.dataTable.ext.errMode = 'none'; // Supress Datatable errors
 
@@ -445,7 +445,7 @@ function updateCurAppDetails(cur_app) {
 
 function updateAdmitCardDetails(cur_app) {
     let name, father_name, mother_name, dis, quota, remarks = "";
-    if(AvroPost.indexOf(cur_app.post_id) !== -1) {  
+    if(AvroPost.indexOf(cur_app.post_id) !== -1 || true) {  
         name = cur_app.name;
         father_name = cur_app.father_name;
         mother_name = cur_app.mother_name;

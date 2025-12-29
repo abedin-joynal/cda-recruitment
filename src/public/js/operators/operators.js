@@ -18,6 +18,7 @@ var $TABLE = null;
 var CUR_APPLICANT = {};
 var POSTS = [];
 var POST_APPCANT_COUNT = [];
+var CUR_POST_ID = null;
 
 var PERMISSIONS = {1: "upload-picture", 2: "print-admit-card"};
 
@@ -490,6 +491,7 @@ $(document).on("click", ".dash_a", async function() {
 
 $(document).on("change", "#post-list", async function() {
     let post_id = $(this).val();
+    CUR_POST_ID = post_id;
     if(post_id == "") {
         $("#table-applicant-data").hide();
         return;
@@ -648,8 +650,22 @@ $(document).on("click", ".btn-upload-picture", function() {
 
 $(document).on("click", ".btn-admit-modal", function() {
     // let applicant_id = $(this).attr("applicant-id");
+    console.log("CUR_POST_ID: " + CUR_POST_ID);
+    
     let datajson = $(this).attr("data-json");
     CUR_APPLICANT = JSON.parse(datajson);
+    console.log(CUR_APPLICANT);
+
+    if(CUR_POST_ID == null || CUR_POST_ID == 36) { // AA & 
+        return;
+    }
+    if(CUR_POST_ID == 1 && CUR_APPLICANT.id > 3584) { // AE
+        return;
+    }
+    if(CUR_POST_ID == 33 && CUR_APPLICANT.id > 3812) { // AP
+        return;
+    }
+
     updateAdmitCardDetails(CUR_APPLICANT);
     $("#AdmitCardModal").modal('show');
     // resetPicUploadModal();

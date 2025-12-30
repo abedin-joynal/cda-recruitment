@@ -445,20 +445,22 @@ function updateCurAppDetails(cur_app) {
 
 function updateAdmitCardDetails(cur_app) {
     let name, father_name, mother_name, dis, quota, remarks = "";
-    if(AvroPost.indexOf(cur_app.post_id) !== -1 || true) {  
-        name = cur_app.name;
-        father_name = cur_app.father_name;
-        mother_name = cur_app.mother_name;
-        dis = cur_app.dis;
-        quota = cur_app.quota;
-        remarks = cur_app.remarks;
-    } else {
+    let convertToUnicode = $("#chk-convert-to-unicode").is(":checked");
+    
+    if(convertToUnicode) {
         name = ConvertToUnicode('bijoy', cur_app.name);
         father_name = ConvertToUnicode('bijoy', cur_app.father_name);
         mother_name = ConvertToUnicode('bijoy', cur_app.mother_name);
         dis = ConvertToUnicode('bijoy', cur_app.dis);
         quota = ConvertToUnicode('bijoy', cur_app.quota);
         remarks = ConvertToUnicode('bijoy', cur_app.remarks);
+    } else {
+        name = cur_app.name;
+        father_name = cur_app.father_name;
+        mother_name = cur_app.mother_name;
+        dis = cur_app.dis;
+        quota = cur_app.quota;
+        remarks = cur_app.remarks;
     }
 
     // console.log(cur_app.name, cur_app.father_name);
@@ -679,6 +681,13 @@ $(document).on("click", "#btn-admit-edit", function() {
     $("#AdmitCardModal").modal('hide');
     resetPicUploadModal();
     // start_camera();
+});
+
+// Toggle Unicode conversion for admit card names
+$(document).on("change", "#chk-convert-to-unicode", function() {
+    if(CUR_APPLICANT && CUR_APPLICANT.id) {
+        updateAdmitCardDetails(CUR_APPLICANT);
+    }
 });
 
 $(document).on("click", "#start-camera", async function() {

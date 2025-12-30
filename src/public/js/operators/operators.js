@@ -445,7 +445,7 @@ function updateCurAppDetails(cur_app) {
 
 function updateAdmitCardDetails(cur_app) {
     let name, father_name, mother_name, dis, quota, remarks = "";
-    if(AvroPost.indexOf(cur_app.post_id) !== -1 || true) {  
+    if(AvroPost.indexOf(cur_app.post_id) !== -1) {  
         name = cur_app.name;
         father_name = cur_app.father_name;
         mother_name = cur_app.mother_name;

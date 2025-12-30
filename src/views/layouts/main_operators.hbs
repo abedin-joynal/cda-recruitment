@@ -17,6 +17,8 @@
   <!-- Custom fonts for this template-->
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/css/font-awesome-google-api.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali&display=swap" rel="stylesheet">
+
 
   <!-- Custom styles for this template-->
   <link href="/css/sb-admin-2.css" rel="stylesheet">
@@ -290,6 +292,16 @@
         opacity: 0.85;
     }
 
+    .no-break {
+      white-space: nowrap;
+    }
+
+    .bangla-text {
+      font-family: 'Noto Sans Bengali', sans-serif;
+      word-break: keep-all;
+      overflow-wrap: normal;
+      line-height: 1.6;
+    }
     /* Print Styles - Fit on single A4 page */
     @media print {
         /* Hide everything except the admit card */
@@ -480,7 +492,7 @@
                             <b>রোল নংঃ </b> <span class="cur_app_roll"></span><br/>
                             <b>আবেদনকারীর নামঃ </b> <span class="cur_app_name"></span><br/>
                             <b>বাবা ও মায়ের নামঃ </b> <span class="cur_app_f_name"></span><br/>
-                            <b>পরীক্ষার তারিখ ও সময়ঃ </b> <span class=""></span><br/>
+                            <b>পরীক্ষার তারিখ ও সময়ঃ </b> <span class="no-break"></span><br/>
                             <b>পরীক্ষার স্থানঃ </b> <span class=""></span><br/> 
                           </div>
                         </div>
@@ -721,9 +733,9 @@
                                 <div class="label">পরীক্ষার তারিখ ও সময় :</div>
                                 <div class="value exam_dt_tm">-</div>
                             </div>
-                            <div class="admit-field">
-                                <div class="label">পরীক্ষাকেন্দ্র :</div>
-                                <div class="value exam_cntr">-</div>
+                            <div class="admit-field bangla-text">
+                                <div class="label">পরীক্ষাকেন্দ্র 1:</div>
+                                <div class="value exam_cntr bangla-text">-</div>
                             </div>
                         </div>
                     </div>

@@ -121,17 +121,18 @@ router.get('/import-csv', async (req, res) => {
         // items[1].split("মাতা-")[1].trim();
         console.log(a_name, f_name, m_name);
 
-        post_id = 23;
+        post_id = 3;
         // console.log(items);
 
 
         // console.log(d[2], items, a_name, f_name)
 
-        // let save2 = await pool.query(`INSERT INTO applicants SET name = ?, post_id = ?, father_name = ?, mother_name = ?, present_addr = ?, perm_addr = ?, eq = ?, dob = ?, porder_details = ?, remarks = ?`, 
-        //                         [a_name, post_id, f_name, m_name,
-        //                         d[3], d[4], d[5], d[6], d[7], d[8]]);
+        let save2 = await pool.query(`INSERT INTO applicants SET name = ?, post_id = ?, father_name = ?, mother_name = ?, present_addr = ?, perm_addr = ?, eq = ?, dob = ?, porder_details = ?, remarks = ?`, 
+                                [a_name, post_id, f_name, m_name,
+                                d[3], d[4], d[5], d[6], d[7], d[8]]);
 
         
+
     });
     let r = {};
     res.send(r);
@@ -151,7 +152,9 @@ router.get('/import-csv-1', async (req, res) => {
                 // {file_name: "20.AsstCashier", post_id: 20},
                 // {file_name: "19.LiftMan", post_id: 19}
                 // {file_name: "23.assistant_programmer", post_id: 23}
-                {file_name: "37.GIS_operator", post_id: 37}
+                // {file_name: "37.GIS_operator", post_id: 37}
+                // {file_name: "37.GIS_operator", post_id: 37}
+                {file_name: "3.Driver", post_id: 3}
             ];
 
     let result = `<pre>`;
@@ -160,7 +163,7 @@ router.get('/import-csv-1', async (req, res) => {
         console.log(check1[0].count)
         if(check1[0].count < 1) {   
             // console.log(o.file_name, o.post_id);
-            var workbook = XLSX.readFile(`./src/data/excels/${o.file_name}.xlsx`);
+            var workbook = XLSX.readFile(`./src/data/excels/${o.file_name}.xls`);
             var sheet_name_list = workbook.SheetNames;
 
             let data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);

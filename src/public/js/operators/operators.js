@@ -532,7 +532,9 @@ $(document).on("change", "#post-list", async function() {
                         let eq = c.eq == null ? "" : c.eq;
 
                         let name, father_name, mother_name = "";
+                        let convertToUnicode = $("#chk-convert-to-unicode-table").is(":checked");
                         
+                        // AvroPost entries are already in Unicode, so checkbox has no effect on them
                         if(AvroPost.indexOf(c.post_id) !== -1) {  
                             name = c.name;
                             father_name = c.father_name;
@@ -541,30 +543,43 @@ $(document).on("change", "#post-list", async function() {
                             quota = quota;
                             remarks = remarks;
                             exp = exp;
-
                             eq = c.eq;
                             dob = c.dob;
                             exp = c.exp;
                             perm_addr = c.perm_addr;
                             temp_addr = c.present_addr;
                             porder_details = c.porder_details;
-
                         } else {
-                            name = ConvertToUnicode('bijoy', c.name);
-                            father_name = ConvertToUnicode('bijoy', c.father_name);
-                            mother_name = ConvertToUnicode('bijoy', c.mother_name);
-                            dis = ConvertToUnicode('bijoy', dis);
-                            quota = ConvertToUnicode('bijoy', quota);
-                            remarks = ConvertToUnicode('bijoy', remarks);
-                            exp = ConvertToUnicode('bijoy', exp);
-
-                            eq = ConvertToUnicode('bijoy', c.eq);
-                            dob = ConvertToUnicode('bijoy', c.dob);
-                            exp = ConvertToUnicode('bijoy', c.exp);
-                            perm_addr = ConvertToUnicode('bijoy', c.perm_addr);
-                            temp_addr = ConvertToUnicode('bijoy', c.present_addr);
-                            porder_details = ConvertToUnicode('bijoy', c.porder_details);
-                            
+                            // Non-AvroPost entries are in Bijoy format, convert based on checkbox
+                            if(convertToUnicode) {
+                                name = ConvertToUnicode('bijoy', c.name);
+                                father_name = ConvertToUnicode('bijoy', c.father_name);
+                                mother_name = ConvertToUnicode('bijoy', c.mother_name);
+                                dis = ConvertToUnicode('bijoy', dis);
+                                quota = ConvertToUnicode('bijoy', quota);
+                                remarks = ConvertToUnicode('bijoy', remarks);
+                                exp = ConvertToUnicode('bijoy', exp);
+                                eq = ConvertToUnicode('bijoy', c.eq);
+                                dob = ConvertToUnicode('bijoy', c.dob);
+                                exp = ConvertToUnicode('bijoy', c.exp);
+                                perm_addr = ConvertToUnicode('bijoy', c.perm_addr);
+                                temp_addr = ConvertToUnicode('bijoy', c.present_addr);
+                                porder_details = ConvertToUnicode('bijoy', c.porder_details);
+                            } else {
+                                name = c.name;
+                                father_name = c.father_name;
+                                mother_name = c.mother_name;
+                                dis = dis;
+                                quota = quota;
+                                remarks = remarks;
+                                exp = exp;
+                                eq = c.eq;
+                                dob = c.dob;
+                                exp = c.exp;
+                                perm_addr = c.perm_addr;
+                                temp_addr = c.present_addr;
+                                porder_details = c.porder_details;
+                            }
                         }
 
                         tr += `<tr>
@@ -687,6 +702,14 @@ $(document).on("click", "#btn-admit-edit", function() {
 $(document).on("change", "#chk-convert-to-unicode", function() {
     if(CUR_APPLICANT && CUR_APPLICANT.id) {
         updateAdmitCardDetails(CUR_APPLICANT);
+    }
+});
+
+// Toggle Unicode conversion for applicants table
+$(document).on("change", "#chk-convert-to-unicode-table", function() {
+    // Reload the table when checkbox state changes
+    if(CUR_POST_ID) {
+        $("#post-list").trigger("change");
     }
 });
 

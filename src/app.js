@@ -122,6 +122,7 @@ app.use('/permissions', require('./routes/permissions'));
 app.use('/applicants', require('./routes/applicants'));
 app.use('/', require('./routes/operators'));
 app.use('/posts', require('./routes/posts'));
+app.use('/reports', require('./routes/reports'));
 
 // app.use('/votes', require('./routes/votes'));
 // app.use('/candidates', require('./routes/candidates'));

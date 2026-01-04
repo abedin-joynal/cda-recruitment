@@ -154,20 +154,20 @@ router.get('/import-csv-1', async (req, res) => {
                 // {file_name: "23.assistant_programmer", post_id: 23}
                 // {file_name: "37.GIS_operator", post_id: 37}
                 // {file_name: "37.GIS_operator", post_id: 37}
-                {file_name: "3.Driver", post_id: 3}
+                {file_name: "20.asst_cashier", post_id: 20}
             ];
 
     let result = `<pre>`;
     _.each(obj, async function(o) {
         let check1 = await pool.query(`SELECT count(id) count FROM applicants WHERE post_id = ${o.post_id}`);
-        console.log(check1[0].count)
+        console.log(check1[0].count);
         if(check1[0].count < 1) {   
             // console.log(o.file_name, o.post_id);
             var workbook = XLSX.readFile(`./src/data/excels/${o.file_name}.xls`);
             var sheet_name_list = workbook.SheetNames;
 
             let data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
-            // console.log(data);
+            console.log(data);
 
             let post_id = o.post_id;
             _.each(data, async function(d) {
@@ -178,7 +178,10 @@ router.get('/import-csv-1', async (req, res) => {
                 let a_name = '';
                 let f_name = '';
                 let m_name = '';
-                if(d['name'].includes("পিতা-") || d['name'].includes("wcZv-")) {
+
+                let skip_split = true;
+
+                if(!skip_split && (d['name'].includes("পিতা-") || d['name'].includes("wcZv-"))) {
                     let items;
                     if(d['name'].includes("পিতা-") || d['name'].includes("wcZv-")) {
                         items = d['name'].includes("পিতা-") ? d['name'].split("পিতা-") : d['name'].split("wcZv-");
@@ -189,10 +192,16 @@ router.get('/import-csv-1', async (req, res) => {
                     f_name = items[1].includes("মাতা-") ? items[1].split("মাতা-")[0] : items[1].split("gvZv-")[0];
                     m_name = items[1].includes("মাতা-") ? items[1].split("মাতা-")[1] : items[1].split("gvZv-")[1];    
                     // console.log(a_name, f_name, m_name);
+                } else if(!skip_split && (d['father_name'].includes("পিতা-") || d['father_name'].includes("wcZv-"))) {
+                    // console.log("reached here");
+                    a_name = d['name'];
+                    f_name = d['father_name'].split(",")[0].trim();
+                    m_name = d['father_name'].split(",")[1].trim();
                 } else {
+                    console.log("reached here");
                     a_name = d['name'];
                     f_name = d['father_name'];
-                    m_name = d['mother_name'];
+                    m_name = '';
                 }
 
                 let perm_addr = d['perm_addr'];
@@ -203,11 +212,11 @@ router.get('/import-csv-1', async (req, res) => {
                 let remarks = '';
                 let dis = '';
                 let quota = '';
-                console.log(d['sl'], a_name, f_name, m_name, perm_addr, present_addr, education, dob, payment_details, remarks, dis, quota);
-
-                // let save2 = await pool.query(`INSERT INTO applicants SET name = ?, post_id = ?, father_name = ?, mother_name = ?, 
-                //                             present_addr = ?, perm_addr = ?, eq = ?, exp = ?, dob = ?, dis = ?, quota = ?, porder_details = ?, remarks = ?`, 
-                //                         [a_name, post_id, f_name, m_name, present_addr, perm_addr, education, '', dob, dis, quota, payment_details, remarks]);
+                // console.log(d['sl'], a_name, f_name, m_name, perm_addr, present_addr, education, dob, payment_details, remarks, dis, quota);
+                console.log(d['sl'], d['name']);
+                let save2 = await pool.query(`INSERT INTO applicants SET name = ?, post_id = ?, father_name = ?, mother_name = ?, 
+                                            present_addr = ?, perm_addr = ?, eq = ?, exp = ?, dob = ?, dis = ?, quota = ?, porder_details = ?, remarks = ?`, 
+                                        [a_name, post_id, f_name, m_name, present_addr, perm_addr, education, '', dob, dis, quota, payment_details, remarks]);
             });
             result += "POST ID: " + o.post_id + "<br>" + JSON.stringify(data) + `<br><br><br><br><br>`;
         } else {

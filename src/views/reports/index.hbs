@@ -1,0 +1,174 @@
+<!-- Reports Page -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 pt-2 font-weight-bold text-primary">
+            <i class="fas fa-chart-bar"></i> Reports
+        </h6>
+    </div>
+    <div class="card-body">
+        <!-- Post Selection Dropdown -->
+        <div class="form-group row mb-4">
+            <label for="postSelect" class="col-sm-2 col-form-label font-weight-bold">Select Post:</label>
+            <div class="col-sm-10">
+                <select class="form-control" id="postSelect">
+                    <option value="">-- Select a Post --</option>
+                    {{#each posts}}
+                    <option value="{{id}}">{{name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="text-center" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <p class="mt-2">Loading applicants...</p>
+        </div>
+
+        <!-- Applicants Table -->
+        <div id="applicantsContainer" style="display: none;">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="applicantsTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr class="table-dark">
+                            <th>#</th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Roll No</th>
+                            <th>Father Name</th>
+                            <th>Mother Name</th>
+                            <th>Permanent Address</th>
+                            <th>Present Address</th>
+                            <th>Education</th>
+                            <th>Experience</th>
+                            <th>District</th>
+                            <th>Quota</th>
+                            <th>Date of Birth</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody id="applicantsTableBody">
+                        <!-- Applicants will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- No Data Message -->
+        <div id="noDataMessage" class="alert alert-info text-center" style="display: none;">
+            <i class="fas fa-info-circle"></i> No applicants found for the selected post.
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    let dataTable = null;
+
+    // Handle post selection change
+    $('#postSelect').on('change', function() {
+        const postId = $(this).val();
+        
+        if (!postId) {
+            $('#applicantsContainer').hide();
+            $('#noDataMessage').hide();
+            if (dataTable) {
+                dataTable.destroy();
+                dataTable = null;
+            }
+            return;
+        }
+
+        // Show loading indicator
+        $('#loadingIndicator').show();
+        $('#applicantsContainer').hide();
+        $('#noDataMessage').hide();
+
+        // Fetch applicants for selected post
+        axios.get('/reports/getApplicantsByPost', {
+            params: {
+                post_id: postId
+            }
+        })
+        .then(function(response) {
+            console.log(response.data.data);
+            $('#loadingIndicator').hide();
+            if (response.data.status && response.data.data && response.data.data.length > 0) {
+                displayApplicants(response.data.data);
+                $('#applicantsContainer').show();
+                $('#noDataMessage').hide();
+            } else {
+                $('#applicantsContainer').hide();
+                $('#noDataMessage').show();
+            }
+        })
+        .catch(function(error) {
+            $('#loadingIndicator').hide();
+            $('#applicantsContainer').hide();
+            $('#noDataMessage').show();
+            $('#noDataMessage').html('<i class="fas fa-exclamation-triangle"></i> Error loading applicants. Please try again.');
+            console.error('Error fetching applicants:', error);
+        });
+    });
+
+    function displayApplicants(applicants) {
+        console.log(applicants);
+        const tbody = $('#applicantsTableBody');
+        tbody.empty();
+
+        applicants.forEach(function(applicant, index) {
+            const img = applicant.img ? `/img/applicants/${applicant.img}` : `/img/no-image.jpg`;
+            const rollNo = applicant.roll_no || '';
+            const fatherName = applicant.father_name || '';
+            const motherName = applicant.mother_name || '';
+            const permAddr = applicant.perm_addr || '';
+            const presentAddr = applicant.present_addr || '';
+            const education = applicant.eq || '';
+            const experience = applicant.exp || '';
+            const district = applicant.dis || '';
+            const quota = applicant.quota || '';
+            const dob = applicant.dob || '';
+            const remarks = applicant.remarks || '';
+
+            const row = `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td><img src="${img}" alt="Applicant Image" width="50" height="50" style="object-fit: cover; border-radius: 4px;"></td>
+                    <td>${applicant.name || ''}</td>
+                    <td>${rollNo}</td>
+                    <td>${fatherName}</td>
+                    <td>${motherName}</td>
+                    <td>${permAddr}</td>
+                    <td>${presentAddr}</td>
+                    <td>${education}</td>
+                    <td>${experience}</td>
+                    <td>${district}</td>
+                    <td>${quota}</td>
+                    <td>${dob}</td>
+                    <td>${remarks}</td>
+                </tr>
+            `;
+            tbody.append(row);
+        });
+
+        // Initialize or reinitialize DataTable
+        if (dataTable) {
+            dataTable.destroy();
+        }
+        dataTable = $('#applicantsTable').DataTable({
+            "pageLength": 25,
+            "order": [[0, "asc"]],
+            "language": {
+                "search": "Search:",
+                "lengthMenu": "Show _MENU_ entries",
+                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                "infoEmpty": "No entries to show",
+                "infoFiltered": "(filtered from _MAX_ total entries)"
+            }
+        });
+    }
+});
+</script>
+

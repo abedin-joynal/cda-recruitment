@@ -7,7 +7,7 @@ module.exports = {
         port: process.env.DB_PORT || '3307',
         user: process.env.DB_USER || 'root',
         password: process.env.DB_PASSWORD || '',
-        database: process.env.DB_NAME || 'cr'
+        database: process.env.DB_NAME || 'cda_recruitment'
     },
     bulksms: {
         url: process.env.BULKSMS_URL || 'http://bulksmsbd.net/api/smsapi?api_key=',

@@ -41,38 +41,9 @@
             </div>
 
             <!-- Report Content for PDF -->
-            <div id="reportContent" style="background: white;">
-                <!-- Header Section -->
-                <div id="reportHeader" class="report-header-box" style="border: 2px solid #111; padding: 8px 10px; text-align: center; margin-bottom: 20px;">
-                    <img src="/img/cda-logo.png" alt="CDA Logo" style="width: 45px; height: 45px; border-radius: 50%; margin: 0 auto 4px; display: block; object-fit: contain;">
-                    <div style="font-weight: 700; font-size: 16px; line-height: 1.2; margin: 0;">চট্টগ্রাম উন্নয়ন কর্তৃপক্ষ</div>
-                    <div style="font-size: 12px; line-height: 1.35; margin: 2px 0;">চউক ভবন, চট্টগ্রাম</div>
-                    <div style="font-size: 12px; line-height: 1.35; margin: 2px 0;">www.cda.gov.bd</div>
-                    <div id="headerExamInfo" style="font-size: 12px; line-height: 1.35; margin: 8px 0 4px; text-align: left; padding-left: 20px;">
-                        <div id="headerPostName" style="font-weight: 600; margin-bottom: 4px;"></div>
-                        <div id="headerExamDate" style="margin-bottom: 2px;"></div>
-                        <div id="headerExamCenter" style="margin-bottom: 2px;"></div>
-                    </div>
-                </div>
-
-                <!-- Table Section -->
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="applicantsTable" width="100%" cellspacing="0" style="font-size: 11px;">
-                        <thead>
-                            <tr class="table-dark">
-                                <th style="width: 60px;">রোল নং</th>
-                                <th style="width: 80px;">ছবি</th>
-                                <th>আবেদনকারীর নাম</th>
-                                <th>বাবার নাম</th>
-                                <th>মায়ের নাম</th>
-                                <th style="width: 120px;">স্বাক্ষর</th>
-                            </tr>
-                        </thead>
-                        <tbody id="applicantsTableBody">
-                            <!-- Applicants will be loaded here -->
-                        </tbody>
-                    </table>
-                </div>
+            <div id="reportContent" style="background: white; width: 210mm;">
+                <!-- This will be populated with pages -->
+                <div id="pdfPagesContainer"></div>
             </div>
         </div>
 
@@ -102,42 +73,100 @@
             top: 0;
             width: 210mm;
         }
-        .report-header-box {
-            page-break-after: avoid;
-        }
-        table {
-            page-break-inside: auto;
-        }
-        tr {
+        .pdf-page {
+            page-break-after: always;
             page-break-inside: avoid;
+        }
+        .pdf-page:last-child {
             page-break-after: auto;
         }
     }
 
-    /* Stamp-sized image */
-    .stamp-image {
-        width: 50px;
-        height: 50px;
-        object-fit: cover;
-        border-radius: 4px;
-        border: 1px solid #ddd;
+    /* PDF Page Styling */
+    .pdf-page {
+        width: 210mm;
+        min-height: 297mm;
+        padding: 10mm;
+        background: white;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        font-family: "Noto Sans Bengali", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
     /* Report header styling */
     .report-header-box {
+        border: 2px solid #111;
+        padding: 8px 10px;
+        text-align: center;
+        margin-bottom: 15px;
         font-family: "Noto Sans Bengali", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
-    /* Table styling for better print */
+    /* Table styling for PDF */
+    .pdf-table {
+        font-family: "Noto Sans Bengali", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        table-layout: fixed;
+        font-size: 10px;
+    }
+    
+    .pdf-table td {
+        padding: 6px 4px;
+        vertical-align: middle;
+        border: 1px solid #333;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+    }
+    
+    .pdf-table th {
+        padding: 8px 4px;
+        text-align: center;
+        font-weight: 600;
+        background-color: #343a40;
+        color: white;
+        border: 1px solid #333;
+        font-size: 10px;
+    }
+    
+    .pdf-table tbody tr {
+        height: 45px;
+        page-break-inside: avoid;
+    }
+
+    /* Stamp-sized image for PDF */
+    .pdf-stamp-image {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        display: block;
+        margin: 0 auto;
+    }
+
+    /* Page number styling */
+    .page-number {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 10px;
+        color: #666;
+    }
+
+    /* Table styling for screen view */
     #applicantsTable {
         font-family: "Noto Sans Bengali", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
         border-collapse: collapse;
         width: 100%;
+        table-layout: fixed;
     }
     #applicantsTable td {
         padding: 8px;
         vertical-align: middle;
         border: 1px solid #ddd;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
     #applicantsTable th {
         padding: 10px 8px;
@@ -152,6 +181,13 @@
     }
     #applicantsTable tbody tr:hover {
         background-color: #e9ecef;
+    }
+    .stamp-image {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 1px solid #ddd;
     }
 </style>
 
@@ -193,7 +229,6 @@ $(document).ready(function() {
                         exam_date: currentApplicants[0].exam_date || '',
                         exam_center: currentApplicants[0].exam_center || ''
                     };
-                    updateHeaderInfo(currentPostInfo);
                 }
                 displayApplicants(currentApplicants);
                 $('#applicantsContainer').show();
@@ -212,18 +247,46 @@ $(document).ready(function() {
         });
     });
 
-    function updateHeaderInfo(postInfo) {
-        $('#headerPostName').text('পদের নাম: ' + (postInfo.post_name || '-'));
-        $('#headerExamDate').text('পরীক্ষার তারিখ: ' + (postInfo.exam_date || '-'));
-        $('#headerExamCenter').text('পরীক্ষাকেন্দ্র: ' + (postInfo.exam_center || '-'));
+    function createHeaderHTML() {
+        return `
+            <div class="report-header-box">
+                <img src="/img/cda-logo.png" alt="CDA Logo" style="width: 45px; height: 45px; border-radius: 50%; margin: 0 auto 4px; display: block; object-fit: contain;">
+                <div style="font-weight: 700; font-size: 16px; line-height: 1.2; margin: 0;">চট্টগ্রাম উন্নয়ন কর্তৃপক্ষ</div>
+                <div style="font-size: 12px; line-height: 1.35; margin: 2px 0;">চউক ভবন, চট্টগ্রাম</div>
+                <div style="font-size: 12px; line-height: 1.35; margin: 2px 0;">www.cda.gov.bd</div>
+                <div style="font-size: 12px; line-height: 1.35; margin: 8px 0 4px; text-align: left; padding-left: 20px;">
+                    <div style="font-weight: 600; margin-bottom: 4px;">পদের নাম: ${currentPostInfo.post_name || '-'}</div>
+                    <div style="margin-bottom: 2px;">পরীক্ষার তারিখ: ${currentPostInfo.exam_date || '-'}</div>
+                    <div style="margin-bottom: 2px;">পরীক্ষাকেন্দ্র: ${currentPostInfo.exam_center || '-'}</div>
+                </div>
+            </div>
+        `;
     }
 
     function displayApplicants(applicants) {
-        const tbody = $('#applicantsTableBody');
-        tbody.empty();
+        const container = $('#pdfPagesContainer');
+        container.empty();
         const convertToUnicode = $('#chk-convert-to-unicode-report').is(':checked');
+        
+        const applicantsPerPage = 15;
+        const totalPages = Math.ceil(applicants.length / applicantsPerPage);
 
-        applicants.forEach(function(applicant, index) {
+        // Create pages
+        for (let pageIndex = 0; pageIndex < totalPages; pageIndex++) {
+            const startIndex = pageIndex * applicantsPerPage;
+            const endIndex = Math.min(startIndex + applicantsPerPage, applicants.length);
+            const pageApplicants = applicants.slice(startIndex, endIndex);
+
+            const pageHTML = createPageHTML(pageApplicants, pageIndex + 1, totalPages, startIndex, convertToUnicode);
+            container.append(pageHTML);
+        }
+    }
+
+    function createPageHTML(pageApplicants, pageNum, totalPages, startIndex, convertToUnicode) {
+        let tableRows = '';
+        
+        pageApplicants.forEach(function(applicant, index) {
+            const serial = startIndex + index + 1;
             const img = applicant.img ? `/img/applicants/${applicant.img}` : `/img/no-image.jpg`;
             const rollNo = applicant.roll_no || '';
             
@@ -238,20 +301,43 @@ $(document).ready(function() {
                 motherName = ConvertToUnicode('bijoy', motherName);
             }
 
-            const row = `
+            const parentsName = (fatherName && motherName) ? `${fatherName} / ${motherName}` : (fatherName || motherName || '');
+
+            tableRows += `
                 <tr>
-                    <td style="text-align: center;">${rollNo}</td>
-                    <td style="text-align: center;">
-                        <img src="${img}" alt="Applicant Image" class="stamp-image">
+                    <td style="width: 30px; text-align: center;">${serial}</td>
+                    <td style="width: 50px; text-align: center;">${rollNo}</td>
+                    <td style="width: 70px; text-align: center;">
+                        <img src="${img}" alt="Applicant Image" class="pdf-stamp-image">
                     </td>
-                    <td>${name}</td>
-                    <td>${fatherName}</td>
-                    <td>${motherName}</td>
-                    <td style="text-align: center; height: 50px;"></td>
+                    <td style="width: 150px;">${name}</td>
+                    <td style="width: 180px;">${parentsName}</td>
+                    <td style="width: 100px; text-align: center; height: 60px;"></td>
                 </tr>
             `;
-            tbody.append(row);
         });
+
+        return `
+            <div class="pdf-page">
+                ${createHeaderHTML()}
+                <table class="pdf-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 30px;">ক্রম</th>
+                            <th style="width: 50px;">রোল নং</th>
+                            <th style="width: 70px;">ছবি</th>
+                            <th style="width: 150px;">আবেদনকারীর নাম</th>
+                            <th style="width: 180px;">বাবা ও মায়ের নাম</th>
+                            <th style="width: 100px;">স্বাক্ষর</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tableRows}
+                    </tbody>
+                </table>
+                <div class="page-number">পৃষ্ঠা ${pageNum} / ${totalPages}</div>
+            </div>
+        `;
     }
 
     // Toggle Unicode conversion
@@ -263,10 +349,10 @@ $(document).ready(function() {
 
     // PDF Download Handler
     $('#btnDownloadPDF').on('click', function() {
-        const element = document.getElementById('reportContent');
+        const container = document.getElementById('pdfPagesContainer');
         const btn = $(this);
         
-        if (!element) {
+        if (!container || !container.children.length) {
             alert('Report content not found. Please select a post first.');
             return;
         }
@@ -280,49 +366,60 @@ $(document).ready(function() {
         // Show loading
         btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Generating PDF...');
 
-        // Wait a bit for images to load
+        // Wait for images to load
         setTimeout(function() {
-            const HTML_Width = $(element).width();
-            const HTML_Height = $(element).height();
-            const top_left_margin = 15;
-            const PDF_Width = HTML_Width + (top_left_margin * 2);
-            const PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
-            const canvas_image_width = HTML_Width;
-            const canvas_image_height = HTML_Height;
-
-            const totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+            const pages = container.querySelectorAll('.pdf-page');
             const filename = 'applicants_report_' + (currentPostInfo.post_name || 'report').replace(/[^a-z0-9]/gi, '_') + '.pdf';
-
-            html2canvas(element, {
-                scale: 2,
-                useCORS: true,
-                logging: false,
-                backgroundColor: '#ffffff',
-                allowTaint: true
-            }).then(function (canvas) {
-                try {
-                    const imgData = canvas.toDataURL("image/jpeg", 1.0);
-                    const pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
-                    pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
-                    
-                    for (var i = 1; i <= totalPDFPages; i++) { 
-                        pdf.addPage(PDF_Width, PDF_Height);
-                        pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4), canvas_image_width, canvas_image_height);
-                    }
-                    
+            
+            // A4 dimensions in points (72 DPI)
+            const A4_WIDTH = 595.28;
+            const A4_HEIGHT = 841.89;
+            const margin = 20;
+            const pdf = new jsPDF('p', 'pt', 'a4');
+            
+            let pageIndex = 0;
+            
+            function processPage() {
+                if (pageIndex >= pages.length) {
                     pdf.save(filename);
                     btn.prop('disabled', false).html('<i class="fas fa-file-pdf"></i> Download PDF');
-                } catch (error) {
-                    console.error('PDF generation error:', error);
+                    return;
+                }
+                
+                const page = pages[pageIndex];
+                
+                html2canvas(page, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#ffffff',
+                    allowTaint: true,
+                    width: page.offsetWidth,
+                    height: page.offsetHeight
+                }).then(function(canvas) {
+                    const imgData = canvas.toDataURL("image/jpeg", 0.95);
+                    
+                    if (pageIndex > 0) {
+                        pdf.addPage();
+                    }
+                    
+                    // Calculate dimensions to fit A4
+                    const imgWidth = A4_WIDTH - (margin * 2);
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                    
+                    pdf.addImage(imgData, 'JPG', margin, margin, imgWidth, imgHeight);
+                    
+                    pageIndex++;
+                    processPage();
+                }).catch(function(error) {
+                    console.error('Canvas generation error:', error);
                     btn.prop('disabled', false).html('<i class="fas fa-file-pdf"></i> Download PDF');
                     alert('Error generating PDF: ' + (error.message || 'Unknown error'));
-                }
-            }).catch(function(error) {
-                console.error('Canvas generation error:', error);
-                btn.prop('disabled', false).html('<i class="fas fa-file-pdf"></i> Download PDF');
-                alert('Error generating canvas: ' + (error.message || 'Unknown error'));
-            });
-        }, 500);
+                });
+            }
+            
+            processPage();
+        }, 1000);
     });
 });
 </script>

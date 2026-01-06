@@ -86,7 +86,6 @@
 <!-- Load required scripts -->
 <script type="text/javascript" src="/js/bijoy2Unicode/base.js"></script>
 <script type="text/javascript" src="/js/bijoy2Unicode/bijoy.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
     /* Report Print Styles */
@@ -272,47 +271,58 @@ $(document).ready(function() {
             return;
         }
         
+        // Check if required libraries are available
+        if (typeof html2canvas === 'undefined' || typeof jsPDF === 'undefined') {
+            alert('PDF libraries not loaded. Please refresh the page and try again.');
+            return;
+        }
+        
         // Show loading
         btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Generating PDF...');
 
-        // Wait for html2pdf to be available
-        if (typeof html2pdf === 'undefined') {
-            alert('PDF library not loaded. Please refresh the page and try again.');
-            btn.prop('disabled', false).html('<i class="fas fa-file-pdf"></i> Download PDF');
-            return;
-        }
+        // Wait a bit for images to load
+        setTimeout(function() {
+            const HTML_Width = $(element).width();
+            const HTML_Height = $(element).height();
+            const top_left_margin = 15;
+            const PDF_Width = HTML_Width + (top_left_margin * 2);
+            const PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+            const canvas_image_width = HTML_Width;
+            const canvas_image_height = HTML_Height;
 
-        const opt = {
-            margin: [10, 10, 10, 10],
-            filename: 'applicants_report_' + (currentPostInfo.post_name || 'report').replace(/[^a-z0-9]/gi, '_') + '.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { 
+            const totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+            const filename = 'applicants_report_' + (currentPostInfo.post_name || 'report').replace(/[^a-z0-9]/gi, '_') + '.pdf';
+
+            html2canvas(element, {
                 scale: 2,
                 useCORS: true,
                 logging: false,
-                backgroundColor: '#ffffff'
-            },
-            jsPDF: { 
-                unit: 'mm', 
-                format: 'a4', 
-                orientation: 'portrait' 
-            },
-            pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-        };
-
-        try {
-            html2pdf().from(element).set(opt).save().then(function() {
-                btn.prop('disabled', false).html('<i class="fas fa-file-pdf"></i> Download PDF');
+                backgroundColor: '#ffffff',
+                allowTaint: true
+            }).then(function (canvas) {
+                try {
+                    const imgData = canvas.toDataURL("image/jpeg", 1.0);
+                    const pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+                    pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+                    
+                    for (var i = 1; i <= totalPDFPages; i++) { 
+                        pdf.addPage(PDF_Width, PDF_Height);
+                        pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4), canvas_image_width, canvas_image_height);
+                    }
+                    
+                    pdf.save(filename);
+                    btn.prop('disabled', false).html('<i class="fas fa-file-pdf"></i> Download PDF');
+                } catch (error) {
+                    console.error('PDF generation error:', error);
+                    btn.prop('disabled', false).html('<i class="fas fa-file-pdf"></i> Download PDF');
+                    alert('Error generating PDF: ' + (error.message || 'Unknown error'));
+                }
             }).catch(function(error) {
-                console.error('PDF generation error:', error);
+                console.error('Canvas generation error:', error);
                 btn.prop('disabled', false).html('<i class="fas fa-file-pdf"></i> Download PDF');
-                alert('Error generating PDF: ' + (error.message || 'Unknown error'));
+                alert('Error generating canvas: ' + (error.message || 'Unknown error'));
             });
-        } catch (error) {
-            console.error('PDF generation exception:', error);
-            btn.prop('disabled', false).html('<i class="fas fa-file-pdf"></i> Download PDF');
-            alert('Error generating PDF: ' + (error.message || 'Unknown error'));
-        }
+        }, 500);
     });
 });
 </script>

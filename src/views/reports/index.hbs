@@ -312,9 +312,9 @@ $(document).ready(function() {
                     <td style="width: 70px; text-align: center;">
                         <img src="${img}" alt="Applicant Image" class="pdf-stamp-image">
                     </td>
-                    <td style="width: 150px;">${name}</td>
-                    <td style="width: 180px;">${parentsName}</td>
-                    <td style="width: 100px; text-align: center; height: 60px;"></td>
+                    <td style="width: 120px;">${name}</td>
+                    <td style="width: 144px;">${parentsName}</td>
+                    <td style="width: 200px; text-align: center; height: 60px;"></td>
                 </tr>
             `;
         });
@@ -328,9 +328,9 @@ $(document).ready(function() {
                             <th style="width: 30px;">ক্রম</th>
                             <th style="width: 50px;">রোল নং</th>
                             <th style="width: 70px;">ছবি</th>
-                            <th style="width: 150px;">আবেদনকারীর নাম</th>
-                            <th style="width: 180px;">বাবা ও মায়ের নাম</th>
-                            <th style="width: 100px;">স্বাক্ষর</th>
+                            <th style="width: 120px;">আবেদনকারীর নাম</th>
+                            <th style="width: 144px;">বাবা ও মায়ের নাম</th>
+                            <th style="width: 200px;">স্বাক্ষর</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -371,7 +371,13 @@ $(document).ready(function() {
         // Wait for images to load
         setTimeout(function() {
             const pages = container.querySelectorAll('.pdf-page');
-            const filename = 'applicants_report_' + (currentPostInfo.post_name || 'report').replace(/[^a-z0-9]/gi, '_') + '.pdf';
+            // Generate date string (YYYY-MM-DD)
+            const today = new Date();
+            const dateStr = today.getFullYear() + '-' + 
+                           String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+                           String(today.getDate()).padStart(2, '0');
+            const postName = (currentPostInfo.post_name || 'report').replace(/[^a-z0-9]/gi, '_');
+            const filename = 'Attendance_sheet_' + postName + '_' + dateStr + '.pdf';
             
             // A4 dimensions in points (72 DPI)
             const A4_WIDTH = 595.28;

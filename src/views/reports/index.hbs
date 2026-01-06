@@ -109,29 +109,30 @@
         width: 100%;
         table-layout: fixed;
         font-size: 10px;
+        color: #111;
     }
     
     .pdf-table td {
-        padding: 6px 4px;
+        padding: 8px 5px;
         vertical-align: middle;
-        border: 1px solid #333;
+        border: 1px solid #999;
         word-wrap: break-word;
         overflow-wrap: break-word;
         hyphens: auto;
     }
     
     .pdf-table th {
-        padding: 8px 4px;
+        padding: 8px 5px;
         text-align: center;
         font-weight: 600;
-        background-color: #343a40;
-        color: white;
-        border: 1px solid #333;
+        background-color: transparent;
+        color: #111;
+        border: 1px solid #999;
         font-size: 10px;
     }
     
     .pdf-table tbody tr {
-        height: 45px;
+        height: 52px;
         page-break-inside: avoid;
     }
 
@@ -160,11 +161,12 @@
         border-collapse: collapse;
         width: 100%;
         table-layout: fixed;
+        color: #111;
     }
     #applicantsTable td {
         padding: 8px;
         vertical-align: middle;
-        border: 1px solid #ddd;
+        border: 1px solid #999;
         word-wrap: break-word;
         overflow-wrap: break-word;
     }
@@ -172,9 +174,9 @@
         padding: 10px 8px;
         text-align: center;
         font-weight: 600;
-        background-color: #343a40;
-        color: white;
-        border: 1px solid #343a40;
+        background-color: transparent;
+        color: #111;
+        border: 1px solid #999;
     }
     #applicantsTable tbody tr:nth-child(even) {
         background-color: #f8f9fa;
@@ -268,7 +270,7 @@ $(document).ready(function() {
         container.empty();
         const convertToUnicode = $('#chk-convert-to-unicode-report').is(':checked');
         
-        const applicantsPerPage = 15;
+        const applicantsPerPage = 10;
         const totalPages = Math.ceil(applicants.length / applicantsPerPage);
 
         // Create pages

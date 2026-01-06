@@ -31,11 +31,11 @@ router.get('/getApplicantsByPost', async (req, res) => {
         r.data = await pool.query(`SELECT a.id, a.name name, a.father_name father_name, a.mother_name, 
                                     present_addr, perm_addr, eq, exp, dis, dob, porder_details, 
                                     a.roll_no roll_no, quota, remarks, a.img, 
-                                    p.name post_name, p.id post_id
+                                    p.name post_name, p.id post_id, p.exam_date, p.exam_center
                                     FROM applicants a 
                                     LEFT JOIN c_posts p ON p.id = a.post_id 
                                     WHERE a.status = 1 AND a.post_id = ? 
-                                    ORDER BY a.id ASC`, [post_id]);
+                                    ORDER BY a.roll_no ASC, a.id ASC`, [post_id]);
         console.log(r.data);
         r.status = true;
     } catch (err) {

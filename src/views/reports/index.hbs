@@ -27,32 +27,48 @@
             <p class="mt-2">Loading applicants...</p>
         </div>
 
-        <!-- Applicants Table -->
+        <!-- Applicants Table Container -->
         <div id="applicantsContainer" style="display: none;">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="applicantsTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr class="table-dark">
-                            <th>#</th>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Roll No</th>
-                            <th>Father Name</th>
-                            <th>Mother Name</th>
-                            <th>Permanent Address</th>
-                            <th>Present Address</th>
-                            <th>Education</th>
-                            <th>Experience</th>
-                            <th>District</th>
-                            <th>Quota</th>
-                            <th>Date of Birth</th>
-                            <th>Remarks</th>
-                        </tr>
-                    </thead>
-                    <tbody id="applicantsTableBody">
-                        <!-- Applicants will be loaded here -->
-                    </tbody>
-                </table>
+            <!-- PDF Download Button -->
+            <div class="mb-3 text-right">
+                <button id="btnDownloadPDF" class="btn btn-primary">
+                    <i class="fas fa-file-pdf"></i> Download PDF
+                </button>
+            </div>
+
+            <!-- Report Content for PDF -->
+            <div id="reportContent" style="background: white;">
+                <!-- Header Section -->
+                <div id="reportHeader" class="report-header-box" style="border: 2px solid #111; padding: 8px 10px; text-align: center; margin-bottom: 20px;">
+                    <img src="/img/cda-logo.png" alt="CDA Logo" style="width: 45px; height: 45px; border-radius: 50%; margin: 0 auto 4px; display: block; object-fit: contain;">
+                    <div style="font-weight: 700; font-size: 16px; line-height: 1.2; margin: 0;">চট্টগ্রাম উন্নয়ন কর্তৃপক্ষ</div>
+                    <div style="font-size: 12px; line-height: 1.35; margin: 2px 0;">চউক ভবন, চট্টগ্রাম</div>
+                    <div style="font-size: 12px; line-height: 1.35; margin: 2px 0;">www.cda.gov.bd</div>
+                    <div id="headerExamInfo" style="font-size: 12px; line-height: 1.35; margin: 8px 0 4px;">
+                        <div id="headerPostName" style="font-weight: 600; margin-bottom: 4px;"></div>
+                        <div id="headerExamDate" style="margin-bottom: 2px;"></div>
+                        <div id="headerExamCenter" style="margin-bottom: 2px;"></div>
+                    </div>
+                </div>
+
+                <!-- Table Section -->
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="applicantsTable" width="100%" cellspacing="0" style="font-size: 11px;">
+                        <thead>
+                            <tr class="table-dark">
+                                <th style="width: 60px;">রোল নং</th>
+                                <th style="width: 80px;">ছবি</th>
+                                <th>আবেদনকারীর নাম</th>
+                                <th>বাবার নাম</th>
+                                <th>মায়ের নাম</th>
+                                <th style="width: 120px;">স্বাক্ষর</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applicantsTableBody">
+                            <!-- Applicants will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -63,9 +79,82 @@
     </div>
 </div>
 
+<!-- html2pdf library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+    /* Report Print Styles */
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        #reportContent, #reportContent * {
+            visibility: visible;
+        }
+        #reportContent {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 210mm;
+        }
+        .report-header-box {
+            page-break-after: avoid;
+        }
+        table {
+            page-break-inside: auto;
+        }
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+    }
+
+    /* Stamp-sized image */
+    .stamp-image {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+    }
+
+    /* Report header styling */
+    .report-header-box {
+        font-family: "Noto Sans Bengali", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    /* Table styling for better print */
+    #applicantsTable {
+        font-family: "Noto Sans Bengali", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    #applicantsTable td {
+        padding: 8px;
+        vertical-align: middle;
+        border: 1px solid #ddd;
+    }
+    #applicantsTable th {
+        padding: 10px 8px;
+        text-align: center;
+        font-weight: 600;
+        background-color: #343a40;
+        color: white;
+        border: 1px solid #343a40;
+    }
+    #applicantsTable tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+    #applicantsTable tbody tr:hover {
+        background-color: #e9ecef;
+    }
+</style>
+
 <script>
 $(document).ready(function() {
     let dataTable = null;
+    let currentApplicants = [];
+    let currentPostInfo = {};
 
     // Handle post selection change
     $('#postSelect').on('change', function() {
@@ -96,7 +185,17 @@ $(document).ready(function() {
             console.log(response.data.data);
             $('#loadingIndicator').hide();
             if (response.data.status && response.data.data && response.data.data.length > 0) {
-                displayApplicants(response.data.data);
+                currentApplicants = response.data.data;
+                // Store post info from first applicant (all should have same post info)
+                if (currentApplicants.length > 0) {
+                    currentPostInfo = {
+                        post_name: currentApplicants[0].post_name || '',
+                        exam_date: currentApplicants[0].exam_date || '',
+                        exam_center: currentApplicants[0].exam_center || ''
+                    };
+                    updateHeaderInfo(currentPostInfo);
+                }
+                displayApplicants(currentApplicants);
                 $('#applicantsContainer').show();
                 $('#noDataMessage').hide();
             } else {
@@ -113,41 +212,33 @@ $(document).ready(function() {
         });
     });
 
+    function updateHeaderInfo(postInfo) {
+        $('#headerPostName').text('পদের নাম: ' + (postInfo.post_name || '-'));
+        $('#headerExamDate').text('পরীক্ষার তারিখ: ' + (postInfo.exam_date || '-'));
+        $('#headerExamCenter').text('পরীক্ষাকেন্দ্র: ' + (postInfo.exam_center || '-'));
+    }
+
     function displayApplicants(applicants) {
-        console.log(applicants);
         const tbody = $('#applicantsTableBody');
         tbody.empty();
 
         applicants.forEach(function(applicant, index) {
             const img = applicant.img ? `/img/applicants/${applicant.img}` : `/img/no-image.jpg`;
             const rollNo = applicant.roll_no || '';
+            const name = applicant.name || '';
             const fatherName = applicant.father_name || '';
             const motherName = applicant.mother_name || '';
-            const permAddr = applicant.perm_addr || '';
-            const presentAddr = applicant.present_addr || '';
-            const education = applicant.eq || '';
-            const experience = applicant.exp || '';
-            const district = applicant.dis || '';
-            const quota = applicant.quota || '';
-            const dob = applicant.dob || '';
-            const remarks = applicant.remarks || '';
 
             const row = `
                 <tr>
-                    <td>${index + 1}</td>
-                    <td><img src="${img}" alt="Applicant Image" width="50" height="50" style="object-fit: cover; border-radius: 4px;"></td>
-                    <td>${applicant.name || ''}</td>
-                    <td>${rollNo}</td>
+                    <td style="text-align: center;">${rollNo}</td>
+                    <td style="text-align: center;">
+                        <img src="${img}" alt="Applicant Image" class="stamp-image">
+                    </td>
+                    <td>${name}</td>
                     <td>${fatherName}</td>
                     <td>${motherName}</td>
-                    <td>${permAddr}</td>
-                    <td>${presentAddr}</td>
-                    <td>${education}</td>
-                    <td>${experience}</td>
-                    <td>${district}</td>
-                    <td>${quota}</td>
-                    <td>${dob}</td>
-                    <td>${remarks}</td>
+                    <td style="text-align: center; height: 50px;"></td>
                 </tr>
             `;
             tbody.append(row);
@@ -166,9 +257,50 @@ $(document).ready(function() {
                 "info": "Showing _START_ to _END_ of _TOTAL_ entries",
                 "infoEmpty": "No entries to show",
                 "infoFiltered": "(filtered from _MAX_ total entries)"
-            }
+            },
+            "dom": '<"top"lf>rt<"bottom"ip><"clear">'
         });
     }
+
+    // PDF Download Handler
+    $('#btnDownloadPDF').on('click', function() {
+        const element = document.getElementById('reportContent');
+        const btn = $(this);
+        
+        // Show loading
+        btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Generating PDF...');
+
+        // Wait a bit for images to load
+        setTimeout(() => {
+            const opt = {
+                margin: [10, 10, 10, 10],
+                filename: 'applicants_report_' + (currentPostInfo.post_name || 'report').replace(/[^a-z0-9]/gi, '_') + '.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff',
+                    windowWidth: element.scrollWidth,
+                    windowHeight: element.scrollHeight
+                },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait' 
+                },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+
+            html2pdf().set(opt).from(element).save().then(function() {
+                btn.prop('disabled', false).html('<i class="fas fa-file-pdf"></i> Download PDF');
+            }).catch(function(error) {
+                console.error('PDF generation error:', error);
+                btn.prop('disabled', false).html('<i class="fas fa-file-pdf"></i> Download PDF');
+                alert('Error generating PDF. Please try again.');
+            });
+        }, 500);
+    });
 });
 </script>
-

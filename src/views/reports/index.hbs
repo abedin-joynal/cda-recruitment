@@ -282,35 +282,37 @@ $(document).ready(function() {
             return;
         }
 
-        // Wait a bit for images to load
-        setTimeout(() => {
-            const opt = {
-                margin: [10, 10, 10, 10],
-                filename: 'applicants_report_' + (currentPostInfo.post_name || 'report').replace(/[^a-z0-9]/gi, '_') + '.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { 
-                    scale: 2,
-                    useCORS: true,
-                    logging: false,
-                    allowTaint: true,
-                    backgroundColor: '#ffffff'
-                },
-                jsPDF: { 
-                    unit: 'mm', 
-                    format: 'a4', 
-                    orientation: 'portrait' 
-                },
-                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-            };
+        const opt = {
+            margin: [10, 10, 10, 10],
+            filename: 'applicants_report_' + (currentPostInfo.post_name || 'report').replace(/[^a-z0-9]/gi, '_') + '.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { 
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#ffffff'
+            },
+            jsPDF: { 
+                unit: 'mm', 
+                format: 'a4', 
+                orientation: 'portrait' 
+            },
+            pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        };
 
-            html2pdf().set(opt).from(element).save().then(function() {
+        try {
+            html2pdf().from(element).set(opt).save().then(function() {
                 btn.prop('disabled', false).html('<i class="fas fa-file-pdf"></i> Download PDF');
             }).catch(function(error) {
                 console.error('PDF generation error:', error);
                 btn.prop('disabled', false).html('<i class="fas fa-file-pdf"></i> Download PDF');
                 alert('Error generating PDF: ' + (error.message || 'Unknown error'));
             });
-        }, 500);
+        } catch (error) {
+            console.error('PDF generation exception:', error);
+            btn.prop('disabled', false).html('<i class="fas fa-file-pdf"></i> Download PDF');
+            alert('Error generating PDF: ' + (error.message || 'Unknown error'));
+        }
     });
 });
 </script>

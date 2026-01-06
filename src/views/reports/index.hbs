@@ -29,8 +29,12 @@
 
         <!-- Applicants Table Container -->
         <div id="applicantsContainer" style="display: none;">
-            <!-- PDF Download Button -->
-            <div class="mb-3 text-right">
+            <!-- Controls -->
+            <div class="mb-3 d-flex justify-content-between align-items-center">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="chk-convert-to-unicode-report" checked>
+                    <label class="custom-control-label" for="chk-convert-to-unicode-report">Convert Names to Unicode</label>
+                </div>
                 <button id="btnDownloadPDF" class="btn btn-primary">
                     <i class="fas fa-file-pdf"></i> Download PDF
                 </button>
@@ -44,7 +48,7 @@
                     <div style="font-weight: 700; font-size: 16px; line-height: 1.2; margin: 0;">চট্টগ্রাম উন্নয়ন কর্তৃপক্ষ</div>
                     <div style="font-size: 12px; line-height: 1.35; margin: 2px 0;">চউক ভবন, চট্টগ্রাম</div>
                     <div style="font-size: 12px; line-height: 1.35; margin: 2px 0;">www.cda.gov.bd</div>
-                    <div id="headerExamInfo" style="font-size: 12px; line-height: 1.35; margin: 8px 0 4px;">
+                    <div id="headerExamInfo" style="font-size: 12px; line-height: 1.35; margin: 8px 0 4px; text-align: left; padding-left: 20px;">
                         <div id="headerPostName" style="font-weight: 600; margin-bottom: 4px;"></div>
                         <div id="headerExamDate" style="margin-bottom: 2px;"></div>
                         <div id="headerExamCenter" style="margin-bottom: 2px;"></div>
@@ -79,7 +83,8 @@
     </div>
 </div>
 
-<!-- html2pdf library -->
+<!-- Load required scripts -->
+<script type="text/javascript" src="/js/bijoy2Unicode/bijoy.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
@@ -152,7 +157,6 @@
 
 <script>
 $(document).ready(function() {
-    let dataTable = null;
     let currentApplicants = [];
     let currentPostInfo = {};
 
@@ -163,10 +167,6 @@ $(document).ready(function() {
         if (!postId) {
             $('#applicantsContainer').hide();
             $('#noDataMessage').hide();
-            if (dataTable) {
-                dataTable.destroy();
-                dataTable = null;
-            }
             return;
         }
 
@@ -221,13 +221,22 @@ $(document).ready(function() {
     function displayApplicants(applicants) {
         const tbody = $('#applicantsTableBody');
         tbody.empty();
+        const convertToUnicode = $('#chk-convert-to-unicode-report').is(':checked');
 
         applicants.forEach(function(applicant, index) {
             const img = applicant.img ? `/img/applicants/${applicant.img}` : `/img/no-image.jpg`;
             const rollNo = applicant.roll_no || '';
-            const name = applicant.name || '';
-            const fatherName = applicant.father_name || '';
-            const motherName = applicant.mother_name || '';
+            
+            // Convert names to Unicode if checkbox is checked
+            let name = applicant.name || '';
+            let fatherName = applicant.father_name || '';
+            let motherName = applicant.mother_name || '';
+            
+            if (convertToUnicode && typeof ConvertToUnicode === 'function') {
+                name = ConvertToUnicode('bijoy', name);
+                fatherName = ConvertToUnicode('bijoy', fatherName);
+                motherName = ConvertToUnicode('bijoy', motherName);
+            }
 
             const row = `
                 <tr>
@@ -243,32 +252,34 @@ $(document).ready(function() {
             `;
             tbody.append(row);
         });
-
-        // Initialize or reinitialize DataTable
-        if (dataTable) {
-            dataTable.destroy();
-        }
-        dataTable = $('#applicantsTable').DataTable({
-            "pageLength": 25,
-            "order": [[0, "asc"]],
-            "language": {
-                "search": "Search:",
-                "lengthMenu": "Show _MENU_ entries",
-                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
-                "infoEmpty": "No entries to show",
-                "infoFiltered": "(filtered from _MAX_ total entries)"
-            },
-            "dom": '<"top"lf>rt<"bottom"ip><"clear">'
-        });
     }
+
+    // Toggle Unicode conversion
+    $('#chk-convert-to-unicode-report').on('change', function() {
+        if (currentApplicants.length > 0) {
+            displayApplicants(currentApplicants);
+        }
+    });
 
     // PDF Download Handler
     $('#btnDownloadPDF').on('click', function() {
         const element = document.getElementById('reportContent');
         const btn = $(this);
         
+        if (!element) {
+            alert('Report content not found. Please select a post first.');
+            return;
+        }
+        
         // Show loading
         btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Generating PDF...');
+
+        // Wait for html2pdf to be available
+        if (typeof html2pdf === 'undefined') {
+            alert('PDF library not loaded. Please refresh the page and try again.');
+            btn.prop('disabled', false).html('<i class="fas fa-file-pdf"></i> Download PDF');
+            return;
+        }
 
         // Wait a bit for images to load
         setTimeout(() => {
@@ -281,9 +292,7 @@ $(document).ready(function() {
                     useCORS: true,
                     logging: false,
                     allowTaint: true,
-                    backgroundColor: '#ffffff',
-                    windowWidth: element.scrollWidth,
-                    windowHeight: element.scrollHeight
+                    backgroundColor: '#ffffff'
                 },
                 jsPDF: { 
                     unit: 'mm', 
@@ -298,7 +307,7 @@ $(document).ready(function() {
             }).catch(function(error) {
                 console.error('PDF generation error:', error);
                 btn.prop('disabled', false).html('<i class="fas fa-file-pdf"></i> Download PDF');
-                alert('Error generating PDF. Please try again.');
+                alert('Error generating PDF: ' + (error.message || 'Unknown error'));
             });
         }, 500);
     });

@@ -154,16 +154,16 @@ router.get('/import-csv-1', async (req, res) => {
                 // {file_name: "23.assistant_programmer", post_id: 23}
                 // {file_name: "37.GIS_operator", post_id: 37}
                 // {file_name: "37.GIS_operator", post_id: 37}
-                {file_name: "20.asst_cashier", post_id: 20}
+                {file_name: "10.buiding_ins", post_id: 10}
             ];
 
     let result = `<pre>`;
     _.each(obj, async function(o) {
         let check1 = await pool.query(`SELECT count(id) count FROM applicants WHERE post_id = ${o.post_id}`);
         console.log(check1[0].count);
-        if(check1[0].count < 1) {   
+        if(check1[0].count < 1 || true) {   
             // console.log(o.file_name, o.post_id);
-            var workbook = XLSX.readFile(`./src/data/excels/${o.file_name}.xls`);
+            var workbook = XLSX.readFile(`./src/data/excels/${o.file_name}.xlsx`);
             var sheet_name_list = workbook.SheetNames;
 
             let data = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);

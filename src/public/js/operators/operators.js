@@ -357,6 +357,8 @@ function genPostDD(POSTS) {
 function updateCurAppDetails(cur_app) {
     // console.log(cur_app)
     let name, father_name, mother_name, dis, quota, remarks, dob, eq, exp, perm_addr, temp_addr, porder_details = "";
+    let convertToUnicode = $("#chk-convert-to-unicode-pic").is(":checked");
+    
     if(AvroPost.indexOf(cur_app.post_id) !== -1) {  
         name = cur_app.name;
         father_name = cur_app.father_name;
@@ -373,44 +375,38 @@ function updateCurAppDetails(cur_app) {
         porder_details = cur_app.porder_details;
 
     } else {
-
-        // name = ConvertToUnicode('bijoy', cur_app.name);
-        // father_name = ConvertToUnicode('bijoy', cur_app.father_name);
-        // mother_name = ConvertToUnicode('bijoy', cur_app.mother_name);
-        // dis = ConvertToUnicode('bijoy', cur_app.dis);
-        // quota = ConvertToUnicode('bijoy', cur_app.quota);
-        // remarks = ConvertToUnicode('bijoy', cur_app.remarks);
-
-        // dob = ConvertToUnicode('bijoy', cur_app.dob);
-        // exp = ConvertToUnicode('bijoy', cur_app.exp);
-        // eq = ConvertToUnicode('bijoy', cur_app.eq);
-        // perm_addr = ConvertToUnicode('bijoy', cur_app.perm_addr);
-        // temp_addr = ConvertToUnicode('bijoy', cur_app.present_addr);
-        // porder_details = ConvertToUnicode('bijoy', cur_app.porder_details);
-
-        name = cur_app.name;
-        father_name = cur_app.father_name;
-        mother_name = cur_app.mother_name;
-        dis = cur_app.dis;
-        quota = cur_app.quota;
-        remarks = cur_app.remarks;
-
-        dob = cur_app.dob;
-        exp = cur_app.exp;
-        eq =  cur_app.eq;
-        perm_addr = cur_app.perm_addr;
-        temp_addr = cur_app.present_addr;
-        porder_details = cur_app.porder_details;
-        
-
-        // dob = cur_app.dob;
-        // exp = cur_app.exp;
-        // perm_addr = cur_app.perm_addr;
-        // temp_addr = cur_app.present_addr;
-        // porder_details = cur_app.porder_details;
+        // Non-AvroPost entries are in Bijoy format, convert based on checkbox
+        if(convertToUnicode) {
+            name = ConvertToUnicode('bijoy', cur_app.name);
+            father_name = ConvertToUnicode('bijoy', cur_app.father_name);
+            mother_name = ConvertToUnicode('bijoy', cur_app.mother_name);
+            dis = ConvertToUnicode('bijoy', cur_app.dis);
+            quota = ConvertToUnicode('bijoy', cur_app.quota);
+            remarks = ConvertToUnicode('bijoy', cur_app.remarks);
+            dob = ConvertToUnicode('bijoy', cur_app.dob);
+            exp = ConvertToUnicode('bijoy', cur_app.exp);
+            eq = ConvertToUnicode('bijoy', cur_app.eq);
+            perm_addr = ConvertToUnicode('bijoy', cur_app.perm_addr);
+            temp_addr = ConvertToUnicode('bijoy', cur_app.present_addr);
+            porder_details = ConvertToUnicode('bijoy', cur_app.porder_details);
+        } else {
+            name = cur_app.name;
+            father_name = cur_app.father_name;
+            mother_name = cur_app.mother_name;
+            dis = cur_app.dis;
+            quota = cur_app.quota;
+            remarks = cur_app.remarks;
+            dob = cur_app.dob;
+            exp = cur_app.exp;
+            eq = cur_app.eq;
+            perm_addr = cur_app.perm_addr;
+            temp_addr = cur_app.present_addr;
+            porder_details = cur_app.porder_details;
+        }
     }
 
     $("#picUploadModal").find("#cur-applicant-details .cur_post_name").text('');
+    $("#picUploadModal").find("#cur-applicant-details .cur_app_roll").text(cur_app.roll_no || '');
     $("#picUploadModal").find("#cur-applicant-details .cur_app_name").text(name);
     $("#picUploadModal").find("#cur-applicant-details .cur_app_f_name").text(father_name);
     let img = cur_app.img == null || cur_app.img == 'null' ? `/img/no-image.jpg` : "/img/applicants/" + cur_app.img;
@@ -710,6 +706,13 @@ $(document).on("change", "#chk-convert-to-unicode-table", function() {
     // Reload the table when checkbox state changes
     if(CUR_POST_ID) {
         $("#post-list").trigger("change");
+    }
+});
+
+// Toggle Unicode conversion for pic upload modal applicant details
+$(document).on("change", "#chk-convert-to-unicode-pic", function() {
+    if(CUR_APPLICANT && CUR_APPLICANT.id) {
+        updateCurAppDetails(CUR_APPLICANT);
     }
 });
 

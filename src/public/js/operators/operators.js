@@ -436,6 +436,7 @@ function updateCurAppDetails(cur_app) {
         $("#EditApplicantContainer #btn-save-app-info").closest(".form-group").append(
             `<div class="text-danger col-md-12 d-flex justify-content-center">ANSI Data!! Do not overwrite</div>`
         );
+        $("#EditApplicantContainer #btn-save-app-info").removeAttr("disabled");
     }
 }
 

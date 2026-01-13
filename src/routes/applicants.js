@@ -154,7 +154,7 @@ router.get('/import-csv-1', async (req, res) => {
                 // {file_name: "23.assistant_programmer", post_id: 23}
                 // {file_name: "37.GIS_operator", post_id: 37}
                 // {file_name: "37.GIS_operator", post_id: 37}
-                {file_name: "9qqq", post_id: 9}
+                {file_name: "41.office_sohayok_02", post_id: 41}
             ];
 
     let result = `<pre>`;
@@ -214,9 +214,9 @@ router.get('/import-csv-1', async (req, res) => {
                 let quota = '';
                 // console.log(d['sl'], a_name, f_name, m_name, perm_addr, present_addr, education, dob, payment_details, remarks, dis, quota);
                 console.log(d['sl'], d['name']);
-                let save2 = await pool.query(`INSERT INTO applicants SET name = ?, post_id = ?, father_name = ?, mother_name = ?, 
-                                            present_addr = ?, perm_addr = ?, eq = ?, exp = ?, dob = ?, dis = ?, quota = ?, porder_details = ?, remarks = ?`, 
-                                        [a_name, post_id, f_name, m_name, present_addr, perm_addr, education, '', dob, dis, quota, payment_details, remarks]);
+                // let save2 = await pool.query(`INSERT INTO applicants SET name = ?, post_id = ?, father_name = ?, mother_name = ?, 
+                //                             present_addr = ?, perm_addr = ?, eq = ?, exp = ?, dob = ?, dis = ?, quota = ?, porder_details = ?, remarks = ?`, 
+                //                         [a_name, post_id, f_name, m_name, present_addr, perm_addr, education, '', dob, dis, quota, payment_details, remarks]);
             });
             result += "POST ID: " + o.post_id + "<br>" + JSON.stringify(data) + `<br><br><br><br><br>`;
         } else {
@@ -302,7 +302,6 @@ router.get('/print/getApplicantsByPostID', async (req, res) => {
     console.log(data);
     res.render('applicants/print_applicant', {applicants: data, district_count: district_count, format: format});
 });
-
 
 router.get('/getPrevApplicant', async (req, res) => {
     let r = {};

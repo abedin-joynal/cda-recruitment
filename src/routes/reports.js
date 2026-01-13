@@ -7,7 +7,7 @@ const { isLoggedIn } = require('../lib/auth');
 router.get('/', async (req, res) => {
     try {
         // Get only specific active posts (IDs: 1, 33, 34, 35, 36)
-        let posts = await pool.query(`SELECT id, name, description FROM c_posts WHERE status = 1 AND id IN (1, 33, 34, 35, 36, 37) ORDER BY p_order ASC`);
+        let posts = await pool.query(`SELECT id, name, description FROM c_posts WHERE status = 1 ORDER BY p_order ASC`);
         console.log(posts);
         res.render('reports/index', { posts: posts });
     } catch (err) {
